@@ -1,7 +1,48 @@
-﻿
+﻿@model IEnumerable<Owner>
 @{
     ViewData["Title"] = "Index";
 }
+@{
+    //var test = Environment.GetEnvironmentVariable("ConnectionStrings__DefaultConnection");
+}
+
 
 <h1>Owner Controller page</h1>
 
+<table class="table table-bordere table-striped" style="width:100%">
+    <thead>
+        <tr>
+            <th>
+                Name
+            </th>
+            <th>
+                Email
+            </th>
+            <th>
+                Age
+            </th>
+            <th>
+                Image
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach(var obj in Model)
+        {
+            <tr>
+                <td width="50%">
+                    @obj.Name
+                </td>
+                <td width="50%">
+                    @obj.Email
+                </td>
+                <td width="50%">
+                    @obj.Age
+                </td>
+                <td width="50%">
+                    <img src="@obj.ImageUrl" width="200" height="200">
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

@@ -1,19 +1,20 @@
 using Microsoft.EntityFrameworkCore;
 using PetSitApp.Data;
 
-var configuration = new ConfigurationBuilder()
-    .AddEnvironmentVariables()
-    .Build();
+//var configuration = new ConfigurationBuilder()
+//    .AddEnvironmentVariables()
+//    .Build();
 
+string connectionString = Environment.GetEnvironmentVariable("ConnectionStrings__DefaultConnection");
 var builder = WebApplication.CreateBuilder(args);
-
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
-builder.Services.AddDbContext<ApplicationDBContext>(options => options.UseSqlServer(
-    builder.Configuration.GetConnectionString("DefaultConnection")
-    ));
+builder.Services.AddDbContext<ApplicationDBContext>(options => options.UseSqlServer(connectionString)
+    );
+builder.Services.AddRazorPages().AddRazorRuntimeCompilation();
 
+//builder.Configuration.GetConnectionString("DefaultConnection")
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.

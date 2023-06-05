@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using PetSitApp.Data;
+using PetSitApp.Models;
 
 namespace PetSitApp.Controllers
 {
@@ -12,8 +13,8 @@ namespace PetSitApp.Controllers
         }
         public IActionResult Index()
         {
-            var objOwnerList = _db.Owners.ToList();
-            return View();
+            IEnumerable<Owner> objOwnerList = _db.Owners;
+            return View(objOwnerList);
         }
     }
 }
