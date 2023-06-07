@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
 
 namespace PetSitApp.Models
 {
@@ -10,7 +11,9 @@ namespace PetSitApp.Models
         public string Name { get; set; }
         [Required]
         public string Email { get; set; }
+        [Range(1, 150,ErrorMessage ="Age between 1-150")]
         public int Age { get; set; }
+        [DisplayName("Image Url")]
         public string ImageUrl { get; set; }
         public ICollection<Pet> Pets { get; set; }
     }

@@ -16,5 +16,30 @@ namespace PetSitApp.Controllers
             IEnumerable<Owner> objOwnerList = _db.Owners;
             return View(objOwnerList);
         }
+
+        // GET
+        public IActionResult Create()
+        {
+           
+            return View();
+        }
+
+        // POST
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult Create(Owner obj)
+        {
+            if(obj.Name==obj.Email)
+            {
+                ModelState.AddModelError("Name", "Name cant be the same as the email.");
+            }
+            if (ModelState.IsValid)
+            {
+                _db.Owners.Add(obj);
+                _db.SaveChanges();
+                return RedirectToAction("Index");
+            }
+            return View(obj);
+        }
     }
 }
