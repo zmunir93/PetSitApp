@@ -15,6 +15,6 @@ namespace PetSitApp.Models
         public int Age { get; set; }
         [DisplayName("Image Url")]
         public string ImageUrl { get; set; }
-        public ICollection<Pet> Pets { get; set; }
+        public ICollection<Pet>? Pets { get; set; }
     }
 }

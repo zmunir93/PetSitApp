@@ -1,9 +1,9 @@
 ﻿@model Owner
 
-<form method="post">
+<form method="post" asp-action="Edit">
     <div class="border p-3 mt4">
         <div class="row pb-2">
-            <h2 class="text-primary">Create User</h2>
+            <h2 class="text-primary">Edit User</h2>
         </div>
         @*<div asp-validation-summary="All"></div>*@
         <div class="mb-3">
@@ -27,7 +27,7 @@
             <span asp-validation-for="ImageUrl" class="text-danger"></span>
         </div>
     </div>
-    <button type="submit" class="btn btn-primary" style="width:150px">Create</button>
+    <button type="submit" class="btn btn-primary" style="width:150px">Update</button>
     <a asp-controller="Owner" asp-action="Index" class="btn btn-secondary" style="width:150px">
         Back
     </a>
