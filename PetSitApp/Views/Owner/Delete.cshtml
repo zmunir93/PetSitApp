@@ -1,0 +1,38 @@
+﻿@model Owner
+
+<form method="post" asp-action="Delete">
+    <input asp-for="Id" hidden />
+    <div class="border p-3 mt4">
+        <div class="row pb-2">
+            <h2 class="text-primary">Delete User</h2>
+        </div>
+        @*<div asp-validation-summary="All"></div>*@
+        <div class="mb-3">
+            <label asp-for="Name"></label>
+            <input asp-for="Name" disabled class="form-control" />
+        </div>
+        <div class="mb-3">
+            <label asp-for="Email"></label>
+            <input asp-for="Email" disabled class="form-control" />
+        </div>
+        <div class="mb-3">
+            <label asp-for="Age"></label>
+            <input asp-for="Age" disabled class="form-control" />
+        </div>
+        <div class="mb-3">
+            <label asp-for="ImageUrl"></label>
+            <input asp-for="ImageUrl" disabled class="form-control" />
+        </div>
+    </div>
+    <button type="submit" class="btn btn-danger" style="width:150px">Delete</button>
+    <a asp-controller="Owner" asp-action="Index" class="btn btn-secondary" style="width:150px">
+        Back
+    </a>
+</form>
+
+@*@section Scripts
+{
+    @{
+        <partial name="_ValidationScriptsPartial" />
+    }
+}*@

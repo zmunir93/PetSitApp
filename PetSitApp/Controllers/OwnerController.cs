@@ -88,5 +88,39 @@ namespace PetSitApp.Controllers
             }
             return View(obj);
         }
+
+        // GET
+        public IActionResult Delete(int? id)
+        {
+            if (id == null || id == 0)
+            {
+                return NotFound();
+            }
+            var ownerFromDb = _db.Owners.Find(id);
+
+            if (ownerFromDb == null)
+            {
+                return NotFound();
+            }
+            return View(ownerFromDb);
+        }
+
+        // POST
+        [HttpPost, ActionName("Delete")]
+        [ValidateAntiForgeryToken]
+        public IActionResult DeletePost(int? id)
+        {
+            var obj = _db.Owners.Find(id);
+            if (obj == null)
+            {
+                return NotFound();
+            }
+
+            _db.Owners.Remove(obj);
+                _db.SaveChanges();
+                return RedirectToAction("Index");
+            
+            return View(obj);
+        }
     }
 }
