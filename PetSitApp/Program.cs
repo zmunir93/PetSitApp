@@ -12,6 +12,11 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllersWithViews();
 builder.Services.AddDbContext<ApplicationDBContext>(options => options.UseSqlServer(connectionString)
     );
+builder.Services.AddAuthentication().AddFacebook(options =>
+{
+    options.AppId = Environment.GetEnvironmentVariable("AppId");
+    options.AppSecret = Environment.GetEnvironmentVariable("AppSecret");
+});
 builder.Services.AddRazorPages().AddRazorRuntimeCompilation();
 
 //builder.Configuration.GetConnectionString("DefaultConnection")
