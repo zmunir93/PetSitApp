@@ -12,5 +12,8 @@ namespace PetSitApp.Data
         public DbSet<Owner> Owners { get; set; }
         public DbSet<Pet> Pets { get; set; }
         public DbSet<Sitter> Sitters { get; set; }
+        public DbSet<User> Users { get; set; }
+        public DbSet<Permission> Permissions { get; set; }
+
     }
 }
