@@ -1,5 +1,12 @@
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
 using PetSitApp.Data;
+using System.Text;
+
+
+
+
 
 //var configuration = new ConfigurationBuilder()
 //    .AddEnvironmentVariables()
@@ -19,6 +26,24 @@ builder.Services.AddAuthentication().AddFacebook(options =>
 });
 builder.Services.AddRazorPages().AddRazorRuntimeCompilation();
 
+// Builder to add Authorization with JWT
+builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+    .AddJwtBearer(options =>
+    {
+        options.TokenValidationParameters = new TokenValidationParameters
+        {
+            ValidateIssuer = true,
+            ValidateAudience = true,
+            ValidateLifetime = true,
+            ValidateIssuerSigningKey = true,
+            ValidIssuer = builder.Configuration["Jwt:Issuer"],
+            ValidAudience = builder.Configuration["Jwt:Audience"],
+            IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["Jwt:Key"]))
+
+        };
+    });
+builder.Services.AddAuthorization();    
+
 //builder.Configuration.GetConnectionString("DefaultConnection")
 var app = builder.Build();
 
@@ -36,6 +61,7 @@ app.UseStaticFiles();
 app.UseRouting();
 
 app.UseAuthorization();
+app.UseAuthentication();
 
 app.MapControllerRoute(
     name: "default",
