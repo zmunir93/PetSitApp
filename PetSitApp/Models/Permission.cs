@@ -7,7 +7,7 @@ namespace PetSitApp.Models
         [Key]
         public int Id { get; set; }
         [Required]
-        public int Role { get; set; }
+        public string Role { get; set; }
         public User User { get; set; }
         public int UserId { get; set; }
 

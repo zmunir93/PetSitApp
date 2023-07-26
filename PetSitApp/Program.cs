@@ -12,18 +12,22 @@ using System.Text;
 //    .AddEnvironmentVariables()
 //    .Build();
 
-string connectionString = Environment.GetEnvironmentVariable("ConnectionStrings__DefaultConnection");
+// string connectionString = Environment.GetEnvironmentVariable("ConnectionStrings__DefaultConnection");
 var builder = WebApplication.CreateBuilder(args);
+
+//Console.WriteLine($"Connection string: {connectionString}");
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
-builder.Services.AddDbContext<ApplicationDBContext>(options => options.UseSqlServer(connectionString)
-    );
-builder.Services.AddAuthentication().AddFacebook(options =>
-{
-    options.AppId = Environment.GetEnvironmentVariable("AppId");
-    options.AppSecret = Environment.GetEnvironmentVariable("AppSecret");
-});
+builder.Services.AddDbContext<ApplicationDBContext>(options =>
+    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+//builder.Services.AddDbContext<ApplicationDBContext>(options => options.UseSqlServer(connectionString)
+//    );
+//builder.Services.AddAuthentication().AddFacebook(options =>
+//{
+//    options.AppId = Environment.GetEnvironmentVariable("AppId");
+//    options.AppSecret = Environment.GetEnvironmentVariable("AppSecret");
+//});
 builder.Services.AddRazorPages().AddRazorRuntimeCompilation();
 
 // Builder to add Authorization with JWT

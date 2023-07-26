@@ -7,9 +7,9 @@ namespace PetSitApp.Models
         [Key]
         public int Id { get; set; }
         [Required]
-        public string FirstName { get; set; }
+        public string Username { get; set; }
         [Required] 
-        public string LastName { get; set; }
+        public string Password { get; set; }
 
         public ICollection<Permission>? Permissions { get; set; }
     }

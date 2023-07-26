@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
 using PetSitApp.Data;
 using PetSitApp.Models;
@@ -56,6 +57,7 @@ namespace PetSitApp.Controllers
         }
 
         // GET
+        [Authorize]
         public IActionResult Edit(int? id)
         {
             if(id == null || id == 0)
