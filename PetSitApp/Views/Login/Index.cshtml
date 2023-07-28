@@ -2,19 +2,24 @@
 @*<div class="fb-login-button" data-width="" data-size="" data-button-type="" data-layout="" data-auto-logout-link="false" data-use-continue-as="false"></div>*@
 
 @{
-    ViewData["Title"] = "Register";
+    ViewData["Title"] = "Login";
 }
+<div>
+    <h2>@ViewData["Title"]</h2>
+    <form method="post">
+        <div>
+            <label>Username:</label>
+            <input type="text" name="username" required />
+        </div>
+        <div>
+            <label>Password:</label>
+            <input type="password" name="password" required />
+        </div>
+        <button type="submit">Login</button>
+    </form>
 
-<h2>@ViewData["Title"]</h2>
-
-<form method="post">
-    <div>
-        <label>Username:</label>
-        <input type="text" name="username" required />
-    </div>
-    <div>
-        <label>Password:</label>
-        <input type="password" name="password" required />
-    </div>
-    <button type="submit">Register</button>
-</form>
+    <br />
+    <br />
+    <h2> Dont have an account?</h2>
+    <a asp-controller="User" asp-action="Register"><button>Create Account</button></a>
+</div>
