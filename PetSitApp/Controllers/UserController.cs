@@ -34,7 +34,7 @@ namespace PetSitApp.Controllers
                 // if they do exist, error is thrown
                 if (existingUser != null)
                 {
-                    ModelState.AddModelError("", "Username already exist");
+                    ModelState.AddModelError("", "Username already exist. Please try a differnt one.");
                     return View(model);
                 }
 
@@ -51,6 +51,7 @@ namespace PetSitApp.Controllers
                 // info is added and then saved. Redirected to index page
                 _db.Users.Add(newUserObj);
                 await _db.SaveChangesAsync();
+                TempData["success"] = "Successful creation of account";
                 return RedirectToAction("Index");
             }
 
