@@ -6,7 +6,7 @@
 }
 <div>
     <h2>@ViewData["Title"]</h2>
-    <form method="post">
+    <form action="@Url.Action("Login", "User")" method="post">
         <div>
             <label>Username:</label>
             <input type="text" name="username" required />
@@ -16,10 +16,14 @@
             <input type="password" name="password" required />
         </div>
         <button type="submit">Login</button>
+        <input type="checkbox" id="rememberMe" name="rememberMe"/>
+        <label for"rememberMe">Remember Me</label>
     </form>
 
     <br />
     <br />
     <h2> Dont have an account?</h2>
-    <a asp-controller="User" asp-action="Register"><button>Create Account</button></a>
+    <form asp-controller="User" asp-action="Register">
+        <button>Create Account</button>
+    </form>
 </div>
