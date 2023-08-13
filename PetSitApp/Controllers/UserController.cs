@@ -82,7 +82,7 @@ namespace PetSitApp.Controllers
             var claims = new List<Claim>
         {
             new Claim(ClaimTypes.Name, userFromDb.Username),
-            new Claim(ClaimTypes.Role, "ROLE"),
+            new Claim(ClaimTypes.Role, "ROLE")
         };
 
             var claimsIdentity = new ClaimsIdentity(
@@ -150,9 +150,23 @@ namespace PetSitApp.Controllers
                     Password = passwordHash
                 };
 
-                // info is added and then saved. Redirected to index page
+                // Info is added and then saved. Redirected to index page
                 _db.Users.Add(newUserObj);
                 await _db.SaveChangesAsync();
+
+                // Permission is created by setting Role explicitly to User that is being created
+                var newPermission = new Permission
+                {
+                    Role = "Owner",
+                    User = newUserObj,
+                    UserId = newUserObj.Id
+                };
+
+                // Permission is added, then saved
+                _db.Permissions.Add(newPermission);
+                await _db.SaveChangesAsync();
+
+
                 TempData["success"] = "Successful creation of account";
                 return RedirectToAction("Index");
             }
