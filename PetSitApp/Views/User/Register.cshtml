@@ -8,7 +8,7 @@
 
 <h1> User Register page</h1>
 <form method="post">
-    <h4>Enter a Username and Password to create an Account</h4>
+    <h4>Enter a Username and Password to create an Owner account</h4>
     <div>
         <label asp-for="Username"></label>
         <input type="text" asp-for="Username" required/>
@@ -18,5 +18,5 @@
         <input asp-for="Password" type="password" required/>
     </div>
     <button type="submit">Register</button>
-    <a asp-controller="Login" asp-action="Index">Back</a>
+    <a asp-controller="User" asp-action="Login">Back</a>
 </form>

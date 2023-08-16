@@ -12,5 +12,6 @@ namespace PetSitApp.Models
         public string Password { get; set; }
 
         public ICollection<Permission>? Permissions { get; set; }
+        public Owner Owner { get; set; }
     }
 }

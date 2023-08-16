@@ -22,15 +22,25 @@ namespace PetSitApp.Controllers
             _configuration = configuration;
         }
 
-        [Authorize]
+        [Authorize(Roles="Owner")]
         public IActionResult Index()
         {
+            var currentUserId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+
+
             return View();
         }
 
         public IActionResult Login()
         {
             return View();
+        }
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Logout()
+        {
+            await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
+            return RedirectToAction("Index", "Home");
         }
 
         [HttpPost]
@@ -82,7 +92,7 @@ namespace PetSitApp.Controllers
             var claims = new List<Claim>
         {
             new Claim(ClaimTypes.Name, userFromDb.Username),
-            new Claim(ClaimTypes.Role, "ROLE")
+            new Claim(ClaimTypes.Role, "Owner")
         };
 
             var claimsIdentity = new ClaimsIdentity(
@@ -166,6 +176,21 @@ namespace PetSitApp.Controllers
                 _db.Permissions.Add(newPermission);
                 await _db.SaveChangesAsync();
 
+                var claims = new List<Claim>
+                {
+                    new Claim(ClaimTypes.Name, newUserObj.Username),
+                    new Claim(ClaimTypes.NameIdentifier, newUserObj.Id.ToString()),
+                    new Claim(ClaimTypes.Role, newPermission.Role)
+                };
+
+                var claimsIndentity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
+
+                var authProperties = new AuthenticationProperties
+                {
+                    IsPersistent = true,
+                };
+
+                await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(claimsIndentity), authProperties);
 
                 TempData["success"] = "Successful creation of account";
                 return RedirectToAction("Index");

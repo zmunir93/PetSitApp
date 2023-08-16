@@ -1,8 +1,8 @@
-﻿<h1>Login Index Page</h1>
+﻿<h1>Login Page</h1>
 @*<div class="fb-login-button" data-width="" data-size="" data-button-type="" data-layout="" data-auto-logout-link="false" data-use-continue-as="false"></div>*@
 
 @{
-    ViewData["Title"] = "Login";
+    ViewData["Title"] = "Login as Owner";
 }
 <div>
     <h2>@ViewData["Title"]</h2>
@@ -22,7 +22,7 @@
 
     <br />
     <br />
-    <h2> Dont have an account?</h2>
+    <h2> Dont have an Owner account?</h2>
     <form asp-controller="User" asp-action="Register">
         <button>Create Account</button>
     </form>
