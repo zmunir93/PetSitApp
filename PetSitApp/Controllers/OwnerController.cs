@@ -3,15 +3,28 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
 using PetSitApp.Data;
 using PetSitApp.Models;
+using System.Security.Claims;
 
 namespace PetSitApp.Controllers
 {
     public class OwnerController : Controller
     {
         private readonly ApplicationDBContext _db;
-        public OwnerController(ApplicationDBContext db)
+        private readonly ILogger<OwnerController> _logger;
+        public OwnerController(ApplicationDBContext db, ILogger<OwnerController> logger)
         {
             _db = db;
+            _logger = logger;
+        }
+
+        [Authorize(Roles = "Owner")]
+        public IActionResult Dashboard()
+        {
+            //var UserId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+
+            //var ownerInfo = _db.Owners.FirstOrDefault(o => o.current)
+
+            return View();
         }
         public IActionResult Index()
         {
@@ -29,31 +42,26 @@ namespace PetSitApp.Controllers
         // POST
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Create(Owner obj)
+        public async Task<IActionResult> Create(Owner model)
         {
-            if(obj.Name==obj.Email)
-            {
-                ModelState.AddModelError("Name", "Name cant be the same as the email.");
-            }
-            if (ModelState.IsValid)
-            {
-                _db.Owners.Add(obj);
-                _db.SaveChanges();
-                return RedirectToAction("Index");
-            }
 
-            // Get the validation errors from ModelState
-            var validationErrors = ModelState.Values.SelectMany(v => v.Errors)
-                                                     .Select(e => e.ErrorMessage)
-                                                     .ToList();
+            //User of the login session's Id #
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
 
-            // Optional: Log or display the validation errors for debugging purposes
-            foreach (var error in validationErrors)
-            {
-                Console.WriteLine(error);
-            }
-            return View(obj);
             
+            if(userId == null)
+            {
+                return RedirectToAction("Login", "User");
+            }
+
+            model.UserId = int.Parse(userId);
+            _db.Owners.Add(model);
+            await _db.SaveChangesAsync();
+
+            return RedirectToAction("Dashboard");
+
+
+
         }
 
         // GET

@@ -25,8 +25,9 @@ namespace PetSitApp.Controllers
         [Authorize(Roles="Owner")]
         public IActionResult Index()
         {
-            var currentUserId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            //var UserId = User.FindFirstValue(ClaimTypes.NameIdentifier);
 
+            //var ownerInfo = _db.Owners.FirstOrDefault(o => o.current)
 
             return View();
         }
@@ -92,6 +93,7 @@ namespace PetSitApp.Controllers
             var claims = new List<Claim>
         {
             new Claim(ClaimTypes.Name, userFromDb.Username),
+            new Claim(ClaimTypes.NameIdentifier, userFromDb.Id.ToString()),
             new Claim(ClaimTypes.Role, "Owner")
         };
 
@@ -125,7 +127,7 @@ namespace PetSitApp.Controllers
             CookieAuthenticationDefaults.AuthenticationScheme,
             new ClaimsPrincipal(claimsIdentity),
             authProperties);
-            return RedirectToAction("Index");
+            return RedirectToAction("Dashboard", "Owner");
         }
 
         public IActionResult Register()
@@ -193,7 +195,7 @@ namespace PetSitApp.Controllers
                 await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(claimsIndentity), authProperties);
 
                 TempData["success"] = "Successful creation of account";
-                return RedirectToAction("Index");
+                return RedirectToAction("Dashboard", "Owner");
             }
 
             else

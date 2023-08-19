@@ -88,6 +88,7 @@ app.UseRouting();
 
 app.UseSession();
 
+builder.Logging.AddConsole();  // Ensure this is present.
 
 
 app.MapControllerRoute(

@@ -15,5 +15,13 @@ namespace PetSitApp.Data
         public DbSet<User> Users { get; set; }
         public DbSet<Permission> Permissions { get; set; }
 
+
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<User>()
+                .HasOne(u => u.Owner)
+                .WithOne(o => o.User)
+                .HasForeignKey<Owner>(o => o.UserId);
+        }
     }
 }
