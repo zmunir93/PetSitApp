@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.IdentityModel.Tokens;
+using Microsoft.EntityFrameworkCore;
 using PetSitApp.Data;
 using PetSitApp.Models;
 using System.Security.Claims;
@@ -10,21 +10,20 @@ namespace PetSitApp.Controllers
     public class OwnerController : Controller
     {
         private readonly ApplicationDBContext _db;
-        private readonly ILogger<OwnerController> _logger;
         public OwnerController(ApplicationDBContext db, ILogger<OwnerController> logger)
         {
             _db = db;
-            _logger = logger;
         }
 
+        // GET
         [Authorize(Roles = "Owner")]
-        public IActionResult Dashboard()
+        public async Task<IActionResult> Dashboard()
         {
-            //var UserId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
 
-            //var ownerInfo = _db.Owners.FirstOrDefault(o => o.current)
+            var ownerInfo = await _db.Owners.FirstOrDefaultAsync(o => o.UserId.Equals(int.Parse(userId)));
 
-            return View();
+            return View(ownerInfo);
         }
         public IActionResult Index()
         {
