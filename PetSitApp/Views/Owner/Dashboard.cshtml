@@ -25,5 +25,10 @@ else
             <td>@Model.Age years old</td>
         </tr>
     </table>
-    <a asp-controller="Owner" asp-action="Edit" class="btn btn-primary mx-2"><i class="bi bi-pencil-square"></i></a>
+    <a asp-controller="Owner" asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-primary mx-2"><i class="bi bi-pencil-square"></i></a>
+
+    
 }
+<br />
+    <br />
+    <a asp-controller="Pet" asp-action="CreatePet" class="btn btn-primary mx-2">Add Pet</a>

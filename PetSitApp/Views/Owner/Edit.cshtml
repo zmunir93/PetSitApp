@@ -1,11 +1,13 @@
-﻿@model Owner
+﻿@*@model Owner
 
+<h1>Owner Edit page</h1>
 <form method="post" asp-action="Edit">
+    <input type="hidden" asp-for="Id" />
     <div class="border p-3 mt4">
         <div class="row pb-2">
             <h2 class="text-primary">Edit User</h2>
         </div>
-        @*<div asp-validation-summary="All"></div>*@
+        
         <div class="mb-3">
             <label asp-for="Name"></label>
             <input asp-for="Name" class="form-control" />
@@ -28,14 +30,41 @@
         </div>
     </div>
     <button type="submit" class="btn btn-primary" style="width:150px">Update</button>
-    <a asp-controller="Owner" asp-action="Index" class="btn btn-secondary" style="width:150px">
+    <a asp-controller="Owner" asp-action="Dashboard" class="btn btn-secondary" style="width:150px">
         Back
     </a>
+    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+</form>*@
+
+
+@model Owner
+
+<h2>Edit Owner Information</h2>
+
+<form asp-action="Edit" method="post">
+    <input type="hidden" asp-for="UserId" />
+    <div class="form-group">
+        <label asp-for="Name"></label>
+        <input asp-for="Name" class="form-control" />
+    </div>
+    <div class="form-group">
+        <label asp-for="Email"></label>
+        <input asp-for="Email" class="form-control" />
+    </div>
+    <div class="form-group">
+        <label asp-for="Age"></label>
+        <input asp-for="Age" class="form-control" />
+    </div>
+    <div class="form-group">
+        <label asp-for="ImageUrl">Image URL</label>
+        <input asp-for="ImageUrl" class="form-control" />
+    </div>
+    <button type="submit" class="btn btn-primary">Update</button>
 </form>
 
-@*@section Scripts
-{
-    @{
-        <partial name="_ValidationScriptsPartial" />
-    }
-}*@
+<a asp-controller="Owner" asp-action="Dashboard" class="btn btn-secondary" style="width:150px">
+    Back
+</a>
+
+

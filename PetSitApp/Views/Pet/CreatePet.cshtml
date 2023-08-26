@@ -1,0 +1,107 @@
+﻿@model PetSitApp.Models.Pet
+
+
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Create">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="Species" class="control-label">Type</label>
+                <input asp-for="Species" class="form-control" />
+                <span asp-validation-for="Species" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Name" class="control-label"></label>
+                <input asp-for="Name" class="form-control" />
+                <span asp-validation-for="Name" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Age" class="control-label"></label>
+                <input asp-for="Age" class="form-control" />
+                <span asp-validation-for="Age" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Breed" class="control-label"></label>
+                <input asp-for="Breed" class="form-control" />
+                <span asp-validation-for="Breed" class="text-danger"></span>
+            </div>
+            <div class="form-group form-check">
+                <label class="form-check-label">
+                    <input class="form-check-input" asp-for="Chipped" /> @Html.DisplayNameFor(model => model.Chipped)
+                </label>
+            </div>
+            <div class="form-group form-check">
+                <label class="form-check-label">
+                    <input class="form-check-input" asp-for="Spayed" /> @Html.DisplayNameFor(model => model.Spayed)
+                </label>
+            </div>
+            <div class="form-group form-check">
+                <label class="form-check-label">
+                    <input class="form-check-input" asp-for="Friendly" /> @Html.DisplayNameFor(model => model.Friendly)
+                </label>
+            </div>
+            <div class="form-group">
+                <label asp-for="AdoptionDate" class="control-label"></label>
+                <input asp-for="AdoptionDate" class="form-control" />
+                <span asp-validation-for="AdoptionDate" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="About" class="control-label"></label>
+                <input asp-for="About" class="form-control" />
+                <span asp-validation-for="About" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Care" class="control-label"></label>
+                <input asp-for="Care" class="form-control" />
+                <span asp-validation-for="Care" class="text-danger"></span>
+            </div>
+            <div class="form-group form-check">
+                <label class="form-check-label">
+                    <input class="form-check-input" asp-for="PottyTrained" /> @Html.DisplayNameFor(model => model.PottyTrained)
+                </label>
+            </div>
+            <div class="form-group">
+                <label asp-for="EnergyLevel" class="control-label"></label>
+                <input asp-for="EnergyLevel" class="form-control" />
+                <span asp-validation-for="EnergyLevel" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="FeedingSchedule" class="control-label"></label>
+                <input asp-for="FeedingSchedule" class="form-control" />
+                <span asp-validation-for="FeedingSchedule" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="LeftAlone" class="control-label"></label>
+                <input asp-for="LeftAlone" class="form-control" />
+                <span asp-validation-for="LeftAlone" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="MedicalInformation" class="control-label"></label>
+                <input asp-for="MedicalInformation" class="form-control" />
+                <span asp-validation-for="MedicalInformation" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="AdditionalInfo" class="control-label"></label>
+                <input asp-for="AdditionalInfo" class="form-control" />
+                <span asp-validation-for="AdditionalInfo" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="VetInformation" class="control-label"></label>
+                <input asp-for="VetInformation" class="form-control" />
+                <span asp-validation-for="VetInformation" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="OwnerId" class="control-label"></label>
+                <select asp-for="OwnerId" class="form-control" asp-items="ViewBag.OwnerId"></select>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+

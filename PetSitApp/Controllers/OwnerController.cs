@@ -64,18 +64,15 @@ namespace PetSitApp.Controllers
         }
 
         // GET
-        [Authorize]
-        public IActionResult Edit(int? id)
+        //[Authorize(Roles = "Owner")]
+        [HttpGet]
+        public async Task<IActionResult> Edit(int id)
         {
-            if(id == null || id == 0)
+            var ownerFromDb = await _db.Owners.FindAsync(id);
+
+            if (ownerFromDb == null) 
             {
                 return NotFound();
-            }
-            var ownerFromDb = _db.Owners.Find(id);
-
-            if(ownerFromDb==null)
-            { 
-                return NotFound(); 
             }
             return View(ownerFromDb);
         }
@@ -83,19 +80,23 @@ namespace PetSitApp.Controllers
         // POST
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Edit(Owner obj)
+        public async Task<IActionResult> Edit(int id, Owner model)
         {
-            //if (obj.Name == obj.Email)
-            //{
-            //    ModelState.AddModelError("Name", "Name cant be the same as the email.");
-            //}
+            if (id != model.Id)
+            {
+                return NotFound();
+            }
+            ModelState.Remove("User");
             if (ModelState.IsValid)
             {
-                _db.Owners.Update(obj);
-                _db.SaveChanges();
-                return RedirectToAction("Index");
+                _db.Owners.Update(model);
+                await _db.SaveChangesAsync();
+                TempData["success"] = "Info Successfully Updated";
+                return RedirectToAction("Dashboard");
             }
-            return View(obj);
+            
+            return View(model);
+                
         }
 
         // GET
