@@ -10,7 +10,7 @@ namespace PetSitApp.Controllers
     public class OwnerController : Controller
     {
         private readonly ApplicationDBContext _db;
-        public OwnerController(ApplicationDBContext db, ILogger<OwnerController> logger)
+        public OwnerController(ApplicationDBContext db)
         {
             _db = db;
         }
@@ -21,7 +21,9 @@ namespace PetSitApp.Controllers
         {
             var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
 
-            var ownerInfo = await _db.Owners.FirstOrDefaultAsync(o => o.UserId.Equals(int.Parse(userId)));
+            var ownerInfo = await _db.Owners
+                .Include(o => o.Pets)
+                .FirstOrDefaultAsync(o => o.UserId.Equals(int.Parse(userId)));
 
             return View(ownerInfo);
         }
@@ -59,12 +61,10 @@ namespace PetSitApp.Controllers
 
             return RedirectToAction("Dashboard");
 
-
-
         }
 
         // GET
-        //[Authorize(Roles = "Owner")]
+        [Authorize(Roles = "Owner")]
         [HttpGet]
         public async Task<IActionResult> Edit(int id)
         {

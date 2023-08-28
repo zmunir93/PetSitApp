@@ -1,4 +1,4 @@
-﻿@model PetSitApp.Models.Owner
+﻿@model Owner
 @{
     ViewData["Title"] = "Dashboard";
 }
@@ -27,8 +27,22 @@ else
     </table>
     <a asp-controller="Owner" asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-primary mx-2"><i class="bi bi-pencil-square"></i></a>
 
-    
+    <h1></h1>
 }
 <br />
     <br />
-    <a asp-controller="Pet" asp-action="CreatePet" class="btn btn-primary mx-2">Add Pet</a>
+@if(Model.Pets != null && Model.Pets.Any())
+{
+    @foreach(var pet in Model.Pets)
+    {
+        <img src="https://placedog.net/200/200" />
+        <h1>@pet.Name</h1>
+        <h4>@pet.Age year old</h4>
+        <p>@pet.About</p>
+    }
+}
+else
+{
+    <p>No pets added yet.</p>
+}
+<a asp-controller="Pet" asp-action="CreatePet" class="btn btn-primary mx-2">Add Pet</a>
