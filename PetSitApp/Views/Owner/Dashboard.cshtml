@@ -11,20 +11,17 @@
         Add Info
     </a>
 }
-else
+else 
 {
+    
     <img src="@Model.ImageUrl" width="200" height="200">
-    <table>
-        <tr>
-            <td>@Model.Name</td>
-        </tr>
-        <tr>
-            <td>@Model.Email</td>
-        </tr>
-        <tr>
-            <td>@Model.Age years old</td>
-        </tr>
-    </table>
+    
+            <h1 width="50%">@Model.Name</h1>
+        
+            <h4 width="50%">@Model.Email</h4>
+        
+            <p width="50%">@Model.Age years old</p>
+        
     <a asp-controller="Owner" asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-primary mx-2"><i class="bi bi-pencil-square"></i></a>
 
     <h1></h1>
@@ -39,10 +36,14 @@ else
         <h1>@pet.Name</h1>
         <h4>@pet.Age year old</h4>
         <p>@pet.About</p>
+        <a asp-controller="Pet" asp-action="EditPet" asp-route-id="@pet.Id" class="btn btn-primary mx-2"><i class="bi bi-pencil-square"></i></a>
+        <a asp-controller="Pet" asp-action="DeletePet" asp-route-id="@pet.Id" class="btn btn-danger mx-2"><i class="bi bi-trash"></i></a>
     }
 }
 else
 {
     <p>No pets added yet.</p>
 }
+<br />
+<br />
 <a asp-controller="Pet" asp-action="CreatePet" class="btn btn-primary mx-2">Add Pet</a>
