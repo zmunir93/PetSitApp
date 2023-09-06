@@ -14,8 +14,7 @@ namespace PetSitApp.Models
         public string Email { get; set; }
         [Range(1, 150,ErrorMessage ="Age between 1-150")]
         public int Age { get; set; }
-        [DisplayName("Image Url")]
-        public string ImageUrl { get; set; }
+        public byte[] ProfilePicture { get; set; }
         public ICollection<Pet>? Pets { get; set; }
 
         public int UserId { get; set; }

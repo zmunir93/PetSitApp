@@ -45,6 +45,10 @@
 <form asp-action="Edit" method="post">
     <input type="hidden" asp-for="UserId" />
     <div class="form-group">
+        <label asp-for="ProfilePicture">Profile Picture</label><br />
+        <input type="file" asp-for="ProfilePicture" class="form-control" id="img"  accept="image/*">
+    </div>
+    <div class="form-group">
         <label asp-for="Name"></label>
         <input asp-for="Name" class="form-control" />
     </div>
@@ -56,10 +60,10 @@
         <label asp-for="Age"></label>
         <input asp-for="Age" class="form-control" />
     </div>
-    <div class="form-group">
-        <label asp-for="ImageUrl">Image URL</label>
-        <input asp-for="ImageUrl" class="form-control" />
-    </div>
+    @*<div class="form-group">
+        <label asp-for="ProfilePicture">Image URL</label>
+        <input asp-for="ProfilePicture" class="form-control" />
+    </div>*@
     <button type="submit" class="btn btn-primary">Update</button>
 </form>
 

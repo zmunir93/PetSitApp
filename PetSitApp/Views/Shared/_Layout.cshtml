@@ -41,9 +41,9 @@
                         <li class="nav-item">
                             @if (Context.User.Identity.IsAuthenticated)
                             {
-                                <a class="nav-link" asp-controller="User" asp-action="Logout" method="post">
-                                    Logout
-                                </a>
+                                <form asp-controller="User" asp-action="Logout" method="post">
+                                    <button type="submit" @*class="btn btn-link nav-link"*@>Logout</button>
+                                </form>
                             }
                             else
                             {

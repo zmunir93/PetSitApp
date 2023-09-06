@@ -1,11 +1,16 @@
 ﻿@model Owner
 
-<form method="post">
+<form method="post" enctype="multipart/form-data">
     <div class="border p-3 mt4">
         <div class="row pb-2">
             <h2 class="text-primary">Create User</h2>
         </div>
         @*<div asp-validation-summary="All"></div>*@
+        <div class="mb-3">
+            <label asp-for="ProfilePicture">Profile Picture</label>
+            <input asp-for="ProfilePicture" class="form-control" type="file" />
+            <span asp-validation-for="ProfilePicture" class="text-danger"></span>
+        </div>
         <div class="mb-3">
             <label asp-for="Name"></label>
             <input asp-for="Name" class="form-control" />
@@ -20,11 +25,6 @@
             <label asp-for="Age"></label>
             <input asp-for="Age" class="form-control" />
             <span asp-validation-for="Age" class="text-danger"></span>
-        </div>
-        <div class="mb-3">
-            <label asp-for="ImageUrl"></label>
-            <input asp-for="ImageUrl" class="form-control" />
-            <span asp-validation-for="ImageUrl" class="text-danger"></span>
         </div>
     </div>
     <button type="submit" class="btn btn-primary" style="width:150px">Create</button>

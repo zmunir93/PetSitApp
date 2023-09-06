@@ -25,7 +25,23 @@ namespace PetSitApp.Controllers
                 .Include(o => o.Pets)
                 .FirstOrDefaultAsync(o => o.UserId.Equals(int.Parse(userId)));
 
+            
             return View(ownerInfo);
+        }
+
+        public async Task<FileStreamResult> GetOwnerImage()
+        {
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            var owner = await _db.Owners
+                .FirstOrDefaultAsync(o => o.UserId.Equals(int.Parse(userId)));
+
+            
+            
+
+            var memStream = new MemoryStream(owner.ProfilePicture);
+            memStream.Position = 0;
+
+            return File(memStream, "image/jpeg");
         }
         public IActionResult Index()
         {
@@ -43,7 +59,8 @@ namespace PetSitApp.Controllers
         // POST
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create(Owner model)
+        [RequestSizeLimit(2621440)] // Limit to 2.5MB
+        public async Task<IActionResult> Create(Owner model, IFormFile ProfilePicture)
         {
 
             //User of the login session's Id #
@@ -54,6 +71,15 @@ namespace PetSitApp.Controllers
             {
                 return RedirectToAction("Login", "User");
             }
+
+            if (ProfilePicture != null && ProfilePicture.Length > 0)
+            {
+                using (var memoryStream = new MemoryStream())
+                {
+                    await ProfilePicture.CopyToAsync(memoryStream);
+                    model.ProfilePicture = memoryStream.ToArray();
+                }
+            };
 
             model.UserId = int.Parse(userId);
             _db.Owners.Add(model);
@@ -130,7 +156,6 @@ namespace PetSitApp.Controllers
                 _db.SaveChanges();
                 return RedirectToAction("Index");
             
-            return View(obj);
         }
     }
 }

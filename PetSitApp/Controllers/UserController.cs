@@ -25,9 +25,6 @@ namespace PetSitApp.Controllers
         [Authorize(Roles="Owner")]
         public IActionResult Index()
         {
-            //var UserId = User.FindFirstValue(ClaimTypes.NameIdentifier);
-
-            //var ownerInfo = _db.Owners.FirstOrDefault(o => o.current)
 
             return View();
         }
@@ -139,6 +136,7 @@ namespace PetSitApp.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Register(User model)
         {
+            ModelState.Remove("Owner");
             if (ModelState.IsValid)
             {
                 // checks to see if user exist in database

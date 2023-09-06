@@ -3,7 +3,6 @@
     ViewData["Title"] = "Dashboard";
 }
 
-<h1>@(char.ToUpper(Model.Name[0]) + Model.Name.Substring(1))'s Dashboard</h1>
 
 @if (Model == null || string.IsNullOrEmpty(Model.Name))
 {
@@ -13,8 +12,9 @@
 }
 else 
 {
+<h1>@(char.ToUpper(Model.Name[0]) + Model.Name.Substring(1))'s Dashboard</h1>
     
-    <img src="@Model.ImageUrl" width="200" height="200">
+    <img src="@Url.Action("GetOwnerImage", "Owner")" alt="Your profile picture here." width="200" height="200">
     
             <h1 width="50%">@Model.Name</h1>
         
@@ -28,7 +28,7 @@ else
 }
 <br />
     <br />
-@if(Model.Pets != null && Model.Pets.Any())
+@if(Model != null && Model.Pets != null && Model.Pets.Any())
 {
     @foreach(var pet in Model.Pets)
     {
