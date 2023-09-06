@@ -35,8 +35,6 @@ namespace PetSitApp.Controllers
             var owner = await _db.Owners
                 .FirstOrDefaultAsync(o => o.UserId.Equals(int.Parse(userId)));
 
-            
-            
 
             var memStream = new MemoryStream(owner.ProfilePicture);
             memStream.Position = 0;
