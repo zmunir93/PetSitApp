@@ -1,17 +1,17 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System;
+using System.Collections.Generic;
 
-namespace PetSitApp.Models
+namespace PetSitApp.Models;
+
+public partial class User
 {
-    public class User
-    {
-        [Key]
-        public int Id { get; set; }
-        [Required]
-        public string Username { get; set; }
-        [Required] 
-        public string Password { get; set; }
+    public int Id { get; set; }
 
-        public ICollection<Permission>? Permissions { get; set; }
-        public Owner Owner { get; set; }
-    }
+    public string Username { get; set; } = null!;
+
+    public string Password { get; set; } = null!;
+
+    public virtual Owner? Owner { get; set; }
+
+    public virtual ICollection<Permission> Permissions { get; set; } = new List<Permission>();
 }

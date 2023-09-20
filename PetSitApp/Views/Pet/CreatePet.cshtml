@@ -3,8 +3,12 @@
 
 <div class="row">
     <div class="col-md-4">
-        <form asp-action="CreatePet">
+        <form asp-action="CreatePet" enctype="multipart/form-data">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="PetPictures">Upload pictures of your pet.</label>
+                <input type="file" id="PetPictures" name="uploadedPictures" multiple/>
+            </div>
             <div class="form-group">
                 <label asp-for="Species" class="control-label">Type</label>
                 <input asp-for="Species" class="form-control" />
@@ -40,9 +44,14 @@
                     <input class="form-check-input" asp-for="Friendly" /> @Html.DisplayNameFor(model => model.Friendly)
                 </label>
             </div>
-            <div class="form-group">
+            @*<div class="form-group">
                 <label asp-for="AdoptionDate" class="control-label"></label>
                 <input asp-for="AdoptionDate" class="form-control" />
+                <span asp-validation-for="AdoptionDate" class="text-danger"></span>
+            </div>*@
+            <div class="form-group">
+                <label asp-for="AdoptionDate" class="control-label">Adoption Date</label>
+                <input type="month" asp-for="AdoptionDate" class="form-control" />
                 <span asp-validation-for="AdoptionDate" class="text-danger"></span>
             </div>
             <div class="form-group">
@@ -57,36 +66,36 @@
             </div>
             <div class="form-group form-check">
                 <label class="form-check-label">
-                    <input class="form-check-input" asp-for="PottyTrained" /> @Html.DisplayNameFor(model => model.PottyTrained)
+                    <input class="form-check-input" asp-for="PottyTrained" /> Potty Trained
                 </label>
             </div>
             <div class="form-group">
-                <label asp-for="EnergyLevel" class="control-label"></label>
+                <label asp-for="EnergyLevel" class="control-label">Energy Level</label>
                 <input asp-for="EnergyLevel" class="form-control" />
                 <span asp-validation-for="EnergyLevel" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="FeedingSchedule" class="control-label"></label>
+                <label asp-for="FeedingSchedule" class="control-label">Feeding Schedule</label>
                 <input asp-for="FeedingSchedule" class="form-control" />
                 <span asp-validation-for="FeedingSchedule" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="LeftAlone" class="control-label"></label>
+                <label asp-for="LeftAlone" class="control-label">Left Alone</label>
                 <input asp-for="LeftAlone" class="form-control" />
                 <span asp-validation-for="LeftAlone" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="MedicalInformation" class="control-label"></label>
+                <label asp-for="MedicalInformation" class="control-label">Medical Information</label>
                 <input asp-for="MedicalInformation" class="form-control" />
                 <span asp-validation-for="MedicalInformation" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="AdditionalInfo" class="control-label"></label>
+                <label asp-for="AdditionalInfo" class="control-label">Additional Info</label>
                 <input asp-for="AdditionalInfo" class="form-control" />
                 <span asp-validation-for="AdditionalInfo" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="VetInformation" class="control-label"></label>
+                <label asp-for="VetInformation" class="control-label">Vet Info</label>
                 <input asp-for="VetInformation" class="form-control" />
                 <span asp-validation-for="VetInformation" class="text-danger"></span>
             </div>

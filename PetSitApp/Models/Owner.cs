@@ -1,23 +1,23 @@
-﻿using System.ComponentModel;
-using System.ComponentModel.DataAnnotations;
-using System.Drawing;
+﻿using System;
+using System.Collections.Generic;
 
-namespace PetSitApp.Models
+namespace PetSitApp.Models;
+
+public partial class Owner
 {
-    public class Owner
-    {
-        [Key]
-        public int Id { get; set; }
-        [Required]
-        public string Name { get; set; }
-        [Required]
-        public string Email { get; set; }
-        [Range(1, 150,ErrorMessage ="Age between 1-150")]
-        public int Age { get; set; }
-        public byte[] ProfilePicture { get; set; }
-        public ICollection<Pet>? Pets { get; set; }
+    public int Id { get; set; }
 
-        public int UserId { get; set; }
-        public User User { get; set; }
-    }
+    public string Name { get; set; } = null!;
+
+    public string Email { get; set; } = null!;
+
+    public int Age { get; set; }
+
+    public int UserId { get; set; }
+
+    public byte[] ProfilePicture { get; set; } = null!;
+
+    public virtual ICollection<Pet> Pets { get; set; } = new List<Pet>();
+
+    public virtual User User { get; set; } = null!;
 }

@@ -1,52 +1,49 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System;
+using System.Collections.Generic;
 
-namespace PetSitApp.Models
+namespace PetSitApp.Models;
+
+public partial class Pet
 {
-    public class Pet
-    {
-        [Key]
-        public int Id { get; set; }
+    public int Id { get; set; }
 
-        [Required]
-        public string Species { get; set; }
+    public int OwnerId { get; set; }
 
-        [Required]
-        public string Name { get; set; }
-        [Required]
-        public int Age { get; set; }
+    public string Species { get; set; } = null!;
 
-        [Required]
-        public string Breed { get; set; }
+    public string Name { get; set; } = null!;
 
-        public bool Chipped { get; set; }
+    public int Age { get; set; }
 
-        public bool Spayed { get; set; }
+    public string Breed { get; set; } = null!;
 
-        public bool Friendly { get; set; }
+    public bool Chipped { get; set; }
 
-        public DateTime AdoptionDate { get; set; }
-        [MaxLength(500)]
-        public string About { get; set; }
-        [MaxLength(500)]
-        public string Care { get; set; }
+    public bool Spayed { get; set; }
 
-        public bool PottyTrained { get; set; }
+    public bool Friendly { get; set; }
 
-        public string EnergyLevel { get; set; }
-        [MaxLength(500)]
-        public string FeedingSchedule { get; set; }
+    public DateTime AdoptionDate { get; set; }
 
-        public string LeftAlone { get; set; }
-        [MaxLength(500)]
-        public string MedicalInformation { get; set; }
-        [MaxLength(500)]
-        public string AdditionalInfo { get; set; }
-        [MaxLength(500)]
-        public string VetInformation { get; set; }
+    public string? About { get; set; }
 
-        // Foreign Key
-        public int OwnerId { get; set; }
-        public Owner Owner { get; set; }
-    }
+    public string? Care { get; set; }
 
+    public bool PottyTrained { get; set; }
+
+    public string? EnergyLevel { get; set; }
+
+    public string? FeedingSchedule { get; set; }
+
+    public string? LeftAlone { get; set; }
+
+    public string? MedicalInformation { get; set; }
+
+    public string? AdditionalInfo { get; set; }
+
+    public string? VetInformation { get; set; }
+
+    public virtual Owner Owner { get; set; } = null!;
+
+    public virtual ICollection<PetPicture> PetPictures { get; set; } = new List<PetPicture>();
 }

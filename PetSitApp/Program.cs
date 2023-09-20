@@ -7,13 +7,6 @@ using System.Text;
 
 
 
-
-
-//var configuration = new ConfigurationBuilder()
-//    .AddEnvironmentVariables()
-//    .Build();
-
-// string connectionString = Environment.GetEnvironmentVariable("ConnectionStrings__DefaultConnection");
 var builder = WebApplication.CreateBuilder(args);
 
 //Console.WriteLine($"Connection string: {connectionString}");
@@ -23,12 +16,7 @@ builder.Services.AddControllersWithViews();
 builder.Services.AddDbContext<ApplicationDBContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
-//builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
-//    .AddCookie(options =>
-//    {
-//        options.LoginPath = "/User/Login";
-//        options.AccessDeniedPath = "/";
-//    });
+
 
 builder.Services.AddSession(options =>
 {

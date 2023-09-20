@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using PetSitApp.Data;
 
@@ -11,9 +12,11 @@ using PetSitApp.Data;
 namespace PetSitApp.Migrations
 {
     [DbContext(typeof(ApplicationDBContext))]
-    partial class ApplicationDBContextModelSnapshot : ModelSnapshot
+    [Migration("20230912072112_FixedPetPictureRealtionship")]
+    partial class FixedPetPictureRealtionship
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -43,16 +46,14 @@ namespace PetSitApp.Migrations
 
                     b.Property<byte[]>("ProfilePicture")
                         .IsRequired()
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("varbinary(max)")
-                        .HasDefaultValueSql("(0x)");
+                        .HasColumnType("varbinary(max)");
 
                     b.Property<int>("UserId")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
 
-                    b.HasIndex(new[] { "UserId" }, "IX_Owners_UserId")
+                    b.HasIndex("UserId")
                         .IsUnique();
 
                     b.ToTable("Owners");
@@ -75,7 +76,7 @@ namespace PetSitApp.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex(new[] { "UserId" }, "IX_Permissions_UserId");
+                    b.HasIndex("UserId");
 
                     b.ToTable("Permissions");
                 });
@@ -153,7 +154,7 @@ namespace PetSitApp.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex(new[] { "OwnerId" }, "IX_Pets_OwnerId");
+                    b.HasIndex("OwnerId");
 
                     b.ToTable("Pets");
                 });
@@ -258,7 +259,7 @@ namespace PetSitApp.Migrations
             modelBuilder.Entity("PetSitApp.Models.PetPicture", b =>
                 {
                     b.HasOne("PetSitApp.Models.Pet", "Pet")
-                        .WithMany("PetPicture")
+                        .WithMany("PetPictures")
                         .HasForeignKey("PetId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -273,12 +274,13 @@ namespace PetSitApp.Migrations
 
             modelBuilder.Entity("PetSitApp.Models.Pet", b =>
                 {
-                    b.Navigation("PetPicture");
+                    b.Navigation("PetPictures");
                 });
 
             modelBuilder.Entity("PetSitApp.Models.User", b =>
                 {
-                    b.Navigation("Owner");
+                    b.Navigation("Owner")
+                        .IsRequired();
 
                     b.Navigation("Permissions");
                 });

@@ -9,8 +9,8 @@ namespace PetSitApp.Controllers
 {
     public class OwnerController : Controller
     {
-        private readonly ApplicationDBContext _db;
-        public OwnerController(ApplicationDBContext db)
+        private readonly Data.ApplicationDBContext _db;
+        public OwnerController(Data.ApplicationDBContext db)
         {
             _db = db;
         }

@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using PetSitApp.Data;
 
@@ -11,9 +12,11 @@ using PetSitApp.Data;
 namespace PetSitApp.Migrations
 {
     [DbContext(typeof(ApplicationDBContext))]
-    partial class ApplicationDBContextModelSnapshot : ModelSnapshot
+    [Migration("20230915172655_AddedPkToPet")]
+    partial class AddedPkToPet
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -161,10 +164,7 @@ namespace PetSitApp.Migrations
             modelBuilder.Entity("PetSitApp.Models.PetPicture", b =>
                 {
                     b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
                         .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<int>("PetId")
                         .HasColumnType("int");
@@ -174,8 +174,6 @@ namespace PetSitApp.Migrations
                         .HasColumnType("varbinary(max)");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("PetId");
 
                     b.ToTable("PetPictures");
                 });
@@ -255,25 +253,9 @@ namespace PetSitApp.Migrations
                     b.Navigation("Owner");
                 });
 
-            modelBuilder.Entity("PetSitApp.Models.PetPicture", b =>
-                {
-                    b.HasOne("PetSitApp.Models.Pet", "Pet")
-                        .WithMany("PetPicture")
-                        .HasForeignKey("PetId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Pet");
-                });
-
             modelBuilder.Entity("PetSitApp.Models.Owner", b =>
                 {
                     b.Navigation("Pets");
-                });
-
-            modelBuilder.Entity("PetSitApp.Models.Pet", b =>
-                {
-                    b.Navigation("PetPicture");
                 });
 
             modelBuilder.Entity("PetSitApp.Models.User", b =>

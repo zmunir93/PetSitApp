@@ -15,8 +15,8 @@ namespace PetSitApp.Controllers
     public class UserController : Controller
     {
         private readonly IConfiguration _configuration;
-        private readonly ApplicationDBContext _db;
-        public UserController(ApplicationDBContext db, IConfiguration configuration)
+        private readonly Data.ApplicationDBContext _db;
+        public UserController(Data.ApplicationDBContext db, IConfiguration configuration)
         {
             _db = db;
             _configuration = configuration;

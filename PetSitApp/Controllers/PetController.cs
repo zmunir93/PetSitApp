@@ -8,9 +8,9 @@ namespace PetSitApp.Controllers
 {
     public class PetController : Controller
     {
-        private readonly ApplicationDBContext _db;
+        private readonly Data.ApplicationDBContext _db;
 
-        public PetController(ApplicationDBContext db)
+        public PetController(Data.ApplicationDBContext db)
         {
             _db = db;
         }
@@ -46,7 +46,7 @@ namespace PetSitApp.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> CreatePet(Pet model)
+        public async Task<IActionResult> CreatePet(Pet model, List<IFormFile> uploadedPictures)
         {
             ModelState.Remove("Owner");
             if (ModelState.IsValid)
@@ -59,8 +59,34 @@ namespace PetSitApp.Controllers
                     return RedirectToAction("Error");
                 }
 
+                
+
                 model.OwnerId = owner.Id;
                 _db.Pets.Add(model);
+                await _db.SaveChangesAsync();
+
+                if (uploadedPictures != null && uploadedPictures.Count > 0)
+                {
+                    foreach (var picture in uploadedPictures)
+                    {
+
+                        using (var memoryStream = new MemoryStream())
+                        {
+                            await picture.CopyToAsync(memoryStream);
+                            var petPicture = new PetPicture
+                            {
+                                Picture = memoryStream.ToArray(),
+                                PetId = model.Id
+                            };
+
+                            _db.PetPictures.Add(petPicture);
+
+                        }
+
+
+                    }
+                }
+
                 await _db.SaveChangesAsync();
 
                 return RedirectToAction("Dashboard", "Owner");
