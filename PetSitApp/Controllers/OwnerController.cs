@@ -23,6 +23,7 @@ namespace PetSitApp.Controllers
 
             var ownerInfo = await _db.Owners
                 .Include(o => o.Pets)
+                .ThenInclude(p => p.PetPictures)
                 .FirstOrDefaultAsync(o => o.UserId.Equals(int.Parse(userId)));
 
             
@@ -41,6 +42,23 @@ namespace PetSitApp.Controllers
 
             return File(memStream, "image/jpeg");
         }
+
+        [HttpGet("GetPetImage/{petId:int}")]
+        public async Task<IActionResult> GetPetImage(int petId)
+        {
+            var petPicture = await _db.PetPictures.FirstOrDefaultAsync(pp => pp.PetId == petId);
+
+            if(petPicture != null && petPicture.Picture != null)
+            {
+                var memStream = new MemoryStream(petPicture.Picture);
+                memStream.Position = 0;
+                return File(memStream, "image/jpeg");
+            }
+
+            
+            return Redirect("https://placehold.jp/3d4070/ffffff/200x200.jpg?text=No%20Image");
+        }
+        
         public IActionResult Index()
         {
             IEnumerable<Owner> objOwnerList = _db.Owners;
