@@ -4,26 +4,53 @@
 @{
     ViewData["Title"] = "Login as Owner";
 }
-<div>
-    <h2>@ViewData["Title"]</h2>
-    <form action="@Url.Action("Login", "User")" method="post">
-        <div>
-            <label>Username:</label>
-            <input type="text" name="username" required />
-        </div>
-        <div>
-            <label>Password:</label>
-            <input type="password" name="password" required />
-        </div>
-        <button type="submit">Login</button>
-        <input type="checkbox" id="rememberMe" name="rememberMe"/>
-        <label for"rememberMe">Remember Me</label>
-    </form>
 
-    <br />
-    <br />
-    <h2> Dont have an Owner account?</h2>
-    <a asp-controller="User" asp-action="Register">
-        <button>Create Account</button>
-    </a>
+<div class="login-container">
+    <div>
+        <h2>@ViewData["Title"]</h2>
+        <form action="@Url.Action("Login", "User")" method="post">
+            <div>
+                <label>Username:</label>
+                <input type="text" name="username" required />
+            </div>
+            <div>
+                <label>Password:</label>
+                <input type="password" name="password" required />
+            </div>
+            <button type="submit">Login</button>
+            <input type="checkbox" id="rememberMe" name="rememberMe"/>
+            <label for"rememberMe">Remember Me</label>
+        </form>
+
+        <br />
+        <br />
+        <h4> Dont have an Owner account?</h4>
+        <a asp-controller="User" asp-action="Register">
+            <button>Create Account</button>
+        </a>
+    </div>
+
+    <div>
+        <h2>Login as Sitter</h2>
+        <form action="@Url.Action("Login", "User")" method="post">
+            <div>
+                <label>Username:</label>
+                <input type="text" name="username" required />
+            </div>
+            <div>
+                <label>Password:</label>
+                <input type="password" name="password" required />
+            </div>
+            <button type="submit">Login</button>
+            <input type="checkbox" id="rememberMe" name="rememberMe" />
+            <label for"rememberMe">Remember Me</label>
+        </form>
+
+        <br />
+        <br />
+        <h4> Dont have a Sitter account?</h4>
+        <a asp-controller="User" asp-action="RegisterSitter">
+            <button>Create Account</button>
+        </a>
+    </div>
 </div>

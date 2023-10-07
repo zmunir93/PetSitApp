@@ -130,7 +130,12 @@ namespace PetSitApp.Controllers
         public IActionResult Register()
         {
             return View();
-        } 
+        }
+
+        public IActionResult RegisterSitter()
+        {
+            return View();
+        }
 
         [HttpPost]
         [ValidateAntiForgeryToken]

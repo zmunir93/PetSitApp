@@ -1,18 +1,18 @@
 ﻿@{
-    ViewData["Title"] = "Register";
+    ViewData["Title"] = "RegisterSitter";
 }
 @model User
 
 <h1> User Register page</h1>
 <form method="post">
-    <h4>Enter a Username and Password to create an Owner account</h4>
+    <h4>Enter a Username and Password to create a Sitter account</h4>
     <div>
         <label asp-for="Username"></label>
-        <input type="text" asp-for="Username" required/>
+        <input type="text" asp-for="Username" required />
     </div>
     <div>
         <label asp-for="Password"></label>
-        <input asp-for="Password" type="password" required/>
+        <input asp-for="Password" type="password" required />
     </div>
     <button type="submit">Register</button>
     <a asp-controller="User" asp-action="Login">Back</a>

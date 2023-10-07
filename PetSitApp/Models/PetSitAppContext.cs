@@ -29,7 +29,7 @@ public partial class PetSitAppContext : DbContext
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
 #warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see http://go.microsoft.com/fwlink/?LinkId=723263.
-        => optionsBuilder.UseSqlServer("Server=.\\SQLEXPRESS;Database=PetSitApp;Trusted_Connection=True;Encrypt=False;");
+        => optionsBuilder.UseSqlServer("Server=.\\SQLExpress;Database=PetSitApp;Trusted_Connection=True;Encrypt=False;");
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -69,6 +69,21 @@ public partial class PetSitAppContext : DbContext
                 .HasForeignKey(d => d.PetId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FK_PetPictures_Pets");
+        });
+
+        modelBuilder.Entity<Sitter>(entity =>
+        {
+            entity.HasIndex(e => e.UserId, "IX_Sitters").IsUnique();
+
+            entity.Property(e => e.Address).HasMaxLength(50);
+            entity.Property(e => e.City).HasMaxLength(20);
+            entity.Property(e => e.FirstName).HasMaxLength(20);
+            entity.Property(e => e.LastName).HasMaxLength(20);
+            entity.Property(e => e.ProfilePicture).HasMaxLength(50);
+            entity.Property(e => e.State).HasMaxLength(15);
+            entity.Property(e => e.Zip).HasMaxLength(5);
+
+            entity.HasOne(d => d.User).WithOne(p => p.Sitter).HasForeignKey<Sitter>(d => d.UserId);
         });
 
         OnModelCreatingPartial(modelBuilder);

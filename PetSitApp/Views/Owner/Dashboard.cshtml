@@ -32,12 +32,6 @@ else
 {
     @foreach(var pet in Model.Pets)
     {
-        @*if(pet.PetPictures != null && pet.PetPictures.Any())
-        {
-            var imageBytes = pet.PetPictures.First().Picture;
-            var base64String = Convert.ToBase64String(imageBytes);
-            <img src="data:image/jpg:base64,@base64String" width="200" height="200" alt="Pet Image">
-        }*@
         <img src="@Url.Action("GetPetImage", "Owner", new { petId = pet.Id })" alt="Pet Image" width="200" height="200"/>
         <h1>@pet.Name</h1>
         <h4>@pet.Age year old</h4>
