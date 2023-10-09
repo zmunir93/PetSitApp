@@ -33,6 +33,15 @@ namespace PetSitApp.Controllers
         {
             return View();
         }
+        public IActionResult Register()
+        {
+            return View();
+        }
+
+        public IActionResult RegisterSitter()
+        {
+            return View();
+        }
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Logout()
@@ -127,13 +136,60 @@ namespace PetSitApp.Controllers
             return RedirectToAction("Dashboard", "Owner");
         }
 
-        public IActionResult Register()
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> RegisterSitter(User model)
         {
-            return View();
-        }
+            if (!ModelState.IsValid)
+            {
+                return View();
+                
+            }
 
-        public IActionResult RegisterSitter()
-        {
+            var existingUser = await _db.Users
+                .Include(u => u.Permissions)
+                .FirstOrDefaultAsync(u => u.Username.ToLower().Equals(model.Username.ToLower()));
+
+
+
+            if (existingUser != null && existingUser.Permissions.Any(p => p.Role == "Sitter"))
+            {
+                TempData["error"] = "Account already exist. Please login.";
+                return RedirectToAction("Login"); 
+            }
+            else if (existingUser != null && existingUser.Permissions.Any(p => p.Role == "Owner") && BCrypt.Net.BCrypt.Verify(model.Password, existingUser.Password)) // Already have an account as an Owner
+            {
+                var newPermission = new Permission
+                {
+                    Role = "Sitter",
+                    User = existingUser,
+                    UserId = existingUser.Id
+                };
+
+                // Permission is added, then saved
+                _db.Permissions.Add(newPermission);
+                await _db.SaveChangesAsync();
+
+                var claims = new List<Claim>
+                {
+                    new Claim(ClaimTypes.Name, existingUser.Username),
+                    new Claim(ClaimTypes.NameIdentifier, existingUser.Id.ToString()),
+                    new Claim(ClaimTypes.Role, newPermission.Role)
+                };
+
+                var claimsIndentity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
+
+                var authProperties = new AuthenticationProperties
+                {
+                    IsPersistent = true,
+                };
+
+                await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(claimsIndentity), authProperties);
+
+                TempData["success"] = "Successful creation of account";
+                return RedirectToAction("SitterDashboard", "Sitter");
+            }
+
             return View();
         }
 
