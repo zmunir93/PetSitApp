@@ -1,1 +1,26 @@
-﻿<h1>Sitter Dashboard</h1>
+﻿@model Sitter
+<h1>Sitter Dashboard</h1>
+@{
+    if (Model == null || String.IsNullOrEmpty(Model.FirstName))
+    {
+        <a asp-controller="Sitter" asp-action="CreateSitter" class="btn btn-secondary" style="width:150px">
+            Add Info
+        </a>
+    } else
+    {
+        
+            <h1>@(char.ToUpper(Model.FirstName[0]) + Model.FirstName.Substring(1))'s Dashboard</h1>
+
+            //<img src="@Url.Action("GetOwnerImage", "Owner")" alt="Your profile picture" width="200" height="200">
+
+            <h1 width="50%">@Model.FirstName @Model.LastName</h1>
+
+            <p width="50%">@Model.Age years old</p>
+
+            <p width="50%">@Model.City, @Model.State</p>
+
+            //<a asp-controller="Owner" asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-primary mx-2"><i class="bi bi-pencil-square"></i></a>
+
+            <h1></h1>
+    }
+}

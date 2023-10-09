@@ -31,7 +31,7 @@
 
     <div>
         <h2>Login as Sitter</h2>
-        <form action="@Url.Action("Login", "User")" method="post">
+        <form action="@Url.Action("LoginSitter", "User")" method="post">
             <div>
                 <label>Username:</label>
                 <input type="text" name="username" required />
@@ -46,7 +46,7 @@
         </form>
         <br />
         <br />
-        <h4> Dont have an Sitter account?</h4>
+        <h4> Dont have a Sitter account?</h4>
         <a asp-controller="User" asp-action="RegisterSitter">
             <button>Create Account</button>
         </a>

@@ -34,6 +34,11 @@
                         </li>*@
                         <li>
                             @if (Context.User.Identity.IsAuthenticated)
+                            if (User.IsInRole("Sitter"))
+                            {
+                                <a class="nav-link" asp-controller="Sitter" asp-action="SitterDashboard">Dashboard</a>
+                            }
+                            else if (User.IsInRole("Owner"))
                             {
                                 <a class="nav-link" asp-controller="Owner" asp-action="Dashboard">Dashboard</a>
                             }
