@@ -4,13 +4,13 @@ using Microsoft.EntityFrameworkCore;
 
 namespace PetSitApp.Models;
 
-public partial class PetSitAppContext : DbContext
+public partial class PetsitAppContext : DbContext
 {
-    public PetSitAppContext()
+    public PetsitAppContext()
     {
     }
 
-    public PetSitAppContext(DbContextOptions<PetSitAppContext> options)
+    public PetsitAppContext(DbContextOptions<PetsitAppContext> options)
         : base(options)
     {
     }
@@ -27,9 +27,7 @@ public partial class PetSitAppContext : DbContext
 
     public virtual DbSet<User> Users { get; set; }
 
-    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-#warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see http://go.microsoft.com/fwlink/?LinkId=723263.
-        => optionsBuilder.UseSqlServer("Server=.\\SQLExpress;Database=PetSitApp;Trusted_Connection=True;Encrypt=False;");
+    
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -79,7 +77,6 @@ public partial class PetSitAppContext : DbContext
             entity.Property(e => e.City).HasMaxLength(20);
             entity.Property(e => e.FirstName).HasMaxLength(20);
             entity.Property(e => e.LastName).HasMaxLength(20);
-            entity.Property(e => e.ProfilePicture).HasMaxLength(50);
             entity.Property(e => e.State).HasMaxLength(15);
             entity.Property(e => e.Zip).HasMaxLength(5);
 

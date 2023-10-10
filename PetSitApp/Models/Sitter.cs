@@ -9,7 +9,7 @@ public partial class Sitter
 
     public int UserId { get; set; }
 
-    public byte[] ProfilePicture { get; set; } = null!;
+    public byte[]? ProfilePicture { get; set; }
 
     public string FirstName { get; set; } = null!;
 

@@ -10,20 +10,20 @@
 <hr />
 <div class="row">
     <div class="col-md-4">
-        <form asp-action="View">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+        <form method="post" enctype="multipart/form-data">
+            @*<div asp-validation-summary="ModelOnly" class="text-danger"></div>*@
             <div class="form-group">
-                <label asp-for="ProfilePicture" class="control-label">Profile Picture</label>
-                <input asp-for="ProfilePicture" class="form-control" />
+                <label asp-for="ProfilePicture">Profile Picture</label>
+                <input asp-for="ProfilePicture" class="form-control" type="file" accept=".jpg,.jpeg"/>
                 <span asp-validation-for="ProfilePicture" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="FirstName" class="control-label"></label>
+                <label asp-for="FirstName" class="control-label">First Name</label>
                 <input asp-for="FirstName" class="form-control" />
                 <span asp-validation-for="FirstName" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="LastName" class="control-label"></label>
+                <label asp-for="LastName" class="control-label">Last Name</label>
                 <input asp-for="LastName" class="form-control" />
                 <span asp-validation-for="LastName" class="text-danger"></span>
             </div>
@@ -60,6 +60,6 @@
 </div>
 
 <div>
-    <a asp-action="Index">Back to List</a>
+    <a asp-action="SitterDashboard" class="btn btn-secondary">Back to List</a>
 </div>
 
