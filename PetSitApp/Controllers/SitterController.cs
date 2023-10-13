@@ -15,12 +15,17 @@ namespace PetSitApp.Controllers
             _db = db;
         }
 
+        // GET ///////////////////////////////////////////////
+
         [Authorize(Roles = "Sitter")]
         public async Task<IActionResult> SitterDashboard()
         {
             var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
 
             var ownerInfo = await _db.Sitters.FirstOrDefaultAsync(s => s.UserId.Equals(int.Parse(userId)));
+
+            
+
 
             return View(ownerInfo);
         }
@@ -29,6 +34,77 @@ namespace PetSitApp.Controllers
         {
             return View();
         }
+
+        public async Task<IActionResult> EditSitter(int id)
+        {
+            var sitter = await _db.Sitters.FindAsync(id);
+
+            if (sitter == null)
+            {
+                return NotFound();
+            }
+            return View(sitter);
+        }
+
+
+        // POST //////////////////////////////////////////////
+
+        public async Task<IActionResult> GetOwnerImage()
+        {
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+
+            var currentUser = await _db.Sitters.FirstOrDefaultAsync(s => s.UserId.Equals(int.Parse(userId)));
+
+            var memStream = new MemoryStream(currentUser.ProfilePicture);
+            memStream.Position = 0;
+
+            return File(memStream, "image/jpeg");
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> EditSitter(int id, Sitter model, IFormFile ProfilePicture)
+        {
+            if (id != model.Id)
+            {
+                return NotFound();
+            }
+            ModelState.Remove("User");
+            if (ModelState.IsValid)
+            {
+                var existingSitter = await _db.Sitters.FindAsync(id);
+
+                if (existingSitter == null)
+                {
+                    return NotFound();
+                }
+
+                existingSitter.FirstName = model.FirstName;
+                existingSitter.LastName = model.LastName;
+                existingSitter.Age = model.Age;
+                existingSitter.Address = model.Address;
+                existingSitter.City = model.City;
+                existingSitter.State = model.State;
+                existingSitter.Zip = model.Zip;
+
+                if (ProfilePicture != null && ProfilePicture.Length > 1)
+                {
+                    using (var memStream = new MemoryStream())
+                    {
+                        await ProfilePicture.CopyToAsync(memStream);
+                        existingSitter.ProfilePicture = memStream.ToArray();
+                    }
+                }
+
+                _db.Sitters.Update(existingSitter);
+                await _db.SaveChangesAsync();
+                TempData["success"] = "Profile Successfully updated.";
+                return RedirectToAction("SitterDashboard");
+            }
+
+            return View(model);
+        }
+
         // POST
         [HttpPost]
         [ValidateAntiForgeryToken]

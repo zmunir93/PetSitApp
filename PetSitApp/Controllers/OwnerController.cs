@@ -33,8 +33,7 @@ namespace PetSitApp.Controllers
         public async Task<FileStreamResult> GetOwnerImage()
         {
             var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
-            var owner = await _db.Owners
-                .FirstOrDefaultAsync(o => o.UserId.Equals(int.Parse(userId)));
+            var owner = await _db.Owners.FirstOrDefaultAsync(o => o.UserId.Equals(int.Parse(userId)));
 
 
             var memStream = new MemoryStream(owner.ProfilePicture);

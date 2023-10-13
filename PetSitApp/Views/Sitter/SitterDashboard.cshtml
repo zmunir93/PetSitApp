@@ -11,7 +11,7 @@
         
             <h1>@(char.ToUpper(Model.FirstName[0]) + Model.FirstName.Substring(1))'s Dashboard</h1>
 
-            //<img src="@Url.Action("GetOwnerImage", "Owner")" alt="Your profile picture" width="200" height="200">
+            <img src="@Url.Action("GetOwnerImage", "Sitter")" alt="Your profile picture" width="200" height="200">
 
             <h1 width="50%">@Model.FirstName @Model.LastName</h1>
 
@@ -19,7 +19,7 @@
 
             <p width="50%">@Model.City, @Model.State</p>
 
-            //<a asp-controller="Owner" asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-primary mx-2"><i class="bi bi-pencil-square"></i></a>
+            <a asp-controller="Sitter" asp-action="EditSitter" asp-route-id="@Model.Id" class="btn btn-primary mx-2"><i class="bi bi-pencil-square"></i></a>
 
             <h1></h1>
     }
