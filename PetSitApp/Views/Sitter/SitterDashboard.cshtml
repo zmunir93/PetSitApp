@@ -1,5 +1,4 @@
 ﻿@model Sitter
-<h1>Sitter Dashboard</h1>
 @{
     if (Model == null || String.IsNullOrEmpty(Model.FirstName))
     {
@@ -8,19 +7,33 @@
         </a>
     } else
     {
+        <h1>@(char.ToUpper(Model.FirstName[0]) + Model.FirstName.Substring(1))'s Dashboard</h1>
+        <div class="card" style="width: 18rem;">
+            <img class="card-img-top" src="@Url.Action("GetOwnerImage", "Sitter")" alt="Your profile picture" />
+            <div class="card-body">
+                <h5 class="card-title" width="50%">@Model.FirstName @Model.LastName</h5>
+                <p class="card-text" width="50%">@Model.Age years old</p>
+                <p class="card-text" width="50%">@Model.City, @Model.State</p>
+                <a asp-controller="Sitter" asp-action="EditSitter" asp-route-id="@Model.Id" class="btn btn-primary mx-2">Edit Info <i class="bi bi-pencil-square"></i></a>
+            </div>
+        </div>
+            //<h1>@(char.ToUpper(Model.FirstName[0]) + Model.FirstName.Substring(1))'s Dashboard</h1>
+
+            //<img class="card-img-top" src="@Url.Action("GetOwnerImage", "Sitter")" alt="Your profile picture" width="200" height="200">
+
+            //<h1 class="card-title" width="50%">@Model.FirstName @Model.LastName</h1>
+
+        //<p class="card-text" width="50%">@Model.Age years old</p>
+
+        //<p class="card-text" width="50%">@Model.City, @Model.State</p>
+
+            //<a asp-controller="Sitter" asp-action="EditSitter" asp-route-id="@Model.Id" class="btn btn-primary mx-2"><i class="bi bi-pencil-square"></i></a>
+
+           
+
+        <div>
+            <a asp-controller="Sitter" asp-action="EditAvailability" class="btn btn-primary">Edit Availability</a>
+        </div>
         
-            <h1>@(char.ToUpper(Model.FirstName[0]) + Model.FirstName.Substring(1))'s Dashboard</h1>
-
-            <img src="@Url.Action("GetOwnerImage", "Sitter")" alt="Your profile picture" width="200" height="200">
-
-            <h1 width="50%">@Model.FirstName @Model.LastName</h1>
-
-            <p width="50%">@Model.Age years old</p>
-
-            <p width="50%">@Model.City, @Model.State</p>
-
-            <a asp-controller="Sitter" asp-action="EditSitter" asp-route-id="@Model.Id" class="btn btn-primary mx-2"><i class="bi bi-pencil-square"></i></a>
-
-            <h1></h1>
     }
 }

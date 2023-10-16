@@ -25,5 +25,11 @@ public partial class Sitter
 
     public string Zip { get; set; } = null!;
 
+    public virtual ICollection<DaysUnavailable> DaysUnavailables { get; set; } = new List<DaysUnavailable>();
+
+    public virtual Service? Service { get; set; }
+
     public virtual User User { get; set; } = null!;
+
+    public virtual WeekAvailability? WeekAvailability { get; set; }
 }

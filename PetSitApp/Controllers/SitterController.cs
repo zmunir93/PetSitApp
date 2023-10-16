@@ -46,6 +46,11 @@ namespace PetSitApp.Controllers
             return View(sitter);
         }
 
+        public IActionResult EditAvailability()
+        {
+            return View();
+        }
+
 
         // POST //////////////////////////////////////////////
 
@@ -105,7 +110,7 @@ namespace PetSitApp.Controllers
             return View(model);
         }
 
-        // POST
+        
         [HttpPost]
         [ValidateAntiForgeryToken]
         [RequestSizeLimit(2621440)] // Limit to 2.5MB

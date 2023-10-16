@@ -4,16 +4,18 @@ using Microsoft.EntityFrameworkCore;
 
 namespace PetSitApp.Models;
 
-public partial class PetsitAppContext : DbContext
+public partial class PetSitAppContext : DbContext
 {
-    public PetsitAppContext()
+    public PetSitAppContext()
     {
     }
 
-    public PetsitAppContext(DbContextOptions<PetsitAppContext> options)
+    public PetSitAppContext(DbContextOptions<PetSitAppContext> options)
         : base(options)
     {
     }
+
+    public virtual DbSet<DaysUnavailable> DaysUnavailables { get; set; }
 
     public virtual DbSet<Owner> Owners { get; set; }
 
@@ -23,14 +25,32 @@ public partial class PetsitAppContext : DbContext
 
     public virtual DbSet<PetPicture> PetPictures { get; set; }
 
+    public virtual DbSet<Service> Services { get; set; }
+
+    public virtual DbSet<ServiceType> ServiceTypes { get; set; }
+
     public virtual DbSet<Sitter> Sitters { get; set; }
 
     public virtual DbSet<User> Users { get; set; }
+
+    public virtual DbSet<WeekAvailability> WeekAvailabilities { get; set; }
 
     
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
+        modelBuilder.Entity<DaysUnavailable>(entity =>
+        {
+            entity.ToTable("DaysUnavailable");
+
+            entity.Property(e => e.Id).ValueGeneratedNever();
+
+            entity.HasOne(d => d.Sitter).WithMany(p => p.DaysUnavailables)
+                .HasForeignKey(d => d.SitterId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK_DaysUnavailable_Sitters");
+        });
+
         modelBuilder.Entity<Owner>(entity =>
         {
             entity.HasIndex(e => e.UserId, "IX_Owners_UserId").IsUnique();
@@ -69,6 +89,26 @@ public partial class PetsitAppContext : DbContext
                 .HasConstraintName("FK_PetPictures_Pets");
         });
 
+        modelBuilder.Entity<Service>(entity =>
+        {
+            entity.HasIndex(e => e.SitterId, "IX_Services").IsUnique();
+
+            entity.HasOne(d => d.Sitter).WithOne(p => p.Service)
+                .HasForeignKey<Service>(d => d.SitterId)
+                .OnDelete(DeleteBehavior.ClientSetNull);
+        });
+
+        modelBuilder.Entity<ServiceType>(entity =>
+        {
+            entity.Property(e => e.Id).ValueGeneratedNever();
+            entity.Property(e => e.ServiceOffered).HasMaxLength(20);
+
+            entity.HasOne(d => d.Service).WithMany(p => p.ServiceTypes)
+                .HasForeignKey(d => d.ServiceId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK_ServiceTypes_Services");
+        });
+
         modelBuilder.Entity<Sitter>(entity =>
         {
             entity.HasIndex(e => e.UserId, "IX_Sitters").IsUnique();
@@ -81,6 +121,18 @@ public partial class PetsitAppContext : DbContext
             entity.Property(e => e.Zip).HasMaxLength(5);
 
             entity.HasOne(d => d.User).WithOne(p => p.Sitter).HasForeignKey<Sitter>(d => d.UserId);
+        });
+
+        modelBuilder.Entity<WeekAvailability>(entity =>
+        {
+            entity.HasIndex(e => e.SitterId, "IX_WeekAvailabilities").IsUnique();
+
+            entity.Property(e => e.Id).ValueGeneratedNever();
+
+            entity.HasOne(d => d.Sitter).WithOne(p => p.WeekAvailability)
+                .HasForeignKey<WeekAvailability>(d => d.SitterId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK_WeekAvailabilities_Sitters");
         });
 
         OnModelCreatingPartial(modelBuilder);
