@@ -55,7 +55,11 @@ namespace PetSitApp.Controllers
             return View(viewModel);
         }
 
-        
+        public IActionResult Services()
+        {
+            var viewModel = new ServicesViewModel();
+            return View(viewModel);
+        }
 
 
 
