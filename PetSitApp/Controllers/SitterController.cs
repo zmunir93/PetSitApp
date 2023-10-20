@@ -3,14 +3,16 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using PetSitApp.Data;
 using PetSitApp.Models;
+using PetSitApp.ViewModels;
 using System.Security.Claims;
+
 
 namespace PetSitApp.Controllers
 {
     public class SitterController : Controller
     {
-        private readonly ApplicationDBContext _db;
-        public SitterController(ApplicationDBContext db) 
+        private readonly PetSitAppContext _db;
+        public SitterController(PetSitAppContext db) 
         {
             _db = db;
         }
@@ -48,8 +50,13 @@ namespace PetSitApp.Controllers
 
         public IActionResult EditAvailability()
         {
-            return View();
+            var viewModel = new AvailabilityViewModel();
+            
+            return View(viewModel);
         }
+
+        
+
 
 
         // POST //////////////////////////////////////////////
@@ -151,6 +158,69 @@ namespace PetSitApp.Controllers
             }
 
             return View();
+        }
+
+
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> EditAvailability(AvailabilityViewModel viewModel)
+        {
+            if (!ModelState.IsValid)
+            {
+                return View();
+            }
+
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+
+            var sitter = await _db.Sitters.FirstOrDefaultAsync(s => s.UserId.Equals(int.Parse(userId)));
+
+            var weekAvail = await _db.WeekAvailabilities.FirstOrDefaultAsync(wa => wa.SitterId.Equals(sitter.Id));
+
+            /// if table doesnt exist, creates new one
+            if (weekAvail == null)
+            {
+                weekAvail = new WeekAvailability
+                {
+                    SitterId = sitter.Id,
+                    Monday = viewModel.Monday,
+                    Tuesday = viewModel.Tuesday,
+                    Wednesday = viewModel.Wednesday,
+                    Thursday = viewModel.Thursday,
+                    Friday = viewModel.Friday,
+                    Saturday = viewModel.Saturday,
+                    Sunday = viewModel.Sunday
+                };
+
+                _db.WeekAvailabilities.Add(weekAvail);
+
+            } else // if table does exist, updates instead
+            {
+                weekAvail.Monday = viewModel.Monday;
+                weekAvail.Tuesday = viewModel.Tuesday;
+                weekAvail.Wednesday = viewModel.Wednesday;
+                weekAvail.Thursday = viewModel.Thursday;
+                weekAvail.Friday = viewModel.Friday;
+                weekAvail.Saturday = viewModel.Saturday;
+                weekAvail.Sunday = viewModel.Sunday;
+            }
+
+            if (viewModel.SelectedDate.HasValue)
+            {
+                var daysUnavail = new DaysUnavailable
+                {
+                    SitterId = sitter.Id,
+                    IsAvailable = false,
+                    Date = viewModel.SelectedDate.Value
+                };
+
+                _db.DaysUnavailables.Add(daysUnavail);
+            }
+
+            await _db.SaveChangesAsync();
+
+            return RedirectToAction("SitterDashboard");
+            
         }
     }
 }

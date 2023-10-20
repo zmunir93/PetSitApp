@@ -30,3 +30,9 @@ footer {
     margin-top: 2rem;
 }
 
+.ui-datepicker {
+    font-size: 36px;
+    background-color: whitesmoke;
+    border-radius: 1rem;
+
+}
