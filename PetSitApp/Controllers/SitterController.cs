@@ -16,6 +16,9 @@ namespace PetSitApp.Controllers
         {
             _db = db;
         }
+        protected string CurrentUserId => User.FindFirstValue(ClaimTypes.NameIdentifier);
+
+        
 
         // GET ///////////////////////////////////////////////
 
@@ -30,6 +33,11 @@ namespace PetSitApp.Controllers
 
 
             return View(ownerInfo);
+        }
+        public async Task<Sitter> GetCurrentSitter()
+        {
+            var userId = CurrentUserId;
+            return await _db.Sitters.FirstOrDefaultAsync(s => s.UserId.Equals(int.Parse(userId)));
         }
 
         public IActionResult CreateSitter()
@@ -225,6 +233,70 @@ namespace PetSitApp.Controllers
 
             return RedirectToAction("SitterDashboard");
             
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Services(ServicesViewModel viewModel)
+        {
+            var sitter = await GetCurrentSitter();
+
+            if (!ModelState.IsValid)
+            {
+                return View(viewModel);
+            }
+
+            if (sitter == null)
+            {
+                return RedirectToAction("Login", "User");
+            }
+            int serviceNumber = 0;
+            if (viewModel.IsDog) serviceNumber += 1;
+            if (viewModel.IsCat) serviceNumber += 2;
+
+            var service = new Service
+            {
+                PetType = serviceNumber,
+                SitterId = sitter.Id
+            };
+
+            _db.Services.Add(service);
+            await _db.SaveChangesAsync();
+
+            if (viewModel.OffersBoarding)
+            {
+                _db.ServiceTypes.Add(new ServiceType
+                {
+                    ServiceId = service.Id,
+                    ServiceOffered = "Boarding",
+                    Rate = viewModel.BoardingRate
+
+                });
+            }
+
+            if (viewModel.OffersHomeVisits)
+            {
+                _db.ServiceTypes.Add(new ServiceType
+                {
+                    ServiceId = service.Id,
+                    ServiceOffered = "Home Visits",
+                    Rate = viewModel.HomeVisitsRate
+                });
+            }
+
+            if (viewModel.OffersWalking)
+            {
+                _db.ServiceTypes.Add(new ServiceType
+                {
+                    ServiceId = service.Id,
+                    ServiceOffered = "Walking",
+                    Rate = viewModel.WalkingRate
+                });
+            }
+
+            await _db.SaveChangesAsync();
+
+            return RedirectToAction("SitterDashboard");
         }
     }
 }

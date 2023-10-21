@@ -5,3 +5,40 @@
 @{
 }
 <h1>Services page</h1>
+
+<form asp-action="Services">
+    <fieldset class="form-group">
+        <legend class="mt-4">Select which services you'd like to offer and their rates</legend>
+
+        <div class="form-check">
+            <input class="form-check-input" asp-for="IsDog" type="checkbox">
+            <label class="form-check-label">
+                Dog <i class="fa-solid fa-dog"></i>
+            </label>
+        </div>
+        <div class="form-check">
+            <input class="form-check-input" asp-for="IsCat" type="checkbox">
+            <label class="form-check-label">
+                Cat <i class="fa-solid fa-cat"></i>
+            </label>
+        </div>
+
+        <div class="form-check">
+            <input class="form-check-input" id="boarding-check" type="checkbox" asp-for="OffersBoarding"> Boarding <i class="fa-solid fa-suitcase"></i>
+            <br />
+            Rate: <input class="form-control form-control-sm " id="boarding-rate" type="number" asp-for="BoardingRate" disabled/>
+        </div>
+        <div class="form-check">
+            <input class="form-check-input" id="home-check" asp-for="OffersHomeVisits" type="checkbox" > Home Visits <i class="fa-solid fa-house"></i>
+            <br />
+            Rate: <input class="form-control form-control-sm" id="home-rate" type="number" asp-for="HomeVisitsRate" disabled/>
+        </div>
+        <div class="form-check">
+            <input class="form-check-input" id="walking-check" asp-for="OffersWalking" type="checkbox" > Walking <i class="fa-solid fa-shoe-prints"></i>
+            <br />
+            Rate: <input class="form-control form-control-sm" id="walking-rate" type="number" asp-for="WalkingRate" disabled />
+        </div>
+        <button type="submit" class="btn btn-primary">Submit</button>
+        <a class="btn btn-secondary" asp-action="SitterDashboard">Back</a>
+    </fieldset>
+</form>

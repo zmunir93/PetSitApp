@@ -5,3 +5,21 @@
 $(function () {
     $("#date").datepicker();
 });
+
+document.getElementById('boarding-check').addEventListener('change', function() {
+    var rateInput = document.getElementById('boarding-rate');
+    if (this.checked) {
+        rateInput.removeAttribute('disabled');
+    } else {
+        rateInput.setAttribute('disabled', 'disabled');
+    }
+});
+
+document.getElementById('home-check').addEventListener('change', function () {
+    var rateInput = document.getElementById('home-rate');
+    if (this.checked) {
+        rateInput.removeAttribute('disabled');
+    } else {
+        rateInput.setAttribute('disabled', 'disabled');
+    }
+});
