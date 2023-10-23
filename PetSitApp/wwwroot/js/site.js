@@ -6,6 +6,14 @@ $(function () {
     $("#date").datepicker();
 });
 
+$(function () {
+    $("#start-date").datepicker();
+});
+
+$(function () {
+    $("#end-date").datepicker();
+});
+
 document.getElementById('boarding-check').addEventListener('change', function() {
     var rateInput = document.getElementById('boarding-rate');
     if (this.checked) {

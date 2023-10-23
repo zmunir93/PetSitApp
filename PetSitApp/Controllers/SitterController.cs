@@ -129,7 +129,6 @@ namespace PetSitApp.Controllers
             return View(model);
         }
 
-        
         [HttpPost]
         [ValidateAntiForgeryToken]
         [RequestSizeLimit(2621440)] // Limit to 2.5MB
@@ -171,8 +170,6 @@ namespace PetSitApp.Controllers
 
             return View();
         }
-
-
 
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -274,13 +271,13 @@ namespace PetSitApp.Controllers
                 });
             }
 
-            if (viewModel.OffersHomeVisits)
+            if (viewModel.OffersHomeSits)
             {
                 _db.ServiceTypes.Add(new ServiceType
                 {
                     ServiceId = service.Id,
-                    ServiceOffered = "Home Visits",
-                    Rate = viewModel.HomeVisitsRate
+                    ServiceOffered = "Home Sits",
+                    Rate = viewModel.HomeSitRate
                 });
             }
 

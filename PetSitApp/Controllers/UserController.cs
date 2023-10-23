@@ -22,6 +22,7 @@ namespace PetSitApp.Controllers
             _configuration = configuration;
         }
 
+        // GET //////////////////////////////////////
         [Authorize(Roles="Owner")]
         public IActionResult Index()
         {
@@ -42,6 +43,12 @@ namespace PetSitApp.Controllers
         {
             return View();
         }
+        public IActionResult SitterSearch()
+        {
+            return View();
+        }
+
+        // POST //////////////////////////////////////
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Logout()

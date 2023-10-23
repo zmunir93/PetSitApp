@@ -1,0 +1,71 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+}
+<div class="modal" id="searchModal" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Search for Sitters in your area</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true"></span>
+                </button>
+            </div>
+            <div class="modal-body">
+
+                <p class="mb-0">I'm looking for service for my:</p>
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="DogOrCat" id="optionsRadios1" value="IsDog" checked="">
+                    <label class="form-check-label" for="optionsRadios1">
+                        Dog <i class="fa-solid fa-dog"></i>
+                    </label>
+                </div>
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="DogOrCat" id="optionsRadios1" value="IsCat">
+                    <label class="form-check-label" for="optionsRadios1">
+                        Cat <i class="fa-solid fa-cat"></i>
+                    </label>
+                </div>
+
+                <p class="mb-0 mt-4">What service do you need?</p>
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="optionsRadios" id="optionsRadios1" value="Boarding" checked="">
+                    <label class="form-check-label" for="optionsRadios1">
+                        Boarding <i class="fa-solid fa-suitcase"></i>
+                    </label>
+                </div>
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="optionsRadios" id="optionsRadios1" value="HomeSitting">
+                    <label class="form-check-label" for="optionsRadios1">
+                        Home Sitting <i class="fa-solid fa-house"></i>
+                    </label>
+                </div>
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="optionsRadios" id="optionsRadios1" value="Walking">
+                    <label class="form-check-label" for="optionsRadios1">
+                        Walking <i class="fa-solid fa-shoe-prints"></i>
+                    </label>
+                </div>
+                
+                <div class="form-group">
+                    <label class="col-form-label mb-0 mt-4" for="inputDefault"><p>Zip code <i class="fa-solid fa-map-pin"></i></p></label>
+                    <input type="number" oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);" maxlength="5" class="form-control" placeholder="" id="inputDefault">
+                </div>
+                
+
+                <div class="d-flex flex-row justify-content-around my-4">
+                    <input id="start-date" @*asp-for=""*@ placeholder="Start date" type="text" />
+                    <input id="end-date" @*asp-for=""*@ placeholder="End date" type="text" />
+                </div>
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary"><i class="fa-solid fa-magnifying-glass"></i> Search</button>
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+
+            </div>
+        </div>
+        
+    </div>
+</div>
