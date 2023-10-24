@@ -1,20 +1,24 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using PetSitApp.Data;
+using PetSitApp.DTOs.GoogleGeocoding;
 using PetSitApp.Models;
 using PetSitApp.ViewModels;
 using System.Security.Claims;
-
+using System.Text.Json;
 
 namespace PetSitApp.Controllers
 {
     public class SitterController : Controller
     {
         private readonly PetSitAppContext _db;
-        public SitterController(PetSitAppContext db) 
+        private readonly IConfiguration _configuration;
+        private readonly HttpClient _client;
+        public SitterController(PetSitAppContext db, IConfiguration configuration, HttpClient client) 
         {
             _db = db;
+            _configuration = configuration;
+            _client = client;
         }
         protected string CurrentUserId => User.FindFirstValue(ClaimTypes.NameIdentifier);
 
@@ -89,6 +93,8 @@ namespace PetSitApp.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> EditSitter(int id, Sitter model, IFormFile ProfilePicture)
         {
+
+
             if (id != model.Id)
             {
                 return NotFound();
@@ -101,6 +107,32 @@ namespace PetSitApp.Controllers
                 if (existingSitter == null)
                 {
                     return NotFound();
+                }
+
+                var apiKey = _configuration["GoogleGeocodingAPI:ApiKey"];
+                var address = $"{model.Address}, {model.City}, {model.State}, {model.Zip}";
+                var apiUrl = $"https://maps.googleapis.com/maps/api/geocode/json?address={address}&key={apiKey}";
+
+                var response = await _client.GetAsync(apiUrl);
+                if (response.IsSuccessStatusCode)
+                {
+                    var jsonResult = await response.Content.ReadAsStringAsync();
+                    Console.WriteLine(jsonResult);
+                    var dynamicResult = Newtonsoft.Json.JsonConvert.DeserializeObject<dynamic>(jsonResult);
+                    string status = dynamicResult.status; // This should give "OK"
+                    var results = dynamicResult.results; // This gives you the "results" array.
+
+                    var firstResult = results[0];
+                    string formattedAddress = firstResult.formatted_address;
+                    double lat = firstResult.geometry.location.lat;
+                    double lng = firstResult.geometry.location.lng;
+
+
+
+                    //var geoResult = JsonSerializer.Deserialize<GeocodeResponse>(jsonResult);
+                    //var location = geoResult.Results.ToArray()[0].Geometry.Location;
+                    existingSitter.Longitude = lat;
+                    existingSitter.Latitude = lng;
                 }
 
                 existingSitter.FirstName = model.FirstName;

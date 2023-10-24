@@ -35,7 +35,8 @@ public partial class PetSitAppContext : DbContext
 
     public virtual DbSet<WeekAvailability> WeekAvailabilities { get; set; }
 
-    
+    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        => optionsBuilder.UseSqlServer("Name=DefaultConnection");
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {

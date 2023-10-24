@@ -25,6 +25,10 @@ public partial class Sitter
 
     public string Zip { get; set; } = null!;
 
+    public double? Latitude { get; set; }
+
+    public double? Longitude { get; set; }
+
     public virtual ICollection<DaysUnavailable> DaysUnavailables { get; set; } = new List<DaysUnavailable>();
 
     public virtual Service? Service { get; set; }
