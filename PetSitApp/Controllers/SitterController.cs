@@ -120,7 +120,7 @@ namespace PetSitApp.Controllers
                     Console.WriteLine(jsonResult);
                     var dynamicResult = Newtonsoft.Json.JsonConvert.DeserializeObject<dynamic>(jsonResult);
                     string status = dynamicResult.status; // This should give "OK"
-                    var results = dynamicResult.results; // This gives you the "results" array.
+                    var results = dynamicResult.results; // This gives the "results" array.
 
                     var firstResult = results[0];
                     string formattedAddress = firstResult.formatted_address;
@@ -131,8 +131,8 @@ namespace PetSitApp.Controllers
 
                     //var geoResult = JsonSerializer.Deserialize<GeocodeResponse>(jsonResult);
                     //var location = geoResult.Results.ToArray()[0].Geometry.Location;
-                    existingSitter.Longitude = lat;
-                    existingSitter.Latitude = lng;
+                    existingSitter.Longitude = lng;
+                    existingSitter.Latitude = lat;
                 }
 
                 existingSitter.FirstName = model.FirstName;

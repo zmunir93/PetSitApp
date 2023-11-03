@@ -15,12 +15,42 @@ namespace PetSitApp.Controllers
     public class UserController : Controller
     {
         private readonly IConfiguration _configuration;
-        private readonly PetSitApp.Models.PetSitAppContext _db;
-        public UserController(PetSitApp.Models.PetSitAppContext db, IConfiguration configuration)
+        private readonly PetSitAppContext _db;
+        private readonly HttpClient _client;
+        public UserController(PetSitAppContext db, IConfiguration configuration, HttpClient client)
         {
             _db = db;
             _configuration = configuration;
+            _client = client;
         }
+
+        public static double CalculateDistance(double lat1, double long1, double lat2, double long2)
+        {
+            const double EarthRadiusMiles = 3958.8; // Earth's radius in miles
+
+            double lat1Rad = ToRadians(lat1);
+            double long1Rad = ToRadians(long1);
+            double lat2Rad = ToRadians(lat2);
+            double long2Rad = ToRadians(long2);
+
+            double dLat = lat2Rad - lat1Rad;
+            double dLon = long2Rad - long1Rad;
+
+            double a = Math.Sin(dLat / 2) * Math.Sin(dLat / 2) +
+                       Math.Cos(lat1Rad) * Math.Cos(lat2Rad) *
+                       Math.Sin(dLon / 2) * Math.Sin(dLon / 2);
+
+            double c = 2 * Math.Atan2(Math.Sqrt(a), Math.Sqrt(1 - a));
+
+            return EarthRadiusMiles * c;
+        }
+
+        public static double ToRadians(double angle)
+        {
+            return Math.PI * angle / 180.0;
+        }
+
+
 
         // GET //////////////////////////////////////
         [Authorize(Roles="Owner")]
@@ -47,6 +77,8 @@ namespace PetSitApp.Controllers
         {
             return View();
         }
+
+
 
         // POST //////////////////////////////////////
         [HttpPost]
@@ -402,6 +434,54 @@ namespace PetSitApp.Controllers
             }
         }
 
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> SitterSearch(string dogOrCat, string serviceType, string zipCode, DateTime startDate)
+        {
+            var query= _db.Sitters.AsQueryable();
+
+            if (dogOrCat == "IsDog") query = query.Where(s => s.Service.PetType == 1 || s.Service.PetType == 3);
+            else if (dogOrCat == "IsCat") query = query.Where(s => s.Service.PetType == 2 || s.Service.PetType == 3);
+
+            if (!string.IsNullOrWhiteSpace(serviceType))
+            {
+                query = query.Where(s => s.Service.ServiceTypes.Any(st => st.ServiceOffered.Equals(serviceType)));
+            }
+
+            double zipLat = 0.0;
+            double zipLng = 0.0;
+
+            var zipCodeApiKey = _configuration["GoogleGeocodingAPI:ApiKey"];
+            var zipApiUrl = $"https://maps.googleapis.com/maps/api/geocode/json?address={zipCode}&key={zipCodeApiKey}";
+            var zipResponse = await _client.GetAsync(zipApiUrl);
+            if (zipResponse.IsSuccessStatusCode)
+            {
+                var zipJsonResult = await zipResponse.Content.ReadAsStringAsync();
+                var zipDynamicResult = Newtonsoft.Json.JsonConvert.DeserializeObject<dynamic>(zipJsonResult);
+                zipLat = zipDynamicResult.results[0].geometry.location.lat;
+                zipLng = zipDynamicResult.results[0].geometry.location.lng;
+            }
+
+            var sittersInRange = new List<Sitter>();
+            foreach (var sitter in query) // or however you are fetching the sitters
+            {
+                double nonNullableLat = sitter.Latitude.Value;
+                double nonNullableLng = sitter.Longitude.Value;
+
+                
+                var distance = CalculateDistance(zipLat, zipLng, nonNullableLat, nonNullableLng);
+                if (distance <= 25) // less than radius
+                {
+                    sittersInRange.Add(sitter);
+                }
+            }
+            query = sittersInRange.AsQueryable();
+
+
+            return View();
+
+
+        }
 
     }
 }
