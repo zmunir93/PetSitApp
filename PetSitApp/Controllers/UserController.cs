@@ -54,7 +54,7 @@ namespace PetSitApp.Controllers
 
 
         // GET //////////////////////////////////////
-        [Authorize(Roles="Owner")]
+        [Authorize(Roles = "Owner")]
         public IActionResult Index()
         {
 
@@ -94,7 +94,7 @@ namespace PetSitApp.Controllers
         public async Task<IActionResult> Login(string username, string password, bool rememberMe)
         {
             // Check to make sure username and password are not null
-           if (username == null || password == null)
+            if (username == null || password == null)
             {
                 TempData["error"] = "Username or password cannot be empty";
                 return View();
@@ -268,7 +268,7 @@ namespace PetSitApp.Controllers
             if (!ModelState.IsValid)
             {
                 return View();
-                
+
             }
 
             var existingUser = await _db.Users
@@ -280,7 +280,7 @@ namespace PetSitApp.Controllers
             if (existingUser != null && existingUser.Permissions.Any(p => p.Role == "Sitter"))
             {
                 TempData["error"] = "Account already exist. Please login.";
-                return RedirectToAction("Login"); 
+                return RedirectToAction("Login");
             }
             else if (existingUser != null && existingUser.Permissions.Any(p => p.Role == "Owner") && BCrypt.Net.BCrypt.Verify(model.Password, existingUser.Password)) // Already have an account as an Sitter
             {
@@ -313,7 +313,7 @@ namespace PetSitApp.Controllers
 
                 TempData["success"] = "Successful creation of account";
                 return RedirectToAction("SitterDashboard", "Sitter");
-            } 
+            }
             else if (existingUser == null)
             {
                 // model.Password is encrypted
@@ -439,7 +439,7 @@ namespace PetSitApp.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> SitterSearch(string dogOrCat, string serviceType, string zipCode, DateTime? startDate, DateTime? endDate)
         {
-            var query= _db.Sitters.AsQueryable();
+            var query = _db.Sitters.AsQueryable();
 
             if (dogOrCat == "IsDog") query = query.Where(s => s.Service.PetType == 1 || s.Service.PetType == 3);
             else if (dogOrCat == "IsCat") query = query.Where(s => s.Service.PetType == 2 || s.Service.PetType == 3);
@@ -464,117 +464,64 @@ namespace PetSitApp.Controllers
             }
 
 
-            var sittersInRange = new List<Sitter>();
-            foreach (var sitter in query) // or however you are fetching the sitters
+            var sittersWithAvailability = new List<Sitter>();
+            foreach (var sitter in query.Include(s => s.WeekAvailability).Include(s => s.DaysUnavailables)) // or however you are fetching the sitters
             {
                 double nonNullableLat = sitter.Latitude.Value;
                 double nonNullableLng = sitter.Longitude.Value;
 
-                
+
                 var distance = CalculateDistance(zipLat, zipLng, nonNullableLat, nonNullableLng);
                 if (distance <= 25) // less than radius
                 {
                     
-                    sittersInRange.Add(sitter);
-                }
-            }
 
-            var sittersWithAvailibility = new List<Sitter>();
-
-            if (startDate.HasValue && endDate.HasValue)
-            {
-                foreach (var sitter in sittersInRange)
-                {
-                    if (sitter.DaysUnavailables.Any(du => du.Date >= startDate && du.Date <= endDate && !du.IsAvailable))
+                    if (startDate.HasValue && endDate.HasValue)
                     {
-                        continue;
-                    }
+                        // Check if the sitter has any DaysUnavailables within the date range
+                        var unavailableDates = sitter.DaysUnavailables
+                            .Where(du => du.Date >= startDate && du.Date <= endDate)
+                            .ToList();
 
-                    sittersWithAvailibility.Add(sitter);
-                }
-            }
-            else
-            {
-                sittersWithAvailibility = sittersInRange;
-            }
-
-
-            var sitterForWeekUnavail = new List<Sitter>();
-
-            foreach (var sitter in query)
-            {
-
-                var sitterWeekAvailability = _db.WeekAvailabilities.FirstOrDefault(avail => avail.SitterId == sitter.Id);
-
-                if (sitterWeekAvailability != null)
-                {
-                    for (DateTime date = startDate.Value; date <= endDate.Value; date = date.AddDays(1))
-                    {
-                        DayOfWeek dayOfWeek = date.DayOfWeek; // Concert the date to a DayOfWeek enumeration
-
-                        switch (dayOfWeek) // Check if the Sitter is unavailable on this day
+                        if (unavailableDates.Count == 0)
                         {
-                            case DayOfWeek.Monday:
-                                if(sitterWeekAvailability.Monday)
-                                {
+                            bool isAvailable = true;
 
-                                }
-                                break;
-                                case DayOfWeek.Tuesday:
-                                if(sitterWeekAvailability.Tuesday)
+                            if (sitter.WeekAvailability != null)
+                            {
+                                // Check the sitter's week availability for each day in the date range
+                                for (DateTime date = startDate.Value; date <= endDate.Value; date = date.AddDays(1))
                                 {
+                                    DayOfWeek dayOfWeek = date.DayOfWeek;
+                                    var dayProperty = sitter.WeekAvailability.GetType().GetProperty(dayOfWeek.ToString());
 
+                                    if (dayProperty != null && (bool)dayProperty.GetValue(sitter.WeekAvailability) == true)
+                                    {
+                                        isAvailable = false;
+                                        break; // If unavailable on one day, no need to check further
+                                    }
                                 }
-                                break;
-                                case DayOfWeek.Wednesday:
-                                if(sitterWeekAvailability.Wednesday)
+
+                                if (isAvailable)
                                 {
-
+                                    sittersWithAvailability.Add(sitter);
                                 }
-                                break;
-                                case DayOfWeek.Thursday:
-                                if(sitterWeekAvailability.Thursday)
-                                {
-
-                                }
-                                break;
-                                case DayOfWeek.Friday:
-                                if(sitterWeekAvailability.Friday)
-                                {
-
-                                }
-                                break;
-                                case DayOfWeek.Saturday:
-                                if (sitterWeekAvailability.Saturday)
-                                {
-
-                                }
-                                break;
-                                case DayOfWeek.Sunday:
-                                if (sitterWeekAvailability.Sunday)
-                                {
-
-                                }
-                                break;
+                            }
+                            
                         }
                     }
+                    else
+                    {
+                        sittersWithAvailability.Add(sitter);
+                    }
                 }
-                sitterForWeekUnavail.Add(sitter);
-
             }
 
-            
-            
-            
-
-
-            query = sittersWithAvailibility.AsQueryable();
-
+            query = sittersWithAvailability.AsQueryable();
 
             return View(query);
 
-
         }
-
     }
 }
+
