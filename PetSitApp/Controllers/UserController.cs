@@ -463,10 +463,6 @@ namespace PetSitApp.Controllers
                 zipLng = zipDynamicResult.results[0].geometry.location.lng;
             }
 
-            //var sitterIds = query.Select(s => s.Id).ToList(); // fetches sitter Id's
-            //var daysUnavailable = await _db.DaysUnavailables
-            //    .Where(du => sitterIds.Contains(du.SitterId))
-            //    .ToListAsync();
 
             var sittersInRange = new List<Sitter>();
             foreach (var sitter in query) // or however you are fetching the sitters
@@ -478,34 +474,7 @@ namespace PetSitApp.Controllers
                 var distance = CalculateDistance(zipLat, zipLng, nonNullableLat, nonNullableLng);
                 if (distance <= 25) // less than radius
                 {
-                    //if (startDate.HasValue && endDate.HasValue)
-                    //{
-                    //    var sitterDaysUnavailable = daysUnavailable
-                    //        .Where(du => du.SitterId == sitter.Id)
-                    //        .Select(du => du.Date)
-                    //        .ToList();
-
-                    //    if (daysUnavailable != null)
-                    //    {
-                    //        bool isAvailable = true;
-
-                    //        for (DateTime date = startDate.Value; date <= endDate.Value; date = date.AddDays(1))
-                    //        {
-                    //            if (sitterDaysUnavailable.Contains(date))
-                    //            {
-                    //                isAvailable = false;
-                    //                break;
-                    //            }
-                    //        }
-
-                    //        if (isAvailable)
-                    //        {
-                    //            sittersInRange.Add(sitter);
-                    //        }
-                    //    }
-                    //}
-
-
+                    
                     sittersInRange.Add(sitter);
                 }
             }
@@ -529,6 +498,73 @@ namespace PetSitApp.Controllers
                 sittersWithAvailibility = sittersInRange;
             }
 
+
+            var sitterForWeekUnavail = new List<Sitter>();
+
+            foreach (var sitter in query)
+            {
+
+                var sitterWeekAvailability = _db.WeekAvailabilities.FirstOrDefault(avail => avail.SitterId == sitter.Id);
+
+                if (sitterWeekAvailability != null)
+                {
+                    for (DateTime date = startDate.Value; date <= endDate.Value; date = date.AddDays(1))
+                    {
+                        DayOfWeek dayOfWeek = date.DayOfWeek; // Concert the date to a DayOfWeek enumeration
+
+                        switch (dayOfWeek) // Check if the Sitter is unavailable on this day
+                        {
+                            case DayOfWeek.Monday:
+                                if(sitterWeekAvailability.Monday)
+                                {
+
+                                }
+                                break;
+                                case DayOfWeek.Tuesday:
+                                if(sitterWeekAvailability.Tuesday)
+                                {
+
+                                }
+                                break;
+                                case DayOfWeek.Wednesday:
+                                if(sitterWeekAvailability.Wednesday)
+                                {
+
+                                }
+                                break;
+                                case DayOfWeek.Thursday:
+                                if(sitterWeekAvailability.Thursday)
+                                {
+
+                                }
+                                break;
+                                case DayOfWeek.Friday:
+                                if(sitterWeekAvailability.Friday)
+                                {
+
+                                }
+                                break;
+                                case DayOfWeek.Saturday:
+                                if (sitterWeekAvailability.Saturday)
+                                {
+
+                                }
+                                break;
+                                case DayOfWeek.Sunday:
+                                if (sitterWeekAvailability.Sunday)
+                                {
+
+                                }
+                                break;
+                        }
+                    }
+                }
+                sitterForWeekUnavail.Add(sitter);
+
+            }
+
+            
+            
             
 
 
