@@ -7,6 +7,7 @@ using Microsoft.IdentityModel.Tokens;
 using PetSitApp.Data;
 using PetSitApp.Models;
 using System.IdentityModel.Tokens.Jwt;
+using System.Linq;
 using System.Security.Claims;
 using System.Text;
 
@@ -436,7 +437,7 @@ namespace PetSitApp.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> SitterSearch(string dogOrCat, string serviceType, string zipCode, DateTime startDate)
+        public async Task<IActionResult> SitterSearch(string dogOrCat, string serviceType, string zipCode, DateTime? startDate, DateTime? endDate)
         {
             var query= _db.Sitters.AsQueryable();
 
@@ -462,6 +463,11 @@ namespace PetSitApp.Controllers
                 zipLng = zipDynamicResult.results[0].geometry.location.lng;
             }
 
+            //var sitterIds = query.Select(s => s.Id).ToList(); // fetches sitter Id's
+            //var daysUnavailable = await _db.DaysUnavailables
+            //    .Where(du => sitterIds.Contains(du.SitterId))
+            //    .ToListAsync();
+
             var sittersInRange = new List<Sitter>();
             foreach (var sitter in query) // or however you are fetching the sitters
             {
@@ -472,13 +478,64 @@ namespace PetSitApp.Controllers
                 var distance = CalculateDistance(zipLat, zipLng, nonNullableLat, nonNullableLng);
                 if (distance <= 25) // less than radius
                 {
+                    //if (startDate.HasValue && endDate.HasValue)
+                    //{
+                    //    var sitterDaysUnavailable = daysUnavailable
+                    //        .Where(du => du.SitterId == sitter.Id)
+                    //        .Select(du => du.Date)
+                    //        .ToList();
+
+                    //    if (daysUnavailable != null)
+                    //    {
+                    //        bool isAvailable = true;
+
+                    //        for (DateTime date = startDate.Value; date <= endDate.Value; date = date.AddDays(1))
+                    //        {
+                    //            if (sitterDaysUnavailable.Contains(date))
+                    //            {
+                    //                isAvailable = false;
+                    //                break;
+                    //            }
+                    //        }
+
+                    //        if (isAvailable)
+                    //        {
+                    //            sittersInRange.Add(sitter);
+                    //        }
+                    //    }
+                    //}
+
+
                     sittersInRange.Add(sitter);
                 }
             }
-            query = sittersInRange.AsQueryable();
+
+            var sittersWithAvailibility = new List<Sitter>();
+
+            if (startDate.HasValue && endDate.HasValue)
+            {
+                foreach (var sitter in sittersInRange)
+                {
+                    if (sitter.DaysUnavailables.Any(du => du.Date >= startDate && du.Date <= endDate && !du.IsAvailable))
+                    {
+                        continue;
+                    }
+
+                    sittersWithAvailibility.Add(sitter);
+                }
+            }
+            else
+            {
+                sittersWithAvailibility = sittersInRange;
+            }
+
+            
 
 
-            return View();
+            query = sittersWithAvailibility.AsQueryable();
+
+
+            return View(query);
 
 
         }
