@@ -73,10 +73,6 @@ namespace PetSitApp.Controllers
             return View(viewModel);
         }
 
-
-
-        // POST //////////////////////////////////////////////
-
         public async Task<IActionResult> GetOwnerImage()
         {
             var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
@@ -88,6 +84,10 @@ namespace PetSitApp.Controllers
 
             return File(memStream, "image/jpeg");
         }
+
+
+        // POST //////////////////////////////////////////////
+
 
         [HttpPost]
         [ValidateAntiForgeryToken]

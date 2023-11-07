@@ -101,7 +101,6 @@ public partial class PetSitAppContext : DbContext
 
         modelBuilder.Entity<ServiceType>(entity =>
         {
-            entity.Property(e => e.Id).ValueGeneratedNever();
             entity.Property(e => e.ServiceOffered).HasMaxLength(20);
 
             entity.HasOne(d => d.Service).WithMany(p => p.ServiceTypes)
@@ -127,8 +126,6 @@ public partial class PetSitAppContext : DbContext
         modelBuilder.Entity<WeekAvailability>(entity =>
         {
             entity.HasIndex(e => e.SitterId, "IX_WeekAvailabilities").IsUnique();
-
-            entity.Property(e => e.Id).ValueGeneratedNever();
 
             entity.HasOne(d => d.Sitter).WithOne(p => p.WeekAvailability)
                 .HasForeignKey<WeekAvailability>(d => d.SitterId)

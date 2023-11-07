@@ -1,27 +1,24 @@
 ﻿@model IQueryable<Sitter>
 <h1>Sitter Search Page</h1>
-<table>
-    <thead>
-        <tr>
-            <th>First Name</th>
-            <th>Last Name</th>
-            <!-- Add more headers for additional sitter info -->
-        </tr>
-    </thead>
-    <tbody>
-        @if (Model != null)
+
+ 
+@if (Model != null)
+{
+    foreach (var sitter in Model)
+    {
+        if (sitter.ProfilePicture != null)
         {
-            foreach (var sitter in Model)
-            {
-                <tr>
-                    <td>@sitter.FirstName</td>
-                    <td>@sitter.LastName</td>
-                    <!-- Display other sitter info -->
-               </tr>
-            }
+            var base64Image = Convert.ToBase64String(sitter.ProfilePicture);
+            var imgSrc = $"data:image/png;base64, {base64Image}";
+            <img src="@imgSrc" alt="Sitter's Profile Picture"/>
         }
-        else {
-            <p>No Results Found</p>
-        }
-    </tbody>
-</table>
+        <p>@sitter.FirstName</p>
+        <p>@sitter.LastName</p>
+        <p>@($"{sitter.City}, {sitter.State}")</p>
+        <!-- Display other sitter info -->
+               
+    }
+}
+else {
+    <p>No Results Found</p>
+}
