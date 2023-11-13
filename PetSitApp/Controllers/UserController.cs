@@ -6,6 +6,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using PetSitApp.Data;
 using PetSitApp.Models;
+using PetSitApp.ViewModels;
 using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
 using System.Security.Claims;
@@ -51,7 +52,17 @@ namespace PetSitApp.Controllers
             return Math.PI * angle / 180.0;
         }
 
+        //public IActionResult ApiKey()
+        //{
+        //    var apiKey = _configuration["GoogleGeocodingAPI"];
 
+        //    var viewmodel = new HTMLViewModel
+        //    {
+        //        ApiKey = apiKey
+        //    };
+
+        //    return View("_Layout", viewmodel);
+        //}
 
         // GET //////////////////////////////////////
         [Authorize(Roles = "Owner")]
@@ -76,7 +87,10 @@ namespace PetSitApp.Controllers
         }
         public IActionResult SitterSearch()
         {
-            return View();
+
+            var apikey = _configuration["GoogleMapsAPI:ApiKey"];
+
+            return View(apikey);
         }
 
 
@@ -452,8 +466,8 @@ namespace PetSitApp.Controllers
             double zipLat = 0.0;
             double zipLng = 0.0;
 
-            var zipCodeApiKey = _configuration["GoogleGeocodingAPI:ApiKey"];
-            var zipApiUrl = $"https://maps.googleapis.com/maps/api/geocode/json?address={zipCode}&key={zipCodeApiKey}";
+            var apiKey = _configuration["GoogleGeocodingAPI:ApiKey"];
+            var zipApiUrl = $"https://maps.googleapis.com/maps/api/geocode/json?address={zipCode}&key={apiKey}";
             var zipResponse = await _client.GetAsync(zipApiUrl);
             if (zipResponse.IsSuccessStatusCode)
             {
@@ -465,7 +479,7 @@ namespace PetSitApp.Controllers
 
 
             var sittersWithAvailability = new List<Sitter>();
-            foreach (var sitter in query.Include(s => s.WeekAvailability).Include(s => s.DaysUnavailables)) // or however you are fetching the sitters
+            foreach (var sitter in query.Include(s => s.WeekAvailability).Include(s => s.DaysUnavailables)) //fetching sitters
             {
                 double nonNullableLat = sitter.Latitude.Value;
                 double nonNullableLng = sitter.Longitude.Value;
@@ -516,10 +530,16 @@ namespace PetSitApp.Controllers
                     }
                 }
             }
-
+            
             query = sittersWithAvailability.AsQueryable();
 
-            return View(query);
+            var viewModel = new SitterSearchViewModel()
+            {
+                Sitters = query,
+                ApiKey = apiKey
+            };
+
+            return View(viewModel);
 
         }
     }

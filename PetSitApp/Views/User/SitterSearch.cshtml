@@ -1,10 +1,13 @@
-﻿@model IQueryable<Sitter>
+﻿@model PetSitApp.ViewModels.SitterSearchViewModel
 <h1>Sitter Search Page</h1>
-
+<script async
+        src="https://maps.googleapis.com/maps/api/js?key=@Model.ApiKey&callback=initMap">
+</script>
+<script src="/js/mapsApi.js" asp-append-version="true"></script>
  
 @if (Model != null)
 {
-    foreach (var sitter in Model)
+    foreach (var sitter in Model.Sitters)
     {
         if (sitter.ProfilePicture != null)
         {
@@ -22,3 +25,5 @@
 else {
     <p>No Results Found</p>
 }
+
+<div id="map"></div>

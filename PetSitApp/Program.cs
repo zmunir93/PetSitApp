@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 using PetSitApp.Data;
 using PetSitApp.Models;
@@ -59,12 +60,14 @@ builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationSc
         options.AccessDeniedPath = "/Forbidden/";
     });
 
+
+
 var apiKey = builder.Configuration["GoogleGeocodingAPI:ApiKey"];
+
 
 builder.Services.AddHttpClient();
 
 
-//builder.Configuration.GetConnectionString("DefaultConnection")
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
