@@ -5,6 +5,12 @@
 </script>
 <script src="/js/mapsApi.js" asp-append-version="true"></script>
  
+@*<script>
+    var sittersData = @Html.Raw(Json.Serialize(Model.Sitters));
+
+   
+</script>*@
+
 @if (Model != null)
 {
     foreach (var sitter in Model.Sitters)

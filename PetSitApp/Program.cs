@@ -6,8 +6,7 @@ using Microsoft.IdentityModel.Tokens;
 using PetSitApp.Data;
 using PetSitApp.Models;
 using System.Text;
-
-
+using System.Text.Json.Serialization;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -66,6 +65,9 @@ var apiKey = builder.Configuration["GoogleGeocodingAPI:ApiKey"];
 
 
 builder.Services.AddHttpClient();
+
+//builder.Services.AddControllers().AddJsonOptions(x =>
+//    x.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles);
 
 
 var app = builder.Build();

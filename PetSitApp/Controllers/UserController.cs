@@ -466,8 +466,9 @@ namespace PetSitApp.Controllers
             double zipLat = 0.0;
             double zipLng = 0.0;
 
-            var apiKey = _configuration["GoogleGeocodingAPI:ApiKey"];
-            var zipApiUrl = $"https://maps.googleapis.com/maps/api/geocode/json?address={zipCode}&key={apiKey}";
+            var GeoApiKey = _configuration["GoogleGeocodingAPI:ApiKey"];
+            var MapsApiKey = _configuration["GoogleMapsAPI:ApiKey"];
+            var zipApiUrl = $"https://maps.googleapis.com/maps/api/geocode/json?address={zipCode}&key={GeoApiKey}";
             var zipResponse = await _client.GetAsync(zipApiUrl);
             if (zipResponse.IsSuccessStatusCode)
             {
@@ -536,7 +537,7 @@ namespace PetSitApp.Controllers
             var viewModel = new SitterSearchViewModel()
             {
                 Sitters = query,
-                ApiKey = apiKey
+                ApiKey = MapsApiKey
             };
 
             return View(viewModel);
