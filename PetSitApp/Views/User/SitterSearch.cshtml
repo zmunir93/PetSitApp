@@ -5,11 +5,13 @@
 </script>
 <script src="/js/mapsApi.js" asp-append-version="true"></script>
  
-@*<script>
-    var sittersData = @Html.Raw(Json.Serialize(Model.Sitters));
-
+<script>
+    var sittersData = @Html.Raw(Json.Serialize(Model.SitterJson));
+    console.log(sittersData);
+    
+    
    
-</script>*@
+</script>
 
 @if (Model != null)
 {

@@ -1,10 +1,11 @@
-﻿using PetSitApp.Models;
+﻿using PetSitApp.DTOs.SitterSearchDTO;
 
 namespace PetSitApp.ViewModels
 {
     public class SitterSearchViewModel
     {
-        public IEnumerable<Sitter> Sitters { get; set; }
+        public IEnumerable<SitterDto> Sitters { get; set; }
         public string ApiKey { get; set; }
+        public string SitterJson { get; set; }
     }
 }

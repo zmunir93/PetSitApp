@@ -1,16 +1,15 @@
-﻿using Microsoft.AspNetCore.Authentication;
+﻿using AutoMapper;
+using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.IdentityModel.Tokens;
-using PetSitApp.Data;
+using PetSitApp.DTOs.SitterSearchDTO;
 using PetSitApp.Models;
 using PetSitApp.ViewModels;
-using System.IdentityModel.Tokens.Jwt;
-using System.Linq;
+using System.Collections.Generic;
 using System.Security.Claims;
-using System.Text;
+using System.Text.Json;
 
 namespace PetSitApp.Controllers
 {
@@ -19,11 +18,13 @@ namespace PetSitApp.Controllers
         private readonly IConfiguration _configuration;
         private readonly PetSitAppContext _db;
         private readonly HttpClient _client;
-        public UserController(PetSitAppContext db, IConfiguration configuration, HttpClient client)
+        private readonly IMapper _mapper;
+        public UserController(PetSitAppContext db, IConfiguration configuration, HttpClient client, IMapper mapper)
         {
             _db = db;
             _configuration = configuration;
             _client = client;
+            _mapper = mapper;
         }
 
         public static double CalculateDistance(double lat1, double long1, double lat2, double long2)
@@ -531,14 +532,21 @@ namespace PetSitApp.Controllers
                     }
                 }
             }
+
             
             query = sittersWithAvailability.AsQueryable();
 
+           
+            var sitterDto = _mapper.Map<List<SitterDto>>(query.ToList());
+            var sitterDtoJson = JsonSerializer.Serialize(sitterDto);
+
             var viewModel = new SitterSearchViewModel()
             {
-                Sitters = query,
-                ApiKey = MapsApiKey
+                Sitters = sitterDto,
+                ApiKey = MapsApiKey,
+                SitterJson = sitterDtoJson
             };
+
 
             return View(viewModel);
 

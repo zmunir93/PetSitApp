@@ -1,12 +1,10 @@
+using AutoMapper;
 using Microsoft.AspNetCore.Authentication.Cookies;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.Build.Framework;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Configuration;
-using Microsoft.IdentityModel.Tokens;
-using PetSitApp.Data;
+using PetSitApp.AutoMapperProfiles;
+using PetSitApp.DTOs.SitterSearchDTO;
 using PetSitApp.Models;
-using System.Text;
-using System.Text.Json.Serialization;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -66,8 +64,11 @@ var apiKey = builder.Configuration["GoogleGeocodingAPI:ApiKey"];
 
 builder.Services.AddHttpClient();
 
-//builder.Services.AddControllers().AddJsonOptions(x =>
-//    x.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles);
+
+
+builder.Services.AddAutoMapper(typeof(SitterProfile));
+
+
 
 
 var app = builder.Build();
