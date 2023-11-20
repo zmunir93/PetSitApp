@@ -6,6 +6,8 @@ namespace PetSitApp.ViewModels
     {
         public IEnumerable<SitterDto> Sitters { get; set; }
         public string ApiKey { get; set; }
-        public string SitterJson { get; set; }
+        public double ZipLat { get; set; }
+        public double ZipLng { get; set; }
+
     }
 }

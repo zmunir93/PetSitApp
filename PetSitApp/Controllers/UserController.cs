@@ -477,6 +477,8 @@ namespace PetSitApp.Controllers
                 var zipDynamicResult = Newtonsoft.Json.JsonConvert.DeserializeObject<dynamic>(zipJsonResult);
                 zipLat = zipDynamicResult.results[0].geometry.location.lat;
                 zipLng = zipDynamicResult.results[0].geometry.location.lng;
+
+                
             }
 
 
@@ -544,7 +546,8 @@ namespace PetSitApp.Controllers
             {
                 Sitters = sitterDto,
                 ApiKey = MapsApiKey,
-                SitterJson = sitterDtoJson
+                ZipLat = zipLat,
+                ZipLng = zipLng
             };
 
 

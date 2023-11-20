@@ -1,13 +1,17 @@
 ﻿@model PetSitApp.ViewModels.SitterSearchViewModel
 <h1>Sitter Search Page</h1>
+
+<script> 
+    window.model = @Html.Raw(Json.Serialize(Model));
+
+</script>
+
 <script async
         src="https://maps.googleapis.com/maps/api/js?key=@Model.ApiKey&callback=initMap">
 </script>
 <script src="/js/mapsApi.js" asp-append-version="true"></script>
  
-<script>
-    var sittersData = @Html.Raw(Json.Serialize(Model.SitterJson));
-    console.log(sittersData);
+
     
     
    
@@ -27,6 +31,7 @@
         <p>@sitter.LastName</p>
         <p>@($"{sitter.City}, {sitter.State}")</p>
         <!-- Display other sitter info -->
+       
                
     }
 }
