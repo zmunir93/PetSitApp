@@ -1,5 +1,8 @@
 ﻿let map;
 
+const model = window.model;
+const sitterArray = model.sitters;
+
 async function initMap() {
     // The location of Uluru
     const position = { lat: model.zipLat, lng: model.zipLng };
@@ -10,7 +13,7 @@ async function initMap() {
 
     // The map, centered at zip code
     map = new Map(document.getElementById("map"), {
-        zoom: 10,
+        zoom: 11,
         center: position,
         mapId: "DEMO_MAP_ID",
     });
