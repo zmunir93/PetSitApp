@@ -94,6 +94,20 @@ namespace PetSitApp.Controllers
             return View(apikey);
         }
 
+        public IActionResult SitterCheckoutDash(Sitter model, int id, string petType, string serviceType, DateTime? startDate, DateTime? endDate)
+        {
+            var viewModel = new SitterCheckoutDashViewModel
+            {
+                Id = id,
+                PetType = petType,
+                ServiceType = serviceType,
+                StartDate = startDate,
+                EndDate = endDate
+            };
+
+            return View(viewModel);
+        }
+
 
 
         // POST //////////////////////////////////////
@@ -547,7 +561,11 @@ namespace PetSitApp.Controllers
                 Sitters = sitterDto,
                 ApiKey = MapsApiKey,
                 ZipLat = zipLat,
-                ZipLng = zipLng
+                ZipLng = zipLng,
+                PetType = dogOrCat,
+                ServiceType = serviceType,
+                StartDate = startDate,
+                EndDate = endDate
             };
 
 

@@ -11,19 +11,24 @@
     <div class="search-card overflow-auto" id="results-container">
         @if (Model != null)
         {
+            
             foreach (var sitter in Model.Sitters)
             {
+                
                 if (sitter.ProfilePicture != null)
                 {
                     var base64Image = Convert.ToBase64String(sitter.ProfilePicture);
                     var imgSrc = $"data:image/png;base64, {base64Image}";
                     <img class="profile-img" src="@imgSrc" alt="Sitter's Profile Picture" />
                 }
-                <p>@sitter.FirstName</p>
-                <p>@sitter.LastName</p>
-                <p>@($"{sitter.City}, {sitter.State}")</p>
-                <!-- Display other sitter info -->
+                <a asp-controller="User" asp-action="SitterCheckoutDash" asp-route-id="@sitter.Id" asp-route-petType="@Model.PetType" asp-route-serviceType="@Model.ServiceType" asp-route-startDate="@Model.StartDate" asp-route-endDate="@Model.EndDate">
+                    <p>@sitter.FirstName</p>
+                    <p>@sitter.LastName</p>
+                    <p>@($"{sitter.City}, {sitter.State}")</p>
+                    <!-- Display other sitter info -->
+                </a>
             }
+            
         }
         else
         {
