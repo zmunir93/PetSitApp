@@ -27,6 +27,8 @@ namespace PetSitApp.Controllers
             _mapper = mapper;
         }
 
+       
+
         public static double CalculateDistance(double lat1, double long1, double lat2, double long2)
         {
             const double EarthRadiusMiles = 3958.8; // Earth's radius in miles
@@ -53,17 +55,7 @@ namespace PetSitApp.Controllers
             return Math.PI * angle / 180.0;
         }
 
-        //public IActionResult ApiKey()
-        //{
-        //    var apiKey = _configuration["GoogleGeocodingAPI"];
-
-        //    var viewmodel = new HTMLViewModel
-        //    {
-        //        ApiKey = apiKey
-        //    };
-
-        //    return View("_Layout", viewmodel);
-        //}
+        
 
         // GET //////////////////////////////////////
         [Authorize(Roles = "Owner")]
@@ -94,10 +86,18 @@ namespace PetSitApp.Controllers
             return View(apikey);
         }
 
-        public IActionResult SitterCheckoutDash(Sitter model, int id, string petType, string serviceType, DateTime? startDate, DateTime? endDate)
+        public async Task<IActionResult> SitterCheckoutDash(int id, string petType, string serviceType, DateTime? startDate, DateTime? endDate)
         {
+
+            var sitter = await _db.Sitters
+                .Include(s => s.Service)
+                .ThenInclude(ser => ser.ServiceTypes)
+                .FirstOrDefaultAsync(s => s.Id.Equals(id));
+
+
             var viewModel = new SitterCheckoutDashViewModel
             {
+                Sitter = sitter,
                 Id = id,
                 PetType = petType,
                 ServiceType = serviceType,

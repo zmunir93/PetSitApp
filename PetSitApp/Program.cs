@@ -5,6 +5,7 @@ using Microsoft.EntityFrameworkCore;
 using PetSitApp.AutoMapperProfiles;
 using PetSitApp.DTOs.SitterSearchDTO;
 using PetSitApp.Models;
+using Stripe;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -87,6 +88,8 @@ app.UseStaticFiles();
 app.UseRouting();
 
 app.UseSession();
+
+StripeConfiguration.ApiKey = builder.Configuration["StripeAPI:SecretApiKey"];
 
 builder.Logging.AddConsole();  // Ensure this is present.
 

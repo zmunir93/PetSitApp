@@ -1,12 +1,28 @@
 ﻿@model PetSitApp.ViewModels.SitterCheckoutDashViewModel
 
 @{
-    <h1>Sitter Checkout</h1>
+    
+    <h1>@Model.Sitter.FirstName's Page</h1>
+
+    var serviceTypes = Model.Sitter.Service.ServiceTypes;
+    if (Model.Sitter.ProfilePicture != null)
+    {
+        var base64Image = Convert.ToBase64String(Model.Sitter.ProfilePicture);
+        var imgSrc = $"data:image/png;base64, {base64Image}";
+        <img class="profile-img" src="@imgSrc" alt="Sitter's Profile Picture" />
+    }
 
     <p>ID: @Model.Id</p>
     <p>Pet Type: @Model.PetType</p>
-    <p>Service Type: @Model.ServiceType</p>
-    <p>Start Date: @Model.StartDate</p>
-    <p>End Date: @Model.EndDate</p>
+    //<p>Service Type: @Model.ServiceType</p>
+    
+    if (serviceTypes != null && serviceTypes.Any())
+    {
+        foreach (var serviceType in serviceTypes)
+        {
+            <p>Service Type: @serviceType.ServiceOffered Rate: $@serviceType.Rate</p>
+        }
+    }
+    <p>Start Date: @Model.StartDate - End Date: @Model.EndDate</p>
 
 }
