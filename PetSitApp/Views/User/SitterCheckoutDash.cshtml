@@ -1,28 +1,37 @@
 ﻿@model PetSitApp.ViewModels.SitterCheckoutDashViewModel
-
-@{
+<form method="post" action="@Url.Action("Checkout", "Checkout")" >
+    @{
     
-    <h1>@Model.Sitter.FirstName's Page</h1>
+        <h1>@Model.Sitter.FirstName's Page</h1>
 
-    var serviceTypes = Model.Sitter.Service.ServiceTypes;
-    if (Model.Sitter.ProfilePicture != null)
-    {
-        var base64Image = Convert.ToBase64String(Model.Sitter.ProfilePicture);
-        var imgSrc = $"data:image/png;base64, {base64Image}";
-        <img class="profile-img" src="@imgSrc" alt="Sitter's Profile Picture" />
-    }
-
-    <p>ID: @Model.Id</p>
-    <p>Pet Type: @Model.PetType</p>
-    //<p>Service Type: @Model.ServiceType</p>
-    
-    if (serviceTypes != null && serviceTypes.Any())
-    {
-        foreach (var serviceType in serviceTypes)
+        var serviceTypes = Model.Sitter.Service.ServiceTypes;
+        if (Model.Sitter.ProfilePicture != null)
         {
-            <p>Service Type: @serviceType.ServiceOffered Rate: $@serviceType.Rate</p>
+            var base64Image = Convert.ToBase64String(Model.Sitter.ProfilePicture);
+            var imgSrc = $"data:image/png;base64, {base64Image}";
+            <img class="profile-img" src="@imgSrc" alt="Sitter's Profile Picture" />
         }
-    }
-    <p>Start Date: @Model.StartDate - End Date: @Model.EndDate</p>
 
-}
+        <p>ID: @Model.Id</p>
+        <p>Pet Type: @Model.PetType</p>
+        //<p>Service Type: @Model.ServiceType</p>
+    
+        if (serviceTypes != null && serviceTypes.Any())
+        {
+            foreach (var serviceType in serviceTypes)
+            {
+                <p>Service Type: @serviceType.ServiceOffered Rate: $@serviceType.Rate</p>
+                <input type="hidden" name="Rate" value="@serviceType.Rate" />
+            }
+        }
+
+        int totalDays = Model.EndDate.HasValue && Model.StartDate.HasValue
+        ? (Model.EndDate.Value - Model.StartDate.Value).Days
+        : 0;
+
+        <p>Start Date: @Model.StartDate - End Date: @Model.EndDate Total Days: @totalDays</p>
+        <input type="hidden" name="Quantity" value="@totalDays" />
+        
+        <button type="submit">Book Now</button>
+    }
+</form>
