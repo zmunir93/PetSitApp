@@ -21,7 +21,10 @@
             foreach (var serviceType in serviceTypes)
             {
                 <p>Service Type: @serviceType.ServiceOffered Rate: $@serviceType.Rate</p>
-                <input type="hidden" name="Rate" value="@serviceType.Rate" />
+                int newRate = serviceType.Rate * 100;
+                <p>@newRate</p>
+                <input type="hidden" name="jobType" value="@serviceType.ServiceOffered" />
+                <input type="hidden" name="Rate" value="@newRate" />
             }
         }
 
