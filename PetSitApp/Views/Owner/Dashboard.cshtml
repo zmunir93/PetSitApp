@@ -1,28 +1,30 @@
-﻿@model Owner
+﻿@model PetSitApp.ViewModels.DashboardViewModel
 @{
     ViewData["Title"] = "Dashboard";
 }
 
 
-@if (Model == null || string.IsNullOrEmpty(Model.Name))
+
+@if (Model == null || string.IsNullOrEmpty(Model.Owner.Name))
 {
+    
     <a asp-controller="Owner" asp-action="Create" class="btn btn-secondary" style="width:150px">
         Add Info
     </a>
 }
 else 
 {
-<h1>@(char.ToUpper(Model.Name[0]) + Model.Name.Substring(1))'s Dashboard</h1>
+<h1>@(char.ToUpper(Model.Owner.Name[0]) + Model.Owner.Name.Substring(1))'s Dashboard</h1>
     
     <img src="@Url.Action("GetOwnerImage", "Owner")" alt="Your profile picture" width="200" height="200">
     
-            <h1 width="50%">@Model.Name</h1>
+            <h1 width="50%">@Model.Owner.Name</h1>
         
-            <h4 width="50%">@Model.Email</h4>
+            <h4 width="50%">@Model.Owner.Email</h4>
         
-            <p width="50%">@Model.Age years old</p>
+            <p width="50%">@Model.Owner.Age years old</p>
         
-    <a asp-controller="Owner" asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-primary mx-2"><i class="bi bi-pencil-square"></i></a>
+    <a asp-controller="Owner" asp-action="Edit" asp-route-id="@Model.Owner.Id" class="btn btn-primary mx-2"><i class="bi bi-pencil-square"></i></a>
 
     <h1></h1>
 }
@@ -47,3 +49,40 @@ else
 <br />
 <br />
 <a asp-controller="Pet" asp-action="CreatePet" class="btn btn-primary mx-2">Add Pet</a>
+
+@if(Model != null && Model.Reservation != null) {
+   @*var pet = @Model.Pets.FirstOrDefault(p => p.Id.Equals(Model.Reservation.PetId));*@
+
+    
+    <h3>Reservations</h3>
+    <table class="table table-hover">
+        <thead>
+            <tr>
+                <th scope="col"></th>
+                <th scope="col">Pet Name</th>
+                <th scope="col">Sitter</th>
+                <th scope="col">Dates</th>
+                <th scope="col">Service</th>
+            </tr>
+        </thead>
+
+        <tbody>
+            @foreach (var reservation in Model.Reservation)
+            {
+                var pet = @Model.Pets.FirstOrDefault(p => p.Id.Equals(reservation.PetId));
+
+                <tr class="table-active">
+                    <th scope="row">
+                        <img src="@Url.Action("GetPetImage", "Owner", new { petId = pet.Id })" alt="Pet Image" width="50" height="50" />
+                    </th>
+                    <td>@pet.Name</td>
+                    <td>@Model.Sitter.FirstName, @Model.Sitter.LastName</td>
+                    <td>@reservation.StartDate.ToString("MM/dd/yyyy") - @reservation.EndDate.ToString("MM/dd/yyyy")</td>
+                    <td>@reservation.JobType</td>
+                </tr>
+            }
+        </tbody>
+
+    </table>
+
+}

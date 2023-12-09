@@ -46,4 +46,6 @@ public partial class Pet
     public virtual Owner Owner { get; set; } = null!;
 
     public virtual ICollection<PetPicture> PetPictures { get; set; } = new List<PetPicture>();
+
+    public virtual ICollection<Reservation> Reservations { get; set; } = new List<Reservation>();
 }

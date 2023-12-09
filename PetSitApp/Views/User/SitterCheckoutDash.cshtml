@@ -24,7 +24,7 @@
                 int newRate = serviceType.Rate * 100;
                 <p>@newRate</p>
                 <input type="hidden" name="jobType" value="@serviceType.ServiceOffered" />
-                <input type="hidden" name="Rate" value="@newRate" />
+                <input type="hidden" name="rate" value="@newRate" />
             }
         }
 
@@ -33,7 +33,10 @@
         : 0;
 
         <p>Start Date: @Model.StartDate - End Date: @Model.EndDate Total Days: @totalDays</p>
-        <input type="hidden" name="Quantity" value="@totalDays" />
+        <input type="hidden" name="startDate" value="@Model.StartDate" />
+        <input type="hidden" name="endDate" value="@Model.EndDate" />
+        <input type="hidden" name="quantity" value="@totalDays" />
+        <input type="hidden" name="sitterId" value="@Model.Sitter.Id" />
         
         <button type="submit">Book Now</button>
     }

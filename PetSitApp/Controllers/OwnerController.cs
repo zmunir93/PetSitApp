@@ -1,8 +1,8 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using PetSitApp.Data;
 using PetSitApp.Models;
+using PetSitApp.ViewModels;
 using System.Security.Claims;
 
 namespace PetSitApp.Controllers
@@ -21,13 +21,24 @@ namespace PetSitApp.Controllers
         {
             var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
 
-            var ownerInfo = await _db.Owners
+            var owner = await _db.Owners
                 .Include(o => o.Pets)
                 .ThenInclude(p => p.PetPictures)
                 .FirstOrDefaultAsync(o => o.UserId.Equals(int.Parse(userId)));
 
+            var reservations = await _db.Reservations.Where(r => r.OwnerId.Equals(owner.Id)).ToListAsync();
+
+            var sitter = await _db.Sitters.FirstOrDefaultAsync(s => s.Id.Equals(reservations.FirstOrDefault().SitterId));
+
+            var viewModel = new DashboardViewModel()
+            {
+                Owner = owner,
+                Sitter = sitter,
+                Pets = owner.Pets,
+                Reservation = reservations
+            };
             
-            return View(ownerInfo);
+            return View(viewModel);
         }
 
         public async Task<FileStreamResult> GetOwnerImage()

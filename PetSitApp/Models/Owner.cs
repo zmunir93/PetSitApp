@@ -19,5 +19,7 @@ public partial class Owner
 
     public virtual ICollection<Pet> Pets { get; set; } = new List<Pet>();
 
+    public virtual ICollection<Reservation> Reservations { get; set; } = new List<Reservation>();
+
     public virtual User User { get; set; } = null!;
 }

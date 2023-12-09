@@ -31,6 +31,8 @@ public partial class Sitter
 
     public virtual ICollection<DaysUnavailable> DaysUnavailables { get; set; } = new List<DaysUnavailable>();
 
+    public virtual ICollection<Reservation> Reservations { get; set; } = new List<Reservation>();
+
     public virtual Service? Service { get; set; }
 
     public virtual User User { get; set; } = null!;

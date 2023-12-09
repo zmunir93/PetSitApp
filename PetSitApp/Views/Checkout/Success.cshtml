@@ -1,6 +1,8 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
-@{
-}
+﻿@model PetSitApp.ViewModels.SuccessViewModel
+@*@model DateTime*@
 <h1>Congrats! Your sitting has been reserved!</h1>
+
+@*<h1>@Model</h1>*@
+<h1>Your Start Date: @Model.StartDate</h1>
+<h1>Your Start Date: @Model.EndDate</h1>
+<h1>The Sitter Id: @Model.SitterId</h1>

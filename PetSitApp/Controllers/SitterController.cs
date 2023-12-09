@@ -31,12 +31,23 @@ namespace PetSitApp.Controllers
         {
             var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
 
-            var ownerInfo = await _db.Sitters.FirstOrDefaultAsync(s => s.UserId.Equals(int.Parse(userId)));
+            var sitter = await _db.Sitters.FirstOrDefaultAsync(s => s.UserId.Equals(int.Parse(userId)));
 
-            
+            var reservations = await _db.Reservations.Where(r => r.SitterId.Equals(sitter.Id)).ToListAsync();
 
+            var owner = await _db.Owners
+                .Include(o => o.Pets)
+                .ThenInclude(p => p.PetPictures)
+                .FirstOrDefaultAsync(s => s.Id.Equals(reservations.FirstOrDefault().OwnerId));
 
-            return View(ownerInfo);
+            var viewModel = new SitterDashboardViewModel()
+            {
+                Sitter = sitter,
+                Owner = owner,
+                Reservations = reservations
+            };
+
+            return View(viewModel);
         }
         public async Task<Sitter> GetCurrentSitter()
         {

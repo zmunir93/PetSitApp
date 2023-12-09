@@ -25,6 +25,8 @@ public partial class PetSitAppContext : DbContext
 
     public virtual DbSet<PetPicture> PetPictures { get; set; }
 
+    public virtual DbSet<Reservation> Reservations { get; set; }
+
     public virtual DbSet<Service> Services { get; set; }
 
     public virtual DbSet<ServiceType> ServiceTypes { get; set; }
@@ -43,8 +45,6 @@ public partial class PetSitAppContext : DbContext
         modelBuilder.Entity<DaysUnavailable>(entity =>
         {
             entity.ToTable("DaysUnavailable");
-
-            entity.Property(e => e.Id).ValueGeneratedNever();
 
             entity.HasOne(d => d.Sitter).WithMany(p => p.DaysUnavailables)
                 .HasForeignKey(d => d.SitterId)
@@ -88,6 +88,26 @@ public partial class PetSitAppContext : DbContext
                 .HasForeignKey(d => d.PetId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FK_PetPictures_Pets");
+        });
+
+        modelBuilder.Entity<Reservation>(entity =>
+        {
+            entity.Property(e => e.JobType).HasMaxLength(20);
+
+            entity.HasOne(d => d.Owner).WithMany(p => p.Reservations)
+                .HasForeignKey(d => d.OwnerId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK_Reservations_Owners");
+
+            entity.HasOne(d => d.Pet).WithMany(p => p.Reservations)
+                .HasForeignKey(d => d.PetId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK_Reservations_Pets");
+
+            entity.HasOne(d => d.Sitter).WithMany(p => p.Reservations)
+                .HasForeignKey(d => d.SitterId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK_Reservations_Sitters");
         });
 
         modelBuilder.Entity<Service>(entity =>
