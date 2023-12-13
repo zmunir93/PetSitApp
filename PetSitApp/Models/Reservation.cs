@@ -5,6 +5,8 @@ namespace PetSitApp.Models;
 
 public partial class Reservation
 {
+    public int Id { get; set; }
+
     public int OwnerId { get; set; }
 
     public int SitterId { get; set; }
@@ -18,8 +20,6 @@ public partial class Reservation
     public DateTime EndDate { get; set; }
 
     public string JobType { get; set; } = null!;
-
-    public int Id { get; set; }
 
     public virtual Owner Owner { get; set; } = null!;
 

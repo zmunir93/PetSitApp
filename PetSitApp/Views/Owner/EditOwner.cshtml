@@ -1,0 +1,50 @@
+﻿@model Owner
+
+<h2>Edit Owner Information</h2>
+
+<form asp-action="Edit" method="post">
+    <input type="hidden" asp-for="UserId" />
+    <div class="form-group">
+        <label asp-for="ProfilePicture">Profile Picture</label><br />
+        <input type="file" asp-for="ProfilePicture" class="form-control" id="img"  accept="image/*">
+    </div>
+    <div class="form-group">
+        <label asp-for="FirstName"></label>
+        <input asp-for="FirstName" class="form-control" />
+    </div>
+    <div class="form-group">
+        <label asp-for="LastName"></label>
+        <input asp-for="LastName" class="form-control" />
+    </div>
+    <div class="form-group">
+        <label asp-for="Age"></label>
+        <input asp-for="Age" class="form-control" />
+    </div>
+    <div class="form-group">
+        <label asp-for="Address"></label>
+        <input asp-for="Address" class="form-control" />
+    </div>
+    <div class="form-group">
+        <label asp-for="City"></label>
+        <input asp-for="City" class="form-control" />
+    </div>
+    <div class="form-group">
+        <label asp-for="State"></label>
+        <input asp-for="State" class="form-control" />
+    </div>
+    <div class="form-group">
+        <label asp-for="Zip"></label>
+        <input asp-for="Zip" class="form-control" />
+    </div>
+
+
+
+    
+    <button type="submit" class="btn btn-primary">Update</button>
+</form>
+
+<a asp-controller="Owner" asp-action="Dashboard" class="btn btn-secondary" style="width:150px">
+    Back
+</a>
+
+

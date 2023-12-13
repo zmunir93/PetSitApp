@@ -1,5 +1,20 @@
 ﻿@model Pet
 
+@{
+    if (Model.OwnerId.ToString() != null)
+    { // User exist
+        <div class="progress">
+            <div class="progress-bar bg-success" role="progressbar" style="width: 25%;" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
+        </div>
+    }
+    else
+    { // User does not exist
+        <div class="progress">
+            <div class="progress-bar bg-success" role="progressbar" style="width: 50%;" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100"></div>
+        </div>
+    }
+
+}
 
 <div class="row">
     <div class="col-md-4">
@@ -107,6 +122,6 @@
 </div>
 
 <div>
-    <a asp-action="Dashboard" asp-controller="Owner" class="btn btn-danger">Back to Dashboard</a>
+    <a asp-action="OwnerDashboard" asp-controller="Owner" class="btn btn-danger">Back to Dashboard</a>
 </div>
 

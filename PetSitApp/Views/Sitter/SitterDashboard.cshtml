@@ -58,7 +58,7 @@
                         <img src="@Url.Action("GetPetImage", "Owner", new { petId = pet.Id })" alt="Pet Image" width="50" height="50" />
                     </th>
                     <td>@pet.Name</td>
-                    <td>@Model.Owner.Name</td>
+                    <td>@Model.Owner.FirstName</td>
                     <td>@reservation.StartDate.ToString("MM/dd/yyyy") - @reservation.EndDate.ToString("MM/dd/yyyy")</td>
                     <td>@reservation.JobType</td>
                 </tr>

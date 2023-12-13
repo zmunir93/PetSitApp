@@ -89,7 +89,7 @@ namespace PetSitApp.Controllers
 
                 await _db.SaveChangesAsync();
 
-                return RedirectToAction("Dashboard", "Owner");
+                return RedirectToAction("OwnerDashboard", "Owner");
             }
             return View(model);      
         }

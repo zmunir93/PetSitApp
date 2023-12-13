@@ -5,26 +5,26 @@
 
 
 
-@if (Model == null || string.IsNullOrEmpty(Model.Owner.Name))
+@if (Model == null || string.IsNullOrEmpty(Model.Owner.FirstName))
 {
     
-    <a asp-controller="Owner" asp-action="Create" class="btn btn-secondary" style="width:150px">
+    <a asp-controller="Owner" asp-action="CreateOwner" class="btn btn-secondary" style="width:150px">
         Add Info
     </a>
 }
 else 
 {
-<h1>@(char.ToUpper(Model.Owner.Name[0]) + Model.Owner.Name.Substring(1))'s Dashboard</h1>
+<h1>@(char.ToUpper(Model.Owner.FirstName[0]) + Model.Owner.FirstName.Substring(1))'s Dashboard</h1>
     
     <img src="@Url.Action("GetOwnerImage", "Owner")" alt="Your profile picture" width="200" height="200">
     
-            <h1 width="50%">@Model.Owner.Name</h1>
+            <h1 width="50%">@Model.Owner.FirstName</h1>
         
-            <h4 width="50%">@Model.Owner.Email</h4>
+            <h4 width="50%">@Model.Owner.LastName</h4>
         
             <p width="50%">@Model.Owner.Age years old</p>
         
-    <a asp-controller="Owner" asp-action="Edit" asp-route-id="@Model.Owner.Id" class="btn btn-primary mx-2"><i class="bi bi-pencil-square"></i></a>
+    <a asp-controller="Owner" asp-action="EditOwner" asp-route-id="@Model.Owner.Id" class="btn btn-primary mx-2"><i class="bi bi-pencil-square"></i></a>
 
     <h1></h1>
 }

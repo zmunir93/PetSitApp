@@ -15,9 +15,10 @@ namespace PetSitApp.Controllers
             _db = db;
         }
 
-        // GET
+        // GET /////////////////////////////////////////
+
         [Authorize(Roles = "Owner")]
-        public async Task<IActionResult> Dashboard()
+        public async Task<IActionResult> OwnerDashboard()
         {
             var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
 
@@ -75,20 +76,47 @@ namespace PetSitApp.Controllers
             return View(objOwnerList);
         }
 
-        // GET
-        public IActionResult Create()
+        public IActionResult CreateOwner()
         {
            
             return View();
         }
 
-        
+        [Authorize(Roles = "Owner")]
+        [HttpGet]
+        public async Task<IActionResult> EditOwner(int id)
+        {
+            var ownerFromDb = await _db.Owners.FindAsync(id);
 
-        // POST
+            if (ownerFromDb == null)
+            {
+                return NotFound();
+            }
+            return View(ownerFromDb);
+        }
+
+        public IActionResult DeleteOwner(int? id)
+        {
+            if (id == null || id == 0)
+            {
+                return NotFound();
+            }
+            var ownerFromDb = _db.Owners.Find(id);
+
+            if (ownerFromDb == null)
+            {
+                return NotFound();
+            }
+            return View(ownerFromDb);
+        }
+
+
+        // POST ////////////////////////////////////////////
+
         [HttpPost]
         [ValidateAntiForgeryToken]
         [RequestSizeLimit(2621440)] // Limit to 2.5MB
-        public async Task<IActionResult> Create(Owner model, IFormFile ProfilePicture)
+        public async Task<IActionResult> CreateOwner(Owner model, IFormFile ProfilePicture)
         {
 
             //User of the login session's Id #
@@ -113,28 +141,13 @@ namespace PetSitApp.Controllers
             _db.Owners.Add(model);
             await _db.SaveChangesAsync();
 
-            return RedirectToAction("Dashboard");
+            return RedirectToAction("CreatePet", "Pet");
 
         }
 
-        // GET
-        [Authorize(Roles = "Owner")]
-        [HttpGet]
-        public async Task<IActionResult> Edit(int id)
-        {
-            var ownerFromDb = await _db.Owners.FindAsync(id);
-
-            if (ownerFromDb == null) 
-            {
-                return NotFound();
-            }
-            return View(ownerFromDb);
-        }
-
-        // POST
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, Owner model)
+        public async Task<IActionResult> EditOwner(int id, Owner model)
         {
             if (id != model.Id)
             {
@@ -153,23 +166,9 @@ namespace PetSitApp.Controllers
                 
         }
 
-        // GET
-        public IActionResult Delete(int? id)
-        {
-            if (id == null || id == 0)
-            {
-                return NotFound();
-            }
-            var ownerFromDb = _db.Owners.Find(id);
+        
+        // DELETE /////////////////////////////////////////
 
-            if (ownerFromDb == null)
-            {
-                return NotFound();
-            }
-            return View(ownerFromDb);
-        }
-
-        // POST
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public IActionResult DeletePost(int? id)

@@ -13,7 +13,7 @@ public partial class Pet
 
     public string Name { get; set; } = null!;
 
-    public int Age { get; set; }
+    public int? Age { get; set; }
 
     public string Breed { get; set; } = null!;
 
@@ -42,6 +42,8 @@ public partial class Pet
     public string? AdditionalInfo { get; set; }
 
     public string? VetInformation { get; set; }
+
+    public DateTime? DateOfBirth { get; set; }
 
     public virtual Owner Owner { get; set; } = null!;
 

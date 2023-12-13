@@ -15,7 +15,7 @@ public partial class Sitter
 
     public string LastName { get; set; } = null!;
 
-    public int Age { get; set; }
+    public int? Age { get; set; }
 
     public string Address { get; set; } = null!;
 
@@ -28,6 +28,8 @@ public partial class Sitter
     public double? Latitude { get; set; }
 
     public double? Longitude { get; set; }
+
+    public DateTime? DateOfBirth { get; set; }
 
     public virtual ICollection<DaysUnavailable> DaysUnavailables { get; set; } = new List<DaysUnavailable>();
 

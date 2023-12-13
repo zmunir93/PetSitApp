@@ -1,0 +1,37 @@
+﻿@model User
+
+
+
+<h1> User Register page</h1>
+
+@{
+    var isUserLoggedIn = User.Identity.IsAuthenticated;
+
+}
+
+@if (isUserLoggedIn)
+{
+    <div class="progress">
+        <div class="progress-bar bg-success" role="progressbar" style="width: 50%;" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100"></div>
+    </div>
+}
+else
+{
+    <div class="progress">
+        <div class="progress-bar bg-success" role="progressbar" style="width: 25%;" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
+    </div>
+}
+
+<form method="post">
+    <h4>Enter a Username and Password to create an Owner account</h4>
+    <div>
+        <label asp-for="Username"></label>
+        <input type="text" asp-for="Username" required/>
+    </div>
+    <div>
+        <label asp-for="Password"></label>
+        <input asp-for="Password" type="password" required/>
+    </div>
+    <button type="submit">Register</button>
+    <a asp-controller="User" asp-action="Login">Back</a>
+</form>

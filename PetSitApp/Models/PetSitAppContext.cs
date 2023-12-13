@@ -56,7 +56,11 @@ public partial class PetSitAppContext : DbContext
         {
             entity.HasIndex(e => e.UserId, "IX_Owners_UserId").IsUnique();
 
+            entity.Property(e => e.Address).HasMaxLength(50);
+            entity.Property(e => e.City).HasMaxLength(20);
             entity.Property(e => e.ProfilePicture).HasDefaultValueSql("(0x)");
+            entity.Property(e => e.State).HasMaxLength(15);
+            entity.Property(e => e.Zip).HasMaxLength(5);
 
             entity.HasOne(d => d.User).WithOne(p => p.Owner).HasForeignKey<Owner>(d => d.UserId);
         });

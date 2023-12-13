@@ -69,7 +69,7 @@ namespace PetSitApp.Controllers
         {
             return View();
         }
-        public IActionResult Register()
+        public IActionResult RegisterOwner()
         {
             return View();
         }
@@ -120,7 +120,7 @@ namespace PetSitApp.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Login(string username, string password, bool rememberMe)
+        public async Task<IActionResult> OwnerLogin(string username, string password, bool rememberMe)
         {
             // Check to make sure username and password are not null
             if (username == null || password == null)
@@ -202,7 +202,7 @@ namespace PetSitApp.Controllers
             CookieAuthenticationDefaults.AuthenticationScheme,
             new ClaimsPrincipal(claimsIdentity),
             authProperties);
-            return RedirectToAction("Dashboard", "Owner");
+            return RedirectToAction("OwnerDashboard", "Owner");
         }
 
         public async Task<IActionResult> LoginSitter(string username, string password, bool rememberMe)
@@ -396,7 +396,7 @@ namespace PetSitApp.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Register(User model)
+        public async Task<IActionResult> RegisterOwner(User model)
         {
             ModelState.Remove("Owner");
             if (ModelState.IsValid)
@@ -454,8 +454,8 @@ namespace PetSitApp.Controllers
 
                 await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(claimsIndentity), authProperties);
 
-                TempData["success"] = "Successful creation of account";
-                return RedirectToAction("Dashboard", "Owner");
+                //TempData["success"] = "Successful creation of account";
+                return RedirectToAction("CreateOwner", "Owner");
             }
 
             else
