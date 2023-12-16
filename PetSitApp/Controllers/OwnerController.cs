@@ -27,9 +27,22 @@ namespace PetSitApp.Controllers
                 .ThenInclude(p => p.PetPictures)
                 .FirstOrDefaultAsync(o => o.UserId.Equals(int.Parse(userId)));
 
+            if (owner == null)
+            {
+                // Handle the case where no owner is found for the given user ID
+                return RedirectToAction("CreateOwner", "Owner");
+            }
+
             var reservations = await _db.Reservations.Where(r => r.OwnerId.Equals(owner.Id)).ToListAsync();
 
-            var sitter = await _db.Sitters.FirstOrDefaultAsync(s => s.Id.Equals(reservations.FirstOrDefault().SitterId));
+            var firstReservation = reservations.FirstOrDefault(r => r.SitterId != null);
+            var sitter = firstReservation != null
+                ? await _db.Sitters.FirstOrDefaultAsync(s => s.Id.Equals(firstReservation.SitterId))
+                : null;
+
+
+
+            //var sitter = await _db.Sitters.FirstOrDefaultAsync(s => s.Id.Equals(reservations.FirstOrDefault().SitterId));
 
             var viewModel = new DashboardViewModel()
             {
