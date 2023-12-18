@@ -1,8 +1,10 @@
 ﻿@model PetSitApp.ViewModels.AvailabilityViewModel
 
+<div class="progress">
+    <div class="progress-bar bg-success" role="progressbar" style="width: 80%;" aria-valuenow="80" aria-valuemin="0" aria-valuemax="100"></div>
+</div>
 
-
-<form asp-action="EditAvailability">
+<form asp-action="EditAvailability" autocomplete="off">
     <h2>Edit Your Availability</h2>
     <fieldset class="form-group">
         <legend class="mt-4">Select which day/s of the week you cannot sit</legend>
@@ -53,6 +55,6 @@
         </div>
     
         <button type="submit"  class="btn btn-primary">Submit</button>
-        <a class="btn btn-secondary" asp-action="SitterDashboard">Back</a>
+        @*<a class="btn btn-secondary" asp-action="SitterDashboard">Back</a>*@
     </fieldset>
 </form>

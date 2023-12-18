@@ -14,6 +14,7 @@
                 <h5 class="card-title" width="50%">@Model.Sitter.FirstName @Model.Sitter.LastName</h5>
                 <p class="card-text" width="50%">@Model.Sitter.Age years old</p>
                 <p class="card-text" width="50%">@Model.Sitter.City, @Model.Sitter.State</p>
+                <p class="card-text" width="50%">@Model.Sitter.Bio</p>
                 <a asp-controller="Sitter" asp-action="EditSitter" asp-route-id="@Model.Sitter.Id" class="btn btn-primary mx-2">Edit Info <i class="bi bi-pencil-square"></i></a>
             </div>
         </div>

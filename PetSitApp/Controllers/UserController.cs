@@ -388,7 +388,7 @@ namespace PetSitApp.Controllers
                 await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(claimsIndentity), authProperties);
 
                 TempData["success"] = "Successful creation of account";
-                return RedirectToAction("SitterDashboard", "Sitter");
+                return RedirectToAction("CreateSitter", "Sitter");
             }
 
             return View();

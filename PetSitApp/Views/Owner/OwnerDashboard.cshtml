@@ -18,11 +18,10 @@ else
     
     <img src="@Url.Action("GetOwnerImage", "Owner")" alt="Your profile picture" width="200" height="200">
     
-            <h1 width="50%">@Model.Owner.FirstName</h1>
-        
-            <h4 width="50%">@Model.Owner.LastName</h4>
-        
-            <p width="50%">@Model.Owner.Age years old</p>
+        <h1 width="50%">@Model.Owner.FirstName</h1>
+        <h4 width="50%">@Model.Owner.LastName</h4>
+        <p width="50%">@Model.Owner.Age years old</p>
+        <p width="50%">@Model.Owner.Bio</p>
         
     <a asp-controller="Owner" asp-action="EditOwner" asp-route-id="@Model.Owner.Id" class="btn btn-primary mx-2"><i class="bi bi-pencil-square"></i></a>
 

@@ -57,6 +57,7 @@ public partial class PetSitAppContext : DbContext
             entity.HasIndex(e => e.UserId, "IX_Owners_UserId").IsUnique();
 
             entity.Property(e => e.Address).HasMaxLength(50);
+            entity.Property(e => e.Bio).HasMaxLength(150);
             entity.Property(e => e.City).HasMaxLength(20);
             entity.Property(e => e.ProfilePicture).HasDefaultValueSql("(0x)");
             entity.Property(e => e.State).HasMaxLength(15);
@@ -138,6 +139,7 @@ public partial class PetSitAppContext : DbContext
             entity.HasIndex(e => e.UserId, "IX_Sitters").IsUnique();
 
             entity.Property(e => e.Address).HasMaxLength(50);
+            entity.Property(e => e.Bio).HasMaxLength(150);
             entity.Property(e => e.City).HasMaxLength(20);
             entity.Property(e => e.FirstName).HasMaxLength(20);
             entity.Property(e => e.LastName).HasMaxLength(20);

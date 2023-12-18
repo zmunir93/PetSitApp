@@ -17,6 +17,10 @@
         <input asp-for="LastName" class="form-control" />
     </div>
     <div class="form-group">
+        <label asp-for="Bio"></label>
+        <input asp-for="Bio" class="form-control" />
+    </div>
+    <div class="form-group">
         <label asp-for="Age"></label>
         <input asp-for="Age" class="form-control" />
     </div>
@@ -43,7 +47,7 @@
     <button type="submit" class="btn btn-primary">Update</button>
 </form>
 
-<a asp-controller="Owner" asp-action="Dashboard" class="btn btn-secondary" style="width:150px">
+<a asp-controller="Owner" asp-action="OwnerDashboard" class="btn btn-secondary" style="width:150px">
     Back
 </a>
 

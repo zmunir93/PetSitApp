@@ -1,10 +1,10 @@
 ﻿@model PetSitApp.ViewModels.ServicesViewModel
-@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
-@{
-}
-<h1>Services page</h1>
+
+<h1>Add Your Services</h1>
+
+<div class="progress">
+    <div class="progress-bar bg-success" role="progressbar" style="width: 60%;" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100"></div>
+</div>
 
 <form asp-action="Services">
     <fieldset class="form-group">
@@ -38,7 +38,7 @@
             <br />
             Rate: <input class="form-control form-control-sm" id="walking-rate" type="number" asp-for="WalkingRate" disabled />
         </div>
-        <button type="submit" class="btn btn-primary">Submit</button>
-        <a class="btn btn-secondary" asp-action="SitterDashboard">Back</a>
+        <button type="submit" class="btn btn-primary">Next</button>
+        @*<a class="btn btn-secondary" asp-action="SitterDashboard">Back</a>*@
     </fieldset>
 </form>

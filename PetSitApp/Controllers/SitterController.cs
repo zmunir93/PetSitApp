@@ -35,10 +35,14 @@ namespace PetSitApp.Controllers
 
             var reservations = await _db.Reservations.Where(r => r.SitterId.Equals(sitter.Id)).ToListAsync();
 
-            var owner = await _db.Owners
+            var firstReservation = reservations.FirstOrDefault(r => r.OwnerId != null);
+
+            var owner = firstReservation !=  null
+                ?await _db.Owners
                 .Include(o => o.Pets)
                 .ThenInclude(p => p.PetPictures)
-                .FirstOrDefaultAsync(s => s.Id.Equals(reservations.FirstOrDefault().OwnerId));
+                .FirstOrDefaultAsync(s => s.Id.Equals(reservations.FirstOrDefault().OwnerId))
+                : null;
 
             var viewModel = new SitterDashboardViewModel()
             {
@@ -208,7 +212,7 @@ namespace PetSitApp.Controllers
                 await _db.SaveChangesAsync();
 
                 TempData["success"] = "Account successfully created";
-                return RedirectToAction("SitterDashboard");
+                return RedirectToAction("Services");
             }
 
             return View();
@@ -336,7 +340,7 @@ namespace PetSitApp.Controllers
 
             await _db.SaveChangesAsync();
 
-            return RedirectToAction("SitterDashboard");
+            return RedirectToAction("EditAvailability");
         }
     }
 }

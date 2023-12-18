@@ -11,6 +11,8 @@ public partial class Sitter
 
     public byte[]? ProfilePicture { get; set; }
 
+    public string? Bio { get; set; }
+
     public string FirstName { get; set; } = null!;
 
     public string LastName { get; set; } = null!;
