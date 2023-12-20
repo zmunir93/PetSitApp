@@ -75,7 +75,34 @@ namespace PetSitApp.Controllers
             return View(sitter);
         }
 
-        public IActionResult EditAvailability()
+        public async Task<IActionResult> EditAvailability(int id)
+        {
+            var weekAvail = await _db.WeekAvailabilities.FirstOrDefaultAsync(wa => wa.SitterId == id);
+
+            var daysUnavail = await _db.DaysUnavailables.FirstOrDefaultAsync(da => da.SitterId == id);
+
+            if (weekAvail == null)
+            {
+                return NotFound();
+            }
+
+            var viewModel = new AvailabilityDisplayViewModel
+            {
+                Monday = weekAvail.Monday,
+                Tuesday = weekAvail.Tuesday,
+                Wednesday = weekAvail.Wednesday,
+                Thursday = weekAvail.Thursday,
+                Friday = weekAvail.Friday,
+                Saturday = weekAvail.Saturday,
+                Sunday = weekAvail.Sunday,
+
+                SelectedDates = new List<DateTime> { daysUnavail.Date }
+            };
+
+            return View(viewModel);
+        }
+
+        public IActionResult SitterAvailability()
         {
             var viewModel = new AvailabilityViewModel();
             
@@ -220,7 +247,7 @@ namespace PetSitApp.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> EditAvailability(AvailabilityViewModel viewModel)
+        public async Task<IActionResult> SitterAvailability(AvailabilityViewModel viewModel)
         {
             if (!ModelState.IsValid)
             {
@@ -340,7 +367,7 @@ namespace PetSitApp.Controllers
 
             await _db.SaveChangesAsync();
 
-            return RedirectToAction("EditAvailability");
+            return RedirectToAction("SitterAvailability");
         }
     }
 }
