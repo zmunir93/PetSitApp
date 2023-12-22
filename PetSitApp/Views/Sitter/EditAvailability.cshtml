@@ -33,27 +33,38 @@
             <input class="form-check-input" asp-for="Sunday" name="Sunday" type="checkbox" value="True" id="flexCheckChecked">
             <label class="form-check-label" for="flexCheckChecked">Sunday</label>
         </div>
-        @if (Model.SelectedDates == null || Model.SelectedDates.Count == 0)
+
+        @if (Model.SelectedDate != null || Model.SelectedDate.Count > 0)
         {
-            <p>No specific dates selected for unavailability. Create a new one</p>
-            <div>
-            <input id="date" asp-for="SelectedDates[0]" placeholder="Choose a specific date" type="text" />
-            </div>
-        } else
-        {
-            @foreach (var date in Model.SelectedDates)
+
+            DateTime today = DateTime.Today;
+            bool futureDateFound = false;
+
+            @foreach (var date in Model.SelectedDate)
             {
-                <p>@date</p>
+                
+                if (date > today)
+                {
+                    <p>@date</p>
+                    futureDateFound = true;
+                }
             }
-            <div>
-                <input id="date" asp-for="SelectedDates" value="" placeholder="Choose a specific date" type="text" />
-            </div>
-        }
+
+            if (futureDateFound == false)
+            {
+                <p>No specific future dates selected for unavailability. Create a new one</p>
+            }
 
 
-        
+        } 
+
+
+        <div>
+            <input id="date" asp-for="SelectedDate" value="" placeholder="Choose a specific date" type="text" />
+        </div>
 
         <button type="submit" class="btn btn-primary">Submit</button>
         @*<a class="btn btn-secondary" asp-action="SitterDashboard">Back</a>*@
     </fieldset>
 </form>
+

@@ -96,7 +96,7 @@ namespace PetSitApp.Controllers
                 Saturday = weekAvail.Saturday,
                 Sunday = weekAvail.Sunday,
 
-                SelectedDates = new List<DateTime> { daysUnavail.Date }
+                SelectedDate = new List<DateTime> { daysUnavail.Date }
             };
 
             return View(viewModel);
@@ -308,7 +308,73 @@ namespace PetSitApp.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Services(ServicesViewModel viewModel)
+        public async Task<IActionResult> EditAvailability(int id, AvailabilityViewModel viewModel)
+        {
+            if (!ModelState.IsValid)
+            {
+                return View();
+            }
+
+            bool weekTbUpdated = false;
+            bool daysTbUpdated = false;
+
+            var weekAvailTable = await _db.WeekAvailabilities.FirstOrDefaultAsync(wa => wa.SitterId.Equals(id));
+            var daysUnavailTable = await _db.DaysUnavailables.FirstOrDefaultAsync(du => du.SitterId.Equals(id));
+
+            if (weekAvailTable != null)
+            {
+                bool anyChangesInWeek =
+                    weekAvailTable.Monday != viewModel.Monday ||
+                    weekAvailTable.Tuesday != viewModel.Tuesday ||
+                    weekAvailTable.Wednesday != viewModel.Wednesday ||
+                    weekAvailTable.Thursday != viewModel.Thursday ||
+                    weekAvailTable.Friday != viewModel.Friday ||
+                    weekAvailTable.Saturday != viewModel.Saturday ||
+                    weekAvailTable.Sunday != viewModel.Sunday;
+
+                if (anyChangesInWeek)
+                {
+                    weekAvailTable.Monday = viewModel.Monday;
+                    weekAvailTable.Tuesday = viewModel.Tuesday;
+                    weekAvailTable.Wednesday = viewModel.Wednesday;
+                    weekAvailTable.Thursday = viewModel.Thursday;
+                    weekAvailTable.Friday = viewModel.Friday;
+                    weekAvailTable.Saturday = viewModel.Saturday;
+                    weekAvailTable.Sunday = viewModel.Sunday;
+
+                    _db.WeekAvailabilities.Update(weekAvailTable);
+                    weekTbUpdated = true;
+                }
+            }
+
+            if (viewModel.SelectedDate.HasValue)
+            {
+                var newDaysUnavailableEntry = new DaysUnavailable
+                {
+                    SitterId = id,
+                    IsAvailable = false,
+                    Date = viewModel.SelectedDate.Value
+                };
+                
+
+                await _db.DaysUnavailables.AddAsync(newDaysUnavailableEntry);
+                daysTbUpdated = true;
+            }
+
+            if (weekTbUpdated == true || daysTbUpdated == true)
+            {
+                await _db.SaveChangesAsync();
+                TempData["success"] = "Availability Updated";
+                return RedirectToAction("SitterDashboard");
+            }
+
+            TempData["error"] = "No changes have been made";
+            return RedirectToAction("EditAvailability");
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Services(int id, ServicesViewModel viewModel)
         {
             var sitter = await GetCurrentSitter();
 

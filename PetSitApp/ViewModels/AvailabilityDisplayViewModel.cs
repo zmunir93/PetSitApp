@@ -10,7 +10,7 @@
             public bool Saturday { get; set; }
             public bool Sunday { get; set; }
 
-            public List<DateTime>? SelectedDates { get; set; }
+            public List<DateTime>? SelectedDate { get; set; }
         
     }
 }
