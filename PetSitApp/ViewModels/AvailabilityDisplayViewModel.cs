@@ -1,4 +1,6 @@
-﻿namespace PetSitApp.ViewModels
+﻿using PetSitApp.Models;
+
+namespace PetSitApp.ViewModels
 {
     public class AvailabilityDisplayViewModel
     {
@@ -10,7 +12,7 @@
             public bool Saturday { get; set; }
             public bool Sunday { get; set; }
 
-            public List<DateTime>? SelectedDate { get; set; }
+            public List<DaysUnavailable>? SelectedDate { get; set; }
         
     }
 }

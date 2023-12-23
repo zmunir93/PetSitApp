@@ -79,7 +79,9 @@ namespace PetSitApp.Controllers
         {
             var weekAvail = await _db.WeekAvailabilities.FirstOrDefaultAsync(wa => wa.SitterId == id);
 
-            var daysUnavail = await _db.DaysUnavailables.FirstOrDefaultAsync(da => da.SitterId == id);
+            var daysUnavail = await _db.DaysUnavailables
+                .Where(du => du.SitterId.Equals(id))
+                .ToListAsync();
 
             if (weekAvail == null)
             {
@@ -96,7 +98,7 @@ namespace PetSitApp.Controllers
                 Saturday = weekAvail.Saturday,
                 Sunday = weekAvail.Sunday,
 
-                SelectedDate = new List<DateTime> { daysUnavail.Date }
+                SelectedDate = daysUnavail.ToList(),
             };
 
             return View(viewModel);

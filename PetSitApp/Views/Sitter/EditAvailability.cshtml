@@ -40,22 +40,30 @@
             DateTime today = DateTime.Today;
             bool futureDateFound = false;
 
-            @foreach (var date in Model.SelectedDate)
-            {
                 
-                if (date > today)
+                    
+                @foreach (var daysUnObj in Model.SelectedDate)
                 {
-                    <p>@date</p>
+                    
+                    @if (daysUnObj.Date > today)
+                    {
+                    <ul class="list-group">
+                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                            <p>@daysUnObj.Date</p>
+                            <span class="btn btn-danger"><i class="fa-solid fa-trash"></i></span>
+                        </li>
+                    </ul>
                     futureDateFound = true;
+                    }
                 }
-            }
+                    
 
-            if (futureDateFound == false)
-            {
-                <p>No specific future dates selected for unavailability. Create a new one</p>
-            }
-
-
+                if (futureDateFound == false)
+                {
+                    <p>No specific future dates selected for unavailability. Create a new one</p>
+                }
+                
+            
         } 
 
 
