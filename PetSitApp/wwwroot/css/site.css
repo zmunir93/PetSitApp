@@ -88,7 +88,17 @@ footer {
 }
 
 .text-wrap {
-    background: rgb(255 255 255 / 30%);
+    background: rgb(0 0 0 / 24%);
     padding: .8rem;
     border-radius: 6px;
 }
+
+    .text-wrap h1,
+    .text-wrap h2 {
+        color: white;
+    }
+
+/*.container-fluid {
+    display: flex !important;
+    justify-content: flex-end !important;
+}*/
