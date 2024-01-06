@@ -1,54 +1,73 @@
-﻿<h1>Login Page</h1>
-@*<div class="fb-login-button" data-width="" data-size="" data-button-type="" data-layout="" data-auto-logout-link="false" data-use-continue-as="false"></div>*@
+﻿
 
-@{
-    ViewData["Title"] = "Login as Owner";
-}
 
 <div class="login-container">
-    <div>
-        <h2>@ViewData["Title"]</h2>
-        <form action="@Url.Action("OwnerLogin", "User")" method="post">
-            <div>
-                <label>Username:</label>
-                <input type="text" name="username" required />
-            </div>
-            <div>
-                <label>Password:</label>
-                <input type="password" name="password" required />
-            </div>
-            <button type="submit">Login</button>
-            <input type="checkbox" id="rememberMe" name="rememberMe"/>
-            <label for"rememberMe">Remember Me</label>
+
+    <label class="switch">
+        <input type="checkbox">
+        <span class="slider"></span>
+    </label>
+
+    
+    <div id="owner-login-container" class="text-center mb-4">
+        <h2>Login as an Owner</h2>
+        <form class="form-group mx-auto" action="@Url.Action("OwnerLogin", "User")" method="post">
+
+
+            <div class="form-group row m-3">
+                    <label class="col-sm-2 col-form-label">Username:</label>
+                    <div class="col-sm-6">
+                        <input class="form-control mb-1" type="text" name="username" required />
+                    </div>
+                </div>
+                <div class="form-group row m-3">
+                    <label for="password" class="col-sm-2 col-form-label">Password:</label>
+                    <div class="col-sm-6">
+                        <input type="password" class="form-control" id="password" name="password" required />
+                    </div>
+                </div>
+                <button class="btn btn-primary" type="submit">Login</button>
+                @*<input type="checkbox" id="rememberMe" name="rememberMe"/>
+                <label for"rememberMe">Remember Me</label>*@
+           
+
         </form>
         <br />
         <br />
         <h4> Dont have an Owner account?</h4>
         <a asp-controller="User" asp-action="RegisterOwner">
-            <button>Create Account</button>
+            <button class="btn btn-primary mt-2">Create Account</button>
         </a>
     </div>
 
-    <div>
-        <h2>Login as Sitter</h2>
-        <form action="@Url.Action("LoginSitter", "User")" method="post">
-            <div>
-                <label>Username:</label>
-                <input type="text" name="username" required />
+    <div id="sitter-login-container" class="text-center mb-4">
+        <h2>Login as a Sitter</h2>
+        <form class="form-group mx-auto" action="@Url.Action("LoginSitter", "User")" method="post">
+
+
+            <div class="form-group row m-3">
+                <label class="col-sm-2 col-form-label">Username:</label>
+                <div class="col-sm-6">
+                    <input class="form-control mb-1" type="text" name="username" required />
+                </div>
             </div>
-            <div>
-                <label>Password:</label>
-                <input type="password" name="password" required />
+            <div class="form-group row m-3">
+                <label class="col-sm-2 col-form-label">Password:</label>
+                <div class="col-sm-6">
+                    <input class="form-control" type="password" name="password" required />
+                </div>
             </div>
-            <button type="submit">Login</button>
-            <input type="checkbox" id="rememberMe" name="rememberMe" />
-            <label for"rememberMe">Remember Me</label>
+            <button class="btn btn-primary" type="submit">Login</button>
+            @*<input type="checkbox" id="rememberMe" name="rememberMe" />
+            <label for"rememberMe">Remember Me</label>*@
+
+
         </form>
         <br />
         <br />
         <h4> Dont have a Sitter account?</h4>
         <a asp-controller="User" asp-action="RegisterSitter">
-            <button>Create Account</button>
+            <button class="btn btn-primary mt-2">Create Account</button>
         </a>
     </div>
 </div>
