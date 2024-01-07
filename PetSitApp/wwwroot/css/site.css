@@ -160,14 +160,15 @@ input:checked + .slider:before {
 }
 
 
-/*#owner-login-container {
-    display: none;
+#owner-login-container {
+    display: block;
     
-}*/
+}
 
 
 
 #sitter-login-container {
     display: none;
 }
+
 

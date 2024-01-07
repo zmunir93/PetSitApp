@@ -1,10 +1,10 @@
 ﻿
 
 
-<div class="login-container">
+<div class="login-container" id="login-container">
 
     <label class="switch">
-        <input type="checkbox">
+        <input type="checkbox" id="loginSwitch">
         <span class="slider"></span>
     </label>
 
@@ -71,4 +71,24 @@
         </a>
     </div>
 </div>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        document.getElementById("loginSwitch").addEventListener("change", function () {
+            var ownerContainer = document.getElementById("owner-login-container");
+            var sitterContainer = document.getElementById("sitter-login-container");
+            var loginContainer = document.getElementById("login-container");
+
+            if (this.checked) {
+                ownerContainer.style.display = "none";
+                sitterContainer.style.display = "block";
+                loginContainer.style.borderColor = "lightsalmon";
+            } else {
+                ownerContainer.style.display = "block";
+                sitterContainer.style.display = "none";
+                loginContainer.style.borderColor = "#4ab28959"
+            }
+        });
+    });
+</script>
 
