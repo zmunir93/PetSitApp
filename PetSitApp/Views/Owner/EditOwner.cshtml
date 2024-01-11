@@ -1,54 +1,79 @@
 ﻿@model Owner
 
-<h2>Edit Owner Information</h2>
+<div class="col-md-8" style="margin-top: 6vh;">
+    <form asp-action="EditOwner" method="post">
 
-<form asp-action="Edit" method="post">
-    <input type="hidden" asp-for="UserId" />
-    <div class="form-group">
-        <label asp-for="ProfilePicture">Profile Picture</label><br />
-        <input type="file" asp-for="ProfilePicture" class="form-control" id="img"  accept="image/*">
-    </div>
-    <div class="form-group">
-        <label asp-for="FirstName"></label>
-        <input asp-for="FirstName" class="form-control" />
-    </div>
-    <div class="form-group">
-        <label asp-for="LastName"></label>
-        <input asp-for="LastName" class="form-control" />
-    </div>
-    <div class="form-group">
-        <label asp-for="Bio"></label>
-        <input asp-for="Bio" class="form-control" />
-    </div>
-    <div class="form-group">
-        <label asp-for="Age"></label>
-        <input asp-for="Age" class="form-control" />
-    </div>
-    <div class="form-group">
-        <label asp-for="Address"></label>
-        <input asp-for="Address" class="form-control" />
-    </div>
-    <div class="form-group">
-        <label asp-for="City"></label>
-        <input asp-for="City" class="form-control" />
-    </div>
-    <div class="form-group">
-        <label asp-for="State"></label>
-        <input asp-for="State" class="form-control" />
-    </div>
-    <div class="form-group">
-        <label asp-for="Zip"></label>
-        <input asp-for="Zip" class="form-control" />
-    </div>
+        <div class="p-3 mt-4">
+            <h2 class="text-primary pb-2">Edit your Profile information</h2>
+            <input type="hidden" asp-for="UserId" />
+
+            <div class="mb-3 col-5">
+                <label asp-for="ProfilePicture">Profile Picture</label><br />
+                <input type="file" asp-for="ProfilePicture" class="form-control" id="img" accept=".jpg,.jpeg">
+                <span asp-validation-for="ProfilePicture" class="text-danger"></span>
+            </div>
+
+            <div class="row">
+                <div class="mb-3 col-md-5">
+                    <label asp-for="FirstName"></label>
+                    <input asp-for="FirstName" class="form-control"/>
+                    <span asp-validation-for="FirstName" class="text-danger"></span>
+                </div>
+                <div class="mb-3 col-md-5">
+                    <label asp-for="LastName"></label>
+                    <input asp-for="LastName" class="form-control"/>
+                    <span asp-validation-for="FirstName" class="text-danger"></span>
+                </div>
+            </div>
+            
+            <div class="form-group mb-3">
+                <label asp-for="Bio"></label>
+                <textarea asp-for="Bio" class="form-control" rows="4"></textarea>
+                <span asp-validation-for="Bio" class="text-danger"></span>
+            </div>
+
+            <div class="mb-3 col-md-5">
+                    <label asp-for="DateOfBirth">Date of Birth</label>
+                    <input type="date" asp-for="DateOfBirth" class="form-control" />
+                    <span asp-validation-for="DateOfBirth" class="text-danger"></span>
+            </div>
 
 
+            <div class="mb-3 col-md-8">
+                    <label asp-for="Address" class="control-label"></label>
+                    <input asp-for="Address" class="form-control" />
+                    <span asp-validation-for="Address" class="text-danger"></span>
+            </div>
 
-    
-    <button type="submit" class="btn btn-primary">Update</button>
-</form>
+            <div class="row">
+                <div class="mb-3 col-md-5">
+                        <label asp-for="City" class="control-label"></label>
+                        <input asp-for="City" class="form-control" />
+                        <span asp-validation-for="City" class="text-danger"></span>
+                    </div>
+                    <div class="mb-3 col-md-2">
+                        <label asp-for="State" class="control-label"></label>
+                        <input asp-for="State" class="form-control" />
+                        <span asp-validation-for="State" class="text-danger"></span>
+                    </div>
+                    <div class="mb-3 col-md-2">
+                        <label asp-for="Zip" class="control-label"></label>
+                        <input asp-for="Zip" class="form-control" />
+                        <span asp-validation-for="Zip" class="text-danger"></span>
+                    </div>
+            </div>
+            
+        </div>
+        
 
-<a asp-controller="Owner" asp-action="OwnerDashboard" class="btn btn-secondary" style="width:150px">
-    Back
-</a>
+        <button type="submit" class="btn btn-primary">Update</button>
+        <a asp-controller="Owner" asp-action="OwnerDashboard" class="btn btn-secondary">
+            Back
+        </a>
+    </form>
+</div>
+
+
+
 
 

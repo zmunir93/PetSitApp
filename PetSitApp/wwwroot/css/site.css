@@ -139,7 +139,7 @@ footer {
         border-radius: 0.3em;
         left: 0.3em;
         bottom: 0.7em;
-        background-color: lightsalmon;
+        background-color: lightgreen;
         transition: 0.4s;
         box-shadow: 0 0.4em #bcb4b4;
     }
@@ -151,7 +151,7 @@ footer {
 
 input:checked + .slider:before {
     transform: translateX(2em);
-    background: lightgreen;
+    background: lightsalmon;
 }
 
 .login-container {

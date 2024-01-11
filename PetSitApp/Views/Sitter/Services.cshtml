@@ -1,44 +1,48 @@
 ﻿@model PetSitApp.ViewModels.ServicesViewModel
 
-<h1>Add Your Services</h1>
-
-<div class="progress">
+<div class="progress mt-xxl-5" style="margin-top: 10vh;">
     <div class="progress-bar bg-success" role="progressbar" style="width: 60%;" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100"></div>
 </div>
 
-<form asp-action="Services">
-    <fieldset class="form-group">
-        <legend class="mt-4">Select which services you'd like to offer and their rates</legend>
+<div class="col-md-8">
+    <form asp-action="Services">
+        <div class="p-3 mt4">
+            <h2 class="text-primary mb-3">Add your Services and their Rates</h2>
 
-        <div class="form-check">
-            <input class="form-check-input" asp-for="IsDog" type="checkbox">
-            <label class="form-check-label">
-                Dog <i class="fa-solid fa-dog"></i>
-            </label>
-        </div>
-        <div class="form-check">
-            <input class="form-check-input" asp-for="IsCat" type="checkbox">
-            <label class="form-check-label">
-                Cat <i class="fa-solid fa-cat"></i>
-            </label>
-        </div>
+            <div class="form-check mb-3">
+                <input class="form-check-input" asp-for="IsDog" type="checkbox">
+                <label class="form-check-label">
+                    Dog <i class="fa-solid fa-dog"></i>
+                </label>
+            </div>
+            <div class="form-check mb-3">
+                <input class="form-check-input" asp-for="IsCat" type="checkbox">
+                <label class="form-check-label">
+                    Cat <i class="fa-solid fa-cat"></i>
+                </label>
+            </div>
 
-        <div class="form-check">
-            <input class="form-check-input" id="boarding-check" type="checkbox" asp-for="OffersBoarding"> Boarding <i class="fa-solid fa-suitcase"></i>
-            <br />
-            Rate: <input class="form-control form-control-sm " id="boarding-rate" type="number" asp-for="BoardingRate" disabled/>
-        </div>
-        <div class="form-check">
-            <input class="form-check-input" id="home-check" asp-for="OffersHomeSits" type="checkbox" > Home Sitting <i class="fa-solid fa-house"></i>
-            <br />
-            Rate: <input class="form-control form-control-sm" id="home-rate" type="number" asp-for="HomeSitRate" disabled/>
-        </div>
-        <div class="form-check">
-            <input class="form-check-input" id="walking-check" asp-for="OffersWalking" type="checkbox" > Walking <i class="fa-solid fa-shoe-prints"></i>
-            <br />
-            Rate: <input class="form-control form-control-sm" id="walking-rate" type="number" asp-for="WalkingRate" disabled />
+            <div class="row ms-lg-1">
+                <div class="form-check mb-3 col-2">
+                    <input class="form-check-input" id="boarding-check" type="checkbox" asp-for="OffersBoarding"> Boarding <i class="fa-solid fa-suitcase"></i>
+                    <br />
+                    Rate: <input class="form-control form-control-sm " id="boarding-rate" type="number" asp-for="BoardingRate" disabled />
+                </div>
+                <div class="form-check col-2">
+                    <input class="form-check-input" id="home-check" asp-for="OffersHomeSits" type="checkbox"> Home Sitting <i class="fa-solid fa-house"></i>
+                    <br />
+                    Rate: <input class="form-control form-control-sm" id="home-rate" type="number" asp-for="HomeSitRate" disabled />
+                </div>
+                <div class="form-check col-2">
+                    <input class="form-check-input" id="walking-check" asp-for="OffersWalking" type="checkbox"> Walking <i class="fa-solid fa-shoe-prints"></i>
+                    <br />
+                    Rate: <input class="form-control form-control-sm" id="walking-rate" type="number" asp-for="WalkingRate" disabled />
+                </div>
+            </div>
+
         </div>
         <button type="submit" class="btn btn-primary">Next</button>
         @*<a class="btn btn-secondary" asp-action="SitterDashboard">Back</a>*@
-    </fieldset>
-</form>
+
+    </form>
+</div>

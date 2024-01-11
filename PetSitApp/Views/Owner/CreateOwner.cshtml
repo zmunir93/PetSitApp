@@ -4,19 +4,20 @@
     <div class="progress-bar bg-success" role="progressbar" style="width: 50%;" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100"></div>
 </div>
 
-<div>
+
     <div class="col-md-8">
         <form method="post" enctype="multipart/form-data">
             <div class="p-3 mt4">
-                <div class="row pb-2">
-                    <h2 class="text-primary">Add more info to your profile</h2>
-                </div>
+                
+                <h2 class="text-primary pb-2">Add more info to your profile</h2>
+                
                 @*<div asp-validation-summary="All"></div>*@
                 <div class="mb-3 col-5">
                     <label asp-for="ProfilePicture">Profile Picture</label>
                     <input asp-for="ProfilePicture" class="form-control" type="file" />
                     <span asp-validation-for="ProfilePicture" class="text-danger"></span>
                 </div>
+
                 <div class="row">
                     <div class="mb-3 col-md-5">
                         <label asp-for="FirstName">First Name</label>
@@ -29,6 +30,7 @@
                         <span asp-validation-for="LastName" class="text-danger"></span>
                     </div>
                 </div>
+
                 <div class="mb-3 form-group">
                     <label asp-for="Bio">Bio</label>
                     <textarea asp-for="Bio" class="form-control" rows="4"></textarea>
@@ -72,5 +74,4 @@
             </a>*@
         </form>
     </div>
-</div>
 
