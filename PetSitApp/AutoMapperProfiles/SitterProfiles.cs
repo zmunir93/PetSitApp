@@ -16,6 +16,10 @@ namespace PetSitApp.AutoMapperProfiles
             CreateMap<Sitter, SitterDto>();
             CreateMap<DaysUnavailable, DaysUnavailableDto>();
             CreateMap<WeekAvailability, WeekAvailabilityDto>();
+            CreateMap<ServiceType, ServiceTypeDto>();
+            CreateMap<Service, ServiceDto>()
+    .ForMember(dest => dest.PetType, opt => opt.MapFrom(src => src.PetType));
+
         }
     }
 }

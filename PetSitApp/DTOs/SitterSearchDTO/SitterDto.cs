@@ -2,6 +2,7 @@
 
 namespace PetSitApp.DTOs.SitterSearchDTO
 {
+
     public class SitterDto
     {
         public int Id { get; set; }
@@ -13,6 +14,8 @@ namespace PetSitApp.DTOs.SitterSearchDTO
         public string FirstName { get; set; } = null!;
 
         public string LastName { get; set; } = null!;
+
+        public string Bio { get; set; } = null!;
 
         public int Age { get; set; }
 
@@ -30,7 +33,9 @@ namespace PetSitApp.DTOs.SitterSearchDTO
 
         public virtual ICollection<DaysUnavailableDto> DaysUnavailables { get; set; } = new List<DaysUnavailableDto>();
 
-        public virtual Service? Service { get; set; }
+        public virtual ServiceDto? Service { get; set; }
+
+        
 
         public virtual User User { get; set; } = null!;
 

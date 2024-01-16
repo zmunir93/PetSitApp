@@ -468,7 +468,10 @@ namespace PetSitApp.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> SitterSearch(string dogOrCat, string serviceType, string zipCode, DateTime? startDate, DateTime? endDate)
         {
-            var query = _db.Sitters.AsQueryable();
+            var query = _db.Sitters
+                .Include(s => s.Service)
+                .ThenInclude(ser => ser.ServiceTypes)
+                .AsQueryable();
 
             if (dogOrCat == "IsDog") query = query.Where(s => s.Service.PetType == 1 || s.Service.PetType == 3);
             else if (dogOrCat == "IsCat") query = query.Where(s => s.Service.PetType == 2 || s.Service.PetType == 3);
@@ -497,6 +500,7 @@ namespace PetSitApp.Controllers
 
 
             var sittersWithAvailability = new List<Sitter>();
+
             foreach (var sitter in query.Include(s => s.WeekAvailability).Include(s => s.DaysUnavailables)) //fetching sitters
             {
                 double nonNullableLat = sitter.Latitude.Value;
@@ -552,8 +556,15 @@ namespace PetSitApp.Controllers
             
             query = sittersWithAvailability.AsQueryable();
 
-           
+
+            //var sitterDto = _mapper.Map<List<SitterDto>>(query
+            //    .Include(s => s.Service)
+            //    .ThenInclude(ser => ser.ServiceTypes)
+            //    .ToList());
+            // ... (existing code)
+
             var sitterDto = _mapper.Map<List<SitterDto>>(query.ToList());
+
             var sitterDtoJson = JsonSerializer.Serialize(sitterDto);
 
             var viewModel = new SitterSearchViewModel()

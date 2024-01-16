@@ -14,18 +14,35 @@
             
             foreach (var sitter in Model.Sitters)
             {
-                
-                if (sitter.ProfilePicture != null)
-                {
-                    var base64Image = Convert.ToBase64String(sitter.ProfilePicture);
-                    var imgSrc = $"data:image/png;base64, {base64Image}";
-                    <img class="profile-img" src="@imgSrc" alt="Sitter's Profile Picture" />
-                }
-                <a asp-controller="User" asp-action="SitterCheckoutDash" asp-route-id="@sitter.Id" asp-route-petType="@Model.PetType" asp-route-serviceType="@Model.ServiceType" asp-route-startDate="@Model.StartDate" asp-route-endDate="@Model.EndDate">
-                    <p>@sitter.FirstName</p>
-                    <p>@sitter.LastName</p>
-                    <p>@($"{sitter.City}, {sitter.State}")</p>
-                    <!-- Display other sitter info -->
+                <a class="sitter-card" asp-controller="User" asp-action="SitterCheckoutDash" asp-route-id="@sitter.Id" asp-route-petType="@Model.PetType" asp-route-serviceType="@Model.ServiceType" asp-route-startDate="@Model.StartDate" asp-route-endDate="@Model.EndDate">
+                <div class="something">
+                        
+                        <div id="search-sitter-card">
+                            @if (sitter.ProfilePicture != null)
+                            {
+                                var base64Image = Convert.ToBase64String(sitter.ProfilePicture);
+                                var imgSrc = $"data:image/png;base64, {base64Image}";
+                                <img class="profile-img" src="@imgSrc" alt="Sitter's Profile Picture" />
+                            }
+                            <div class="something2">
+                                <h2>@sitter.FirstName @sitter.LastName</h2>
+
+                                <p>@($"{sitter.City}, {sitter.State}, {sitter.Zip}")</p>
+                            </div>
+                            
+                        </div>
+                        <div class="something3">
+                            <p style="margin-bottom: 0;">From</p>
+                            <h3 style="margin-bottom: 0;">$@sitter.Service.ServiceTypes.FirstOrDefault()?.Rate</h3>
+                            <p>per night</p>
+
+                        </div>
+                        
+                        
+                </div>
+
+                    <p style="padding: 1rem; border-bottom: solid 1px #0000000f;">This is where the user's bio will be. This is just some placeholder text for now since idk how to do lorem ipsum</p>
+                    
                 </a>
             }
             
