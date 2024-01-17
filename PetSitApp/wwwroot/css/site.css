@@ -111,6 +111,7 @@ a, u {
     border-radius: 75px;
     display: flex;
     align-items: center;
+    
 }
 
 .masthead-content {
@@ -191,16 +192,20 @@ input:checked + .slider:before {
     border-radius: 13px;
 }
 
-
 #owner-login-container {
-    display: block;
-    
+    display: block;  
 }
-
-
 
 #sitter-login-container {
     display: none;
 }
 
 
+.checkout-info-container {
+    width: 45rem;
+    margin: 20vh auto;
+    border-radius: 0.5em;
+    padding: 1rem;
+    border: 1px solid #4ab28959;
+    /*border-radius: 13px;*/
+}

@@ -1,43 +1,58 @@
 ﻿@model PetSitApp.ViewModels.SitterCheckoutDashViewModel
-<form method="post" action="@Url.Action("Checkout", "Checkout")" >
+
+
+<form class="checkout-info-container" align="center" method="post" action="@Url.Action("Checkout", "Checkout")">
     @{
     
-        <h1>@Model.Sitter.FirstName's Page</h1>
+        
 
         var serviceTypes = Model.Sitter.Service.ServiceTypes;
+        int totalCost = 0;
+
         if (Model.Sitter.ProfilePicture != null)
         {
             var base64Image = Convert.ToBase64String(Model.Sitter.ProfilePicture);
             var imgSrc = $"data:image/png;base64, {base64Image}";
-            <img class="profile-img" src="@imgSrc" alt="Sitter's Profile Picture" />
+            <img style="margin: 0 auto;" class="profile-img" src="@imgSrc" alt="Sitter's Profile Picture" />
         }
 
-        <p>ID: @Model.Id</p>
-        <p>Pet Type: @Model.PetType</p>
-        //<p>Service Type: @Model.ServiceType</p>
-    
+        <h3 class="m-2">@Model.Sitter.FirstName @Model.Sitter.LastName</h3>
+        
+
         if (serviceTypes != null && serviceTypes.Any())
         {
             foreach (var serviceType in serviceTypes)
             {
-                <p>Service Type: @serviceType.ServiceOffered Rate: $@serviceType.Rate</p>
+                int rate = serviceType.Rate;
+                <p><b>Service Type</b>: @serviceType.ServiceOffered</p>
+                <p><b>Rate per day</b>: $@rate</p>
                 int newRate = serviceType.Rate * 100;
-                <p>@newRate</p>
+                
                 <input type="hidden" name="jobType" value="@serviceType.ServiceOffered" />
                 <input type="hidden" name="rate" value="@newRate" />
+
+                int totalDays1 = Model.EndDate.HasValue && Model.StartDate.HasValue
+                        ? (Model.EndDate.Value - Model.StartDate.Value).Days
+                        : 0;
+
+                totalCost = totalDays1 * rate;
+                
             }
         }
-
         int totalDays = Model.EndDate.HasValue && Model.StartDate.HasValue
         ? (Model.EndDate.Value - Model.StartDate.Value).Days
         : 0;
 
-        <p>Start Date: @Model.StartDate - End Date: @Model.EndDate Total Days: @totalDays</p>
+
+        <p><b>Start Date</b>: @(Model.StartDate?.ToString("MM/dd/yyyy") ?? "N/A") - <b>End Date</b>: @(Model.EndDate?.ToString("MM/dd/yyyy") ?? "N/A")</p>
+        //<p>End Date: @(Model.EndDate?.ToString("MM/dd/yyyy") ?? "N/A")</p>
+        <p><b>Total Days</b>: @totalDays</p>
+        <h4>Total: $ @totalCost</h4>
         <input type="hidden" name="startDate" value="@Model.StartDate" />
         <input type="hidden" name="endDate" value="@Model.EndDate" />
         <input type="hidden" name="quantity" value="@totalDays" />
         <input type="hidden" name="sitterId" value="@Model.Sitter.Id" />
         
-        <button type="submit">Book Now</button>
+        <button class="btn btn-primary" type="submit">Book Now</button>
     }
 </form>

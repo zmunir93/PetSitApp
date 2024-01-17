@@ -557,12 +557,6 @@ namespace PetSitApp.Controllers
             query = sittersWithAvailability.AsQueryable();
 
 
-            //var sitterDto = _mapper.Map<List<SitterDto>>(query
-            //    .Include(s => s.Service)
-            //    .ThenInclude(ser => ser.ServiceTypes)
-            //    .ToList());
-            // ... (existing code)
-
             var sitterDto = _mapper.Map<List<SitterDto>>(query.ToList());
 
             var sitterDtoJson = JsonSerializer.Serialize(sitterDto);
