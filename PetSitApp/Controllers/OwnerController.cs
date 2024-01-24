@@ -35,11 +35,30 @@ namespace PetSitApp.Controllers
 
             var reservations = await _db.Reservations.Where(r => r.OwnerId.Equals(owner.Id)).ToListAsync();
 
-            var firstReservation = reservations.FirstOrDefault(r => r.SitterId != null);
-            var sitter = firstReservation != null
-                ? await _db.Sitters.FirstOrDefaultAsync(s => s.Id.Equals(firstReservation.SitterId))
+            var sitterIds = reservations?.Where(r => r.SitterId != null).Select(r => r.SitterId).ToList();
+
+            //var firstReservation = reservations.Where(r => r.SitterId != null);
+
+            var sitter = sitterIds != null
+                ? await _db.Sitters
+                .ToListAsync()
                 : null;
 
+            var filters = sitter.Where(s => sitterIds.Contains(s.Id)).ToArray();
+
+            //var sitter = await _db.Sitters
+            //    .Where(s => sitterIds.Contains(s.Id))
+            //    .ToListAsync();
+
+            //var sitter = await _db.Sitters
+            //    .Where(s => sitterIds.Contains(s.Id))
+            //    .ToListAsync();
+
+            //var sitter = reservations != null
+            //    ? await _db.Sitters
+            //        .Where(s => reservations.Any(r => r.SitterId == s.Id))
+            //        .ToListAsync()
+            //    : null;
 
 
             //var sitter = await _db.Sitters.FirstOrDefaultAsync(s => s.Id.Equals(reservations.FirstOrDefault().SitterId));
@@ -47,9 +66,9 @@ namespace PetSitApp.Controllers
             var viewModel = new DashboardViewModel()
             {
                 Owner = owner,
-                Sitter = sitter,
+                Sitters = filters,
                 Pets = owner.Pets,
-                Reservation = reservations
+                Reservations = reservations
             };
             
             return View(viewModel);

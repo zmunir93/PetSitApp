@@ -1,8 +1,25 @@
 ﻿@model PetSitApp.ViewModels.SuccessViewModel
-@*@model DateTime*@
-<h1>Congrats! Your sitting has been reserved!</h1>
 
-@*<h1>@Model</h1>*@
-<h1>Your Start Date: @Model.StartDate</h1>
-<h1>Your Start Date: @Model.EndDate</h1>
-<h1>The Sitter Id: @Model.SitterId</h1>
+
+
+@*<div class="checkout-info-container">
+    <h1>Congrats! Your sitting has been reserved!</h1>
+
+    
+    <h1>Your Start Date: @Model.StartDate</h1>
+    <h1>Your Start Date: @Model.EndDate</h1>
+    <h1>The Sitter Id: @Model.Sitter.FirstName @Model.Sitter.LastName</h1>
+    @Model.
+</div>*@
+
+<div align="center" class="" style="margin-top: 12vh">
+    <i class="fa-regular fa-circle-check text-primary mb-5" style="font-size: 12rem"></i>
+    <h1><b>Congrats!</b></h1>
+    <h1 class="mb-5"><b>Your sitting has been reserved with @Model.Sitter.FirstName!</b></h1>
+
+
+    <p class="fs-4 mb-5"><b>Start Date</b>: @Model.StartDate - <b>End Date</b>: @Model.EndDate</p>
+
+    <a asp-controller="Owner" asp-action="OwnerDashboard" class="btn btn-outline-primary">Back To Dashboard</a>
+</div>
+

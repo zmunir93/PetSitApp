@@ -49,7 +49,7 @@ else
 <br />
 <a asp-controller="Pet" asp-action="CreatePet" class="btn btn-primary mx-2">Add Pet</a>
 
-@if(Model != null && Model.Reservation != null) {
+@if(Model != null && Model.Reservations != null) {
    @*var pet = @Model.Pets.FirstOrDefault(p => p.Id.Equals(Model.Reservation.PetId));*@
 
     
@@ -66,16 +66,26 @@ else
         </thead>
 
         <tbody>
-            @foreach (var reservation in Model.Reservation)
+            @foreach (var reservation in Model.Reservations)
             {
                 var pet = @Model.Pets.FirstOrDefault(p => p.Id.Equals(reservation.PetId));
+                var sitter = @Model.Sitters.FirstOrDefault(s => s.Id == reservation.SitterId);
 
                 <tr class="table-active">
                     <th scope="row">
                         <img src="@Url.Action("GetPetImage", "Owner", new { petId = pet.Id })" alt="Pet Image" width="50" height="50" />
                     </th>
                     <td>@pet.Name</td>
-                    <td>@Model.Sitter.FirstName, @Model.Sitter.LastName</td>
+                    <td>
+                        @if (sitter != null)
+                        {
+                            
+                            @($"{sitter.FirstName} {sitter.LastName}")
+                        }
+                        else {
+                            <span>Sitter</span>
+                        }
+                    </td>
                     <td>@reservation.StartDate.ToString("MM/dd/yyyy") - @reservation.EndDate.ToString("MM/dd/yyyy")</td>
                     <td>@reservation.JobType</td>
                 </tr>

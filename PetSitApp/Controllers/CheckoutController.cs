@@ -53,12 +53,14 @@ namespace PetSitApp.Controllers
                 JobType = jobtype
             };
 
+            var sitter = await _db.Sitters.FirstOrDefaultAsync(s => s.Id == sitterId);
+
             var viewModel = new SuccessViewModel()
             {
 
                 StartDate = startDate,
                 EndDate = endDate,
-                SitterId = sitterId
+                Sitter = sitter
 
             };
 
