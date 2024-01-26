@@ -2,37 +2,53 @@
 
 
 <form asp-action="EditAvailability" autocomplete="off">
-    <h2>Edit Your Availability</h2>
+    <div class="p-3 mt4">
+
+        <h2 class="text-primary pb-2">Edit Your Availability</h2>
     <fieldset class="form-group">
-        <legend class="mt-4">Edit which day/s of the week you cannot sit</legend>
-        <div class="form-check">
-            <input class="form-check-input" asp-for="Monday" name="Monday" type="checkbox" value="True" id="flexCheckDefault">
-            <label class="form-check-label" for="flexCheckDefault">Monday</label>
-        </div>
-        <div class="form-check">
-            <input class="form-check-input" asp-for="Tuesday" name="Tuesday" type="checkbox" value="True" id="flexCheckChecked">
-            <label class="form-check-label" for="flexCheckChecked">Tuesday</label>
-        </div>
-        <div class="form-check">
-            <input class="form-check-input" asp-for="Wednesday" name="Wednesday" type="checkbox" value="True" id="flexCheckDefault">
-            <label class="form-check-label" for="flexCheckDefault">Wednesday</label>
-        </div>
-        <div class="form-check">
-            <input class="form-check-input" asp-for="Thursday" name="Thursday" type="checkbox" value="True" id="flexCheckChecked">
-            <label class="form-check-label" for="flexCheckChecked">Thursday</label>
-        </div>
-        <div class="form-check">
-            <input class="form-check-input" asp-for="Friday" name="Friday" type="checkbox" value="True" id="flexCheckDefault">
-            <label class="form-check-label" for="flexCheckDefault">Friday</label>
-        </div>
-        <div class="form-check">
-            <input class="form-check-input" asp-for="Saturday" name="Saturday" type="checkbox" value="True" id="flexCheckChecked">
-            <label class="form-check-label" for="flexCheckChecked">Saturday</label>
-        </div>
-        <div class="form-check">
-            <input class="form-check-input" asp-for="Sunday" name="Sunday" type="checkbox" value="True" id="flexCheckChecked">
-            <label class="form-check-label" for="flexCheckChecked">Sunday</label>
-        </div>
+            <legend class="text-primary pb-2">Edit which day/s of the week you cannot sit</legend>
+            <div class="form-check">
+                <input class="form-check-input" asp-for="Monday" name="Monday" type="checkbox" value="True" id="flexCheckDefault">
+                <label class="form-check-label" for="flexCheckDefault">
+                    Monday
+                </label>
+            </div>
+            <div class="form-check">
+                <input class="form-check-input" asp-for="Tuesday" name="Tuesday" type="checkbox" value="True" id="flexCheckChecked">
+                <label class="form-check-label" for="flexCheckChecked">
+                    Tuesday
+                </label>
+            </div>
+            <div class="form-check">
+                <input class="form-check-input" asp-for="Wednesday" name="Wednesday" type="checkbox" value="True" id="flexCheckDefault">
+                <label class="form-check-label" for="flexCheckDefault">
+                    Wednesday
+                </label>
+            </div>
+            <div class="form-check">
+                <input class="form-check-input" asp-for="Thursday" name="Thursday" type="checkbox" value="True" id="flexCheckChecked">
+                <label class="form-check-label" for="flexCheckChecked">
+                    Thursday
+                </label>
+            </div>
+            <div class="form-check">
+                <input class="form-check-input" asp-for="Friday" name="Friday" type="checkbox" value="True" id="flexCheckDefault">
+                <label class="form-check-label" for="flexCheckDefault">
+                    Friday
+                </label>
+            </div>
+            <div class="form-check">
+                <input class="form-check-input" asp-for="Saturday" name="Saturday" type="checkbox" value="True" id="flexCheckChecked">
+                <label class="form-check-label" for="flexCheckChecked">
+                    Saturday
+                </label>
+            </div>
+            <div class="form-check">
+                <input class="form-check-input" asp-for="Sunday" name="Sunday" type="checkbox" value="True" id="flexCheckChecked">
+                <label class="form-check-label" for="flexCheckChecked">
+                    Sunday
+                </label>
+            </div>
 
         @if (Model.SelectedDate != null || Model.SelectedDate.Count > 0)
         {
@@ -60,17 +76,18 @@
 
                 if (!futureDateFound)
                 {
-                    <p>No specific future dates selected for unavailability. Create a new one</p>
+                    <p class="my-3">No specific future dates selected for unavailability. Create a new one</p>
                 }
         } 
 
 
         <div>
-            <input id="date" asp-for="SelectedDate" value="" placeholder="Choose a specific date" type="text" />
+            <input class="mb-3" id="date" asp-for="SelectedDate" value="" placeholder="Choose a specific date" type="text" />
         </div>
 
-        <button type="submit" class="btn btn-primary">Submit</button>
-        @*<a class="btn btn-secondary" asp-action="SitterDashboard">Back</a>*@
+        <button type="submit" class="btn btn-primary me-2">Submit</button>
+        <a class="btn btn-secondary" asp-action="SitterDashboard">Back</a>
     </fieldset>
+    </div>
 </form>
 

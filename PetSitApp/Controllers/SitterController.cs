@@ -181,11 +181,12 @@ namespace PetSitApp.Controllers
 
                 existingSitter.FirstName = model.FirstName;
                 existingSitter.LastName = model.LastName;
-                existingSitter.Age = model.Age;
+                existingSitter.DateOfBirth = model.DateOfBirth;
                 existingSitter.Address = model.Address;
                 existingSitter.City = model.City;
                 existingSitter.State = model.State;
                 existingSitter.Zip = model.Zip;
+                existingSitter.Bio = model.Bio;
 
                 if (ProfilePicture != null && ProfilePicture.Length > 1)
                 {
@@ -237,6 +238,31 @@ namespace PetSitApp.Controllers
                 }
 
                 model.UserId = int.Parse(userId);
+
+                var apiKey = _configuration["GoogleGeocodingAPI:ApiKey"];
+                var address = $"{model.Address}, {model.City}, {model.State}, {model.Zip}";
+                var apiUrl = $"https://maps.googleapis.com/maps/api/geocode/json?address={address}&key={apiKey}";
+
+                var response = await _client.GetAsync(apiUrl);
+                if (response.IsSuccessStatusCode)
+                {
+                    var jsonResult = await response.Content.ReadAsStringAsync();
+                    Console.WriteLine(jsonResult);
+                    var dynamicResult = Newtonsoft.Json.JsonConvert.DeserializeObject<dynamic>(jsonResult);
+                    string status = dynamicResult.status; // This should give "OK"
+                    var results = dynamicResult.results; // This gives the "results" array.
+
+                    var firstResult = results[0];
+                    string formattedAddress = firstResult.formatted_address;
+                    double lat = firstResult.geometry.location.lat;
+                    double lng = firstResult.geometry.location.lng;
+
+
+                    model.Longitude = lng;
+                    model.Latitude = lat;
+                }
+
+
                 _db.Sitters.Add(model);
                 await _db.SaveChangesAsync();
 

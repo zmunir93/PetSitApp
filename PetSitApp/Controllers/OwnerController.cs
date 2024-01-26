@@ -179,13 +179,23 @@ namespace PetSitApp.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> EditOwner(int id, Owner model)
+        public async Task<IActionResult> EditOwner(int id, Owner model, IFormFile ProfilePicture)
         {
             if (id != model.Id)
             {
                 return NotFound();
             }
             ModelState.Remove("User");
+
+            if (ProfilePicture != null && ProfilePicture.Length > 0)
+            {
+                using (var memStream = new MemoryStream())
+                {
+                    await ProfilePicture.CopyToAsync(memStream);
+                    model.ProfilePicture = memStream.ToArray();
+                }
+            }
+
             if (ModelState.IsValid)
             {
                 _db.Owners.Update(model);
