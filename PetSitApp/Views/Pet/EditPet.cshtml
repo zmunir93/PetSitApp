@@ -2,7 +2,7 @@
 
 
 
-<div class="row">
+@*<div class="row">
     <div class="col-md-4">
         <form asp-action="EditPet">
             <input type="hidden" asp-for="OwnerId" />
@@ -97,9 +97,175 @@
             </div>
         </form>
     </div>
-</div>
+</div>*@
 
 <div>
-    <a asp-action="Dashboard" asp-controller="Owner" class="btn btn-danger">Back to Dashboard</a>
+    <form asp-action="CreatePet" enctype="multipart/form-data">
+
+        <div class="p-3 mt4">
+            <div class="row pb-2">
+                <h2 class="text-primary">Add your Pet</h2>
+            </div>
+
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+
+            <div class="mb-3 col-4">
+                <label class="form-label" asp-for="PetPictures">Pet Pictures</label>
+                <input class="form-control" type="file" id="PetPictures" name="uploadedPictures" multiple />
+            </div>
+
+            <div class="row col-md-8">
+
+                <div class="mb-3 col-3">
+                    <label asp-for="Species">Type</label>
+                    <div class="form-check">
+                        <input class="form-check-input" id="optionsRadios1" type="radio" asp-for="Species" value="Dog" name="optionsRadios" checked="" />
+                        <label asp-for="Species" class="form-check-label" for="optionsRadios1">Dog</label>
+                    </div>
+
+                    <div class="form-check">
+                        <input class="form-check-input" id="optionsRadios2" type="radio" asp-for="Species" value="Cat" name="optionsRadios" />
+                        <label asp-for="Species" class="form-check-label" for="optionsRadios2">Cat</label>
+                    </div>
+
+                    <span asp-validation-for="Species" class="text-danger"></span>
+                </div>
+
+                <div class="col-md-4">
+                    <label asp-for="Name" class="control-label"></label>
+                    <input asp-for="Name" class="form-control col-md-8" />
+                    <span asp-validation-for="Name" class="text-danger"></span>
+                </div>
+
+                <div class="col-md-4">
+                    <label asp-for="Breed" class="control-label"></label>
+                    <input asp-for="Breed" class="form-control" />
+                    <span asp-validation-for="Breed" class="text-danger"></span>
+                </div>
+
+            </div>
+
+            <div class="row mb-3">
+                <div class="col-md-2">
+                    <div class="form-check">
+                        <label class="form-check-label">
+                            <input class="form-check-input" asp-for="Chipped" /> @Html.DisplayNameFor(model => model.Chipped)
+                        </label>
+                    </div>
+                    <div class="form-check">
+                        <label class="form-check-label">
+                            <input class="form-check-input" asp-for="Spayed" /> @Html.DisplayNameFor(model => model.Spayed)
+                        </label>
+                    </div>
+                    <div class="form-check">
+                        <label class="form-check-label">
+                            <input class="form-check-input" asp-for="Friendly" /> @Html.DisplayNameFor(model => model.Friendly)
+                        </label>
+                    </div>
+                    <div class="form-group form-check">
+                        <label class="form-check-label">
+                            <input class="form-check-input" asp-for="PottyTrained" /> Potty Trained
+                        </label>
+                    </div>
+                </div>
+
+                <div class="mb-3 col-md-2">
+                    <label asp-for="DateOfBirth">Date of Birth</label>
+                    <input type="date" asp-for="DateOfBirth" class="form-control" />
+                    <span asp-validation-for="DateOfBirth" class="text-danger"></span>
+                </div>
+
+                <div class="col-md-2">
+                    <label asp-for="AdoptionDate" class="control-label">Adoption Date</label>
+                    <input type="month" asp-for="AdoptionDate" class="form-control" />
+                    <span asp-validation-for="AdoptionDate" class="text-danger"></span>
+                </div>
+
+            </div>
+
+            <div class="row">
+                <div class="mb-3 form-group col-md-5">
+                    <label asp-for="About" class="control-label">About</label>
+                    <textarea asp-for="About" class="form-control" rows="2"></textarea>
+                    <span asp-validation-for="About" class="text-danger"></span>
+                </div>
+
+
+                <div class="mb-3 form-group col-md-5">
+                    <label asp-for="Care" class="control-label"></label>
+                    <textarea asp-for="Care" class="form-control" rows="2"></textarea>
+                    <span asp-validation-for="Care" class="text-danger"></span>
+                </div>
+            </div>
+
+
+
+
+            <div class="row">
+                <div class="mb-3 form-group col-md-2">
+                    <label asp-for="EnergyLevel" class="control-label">Energy Level</label>
+                    <select asp-for="EnergyLevel" class="form-select">
+                        <option value="Lazy Potato">Lazy Potato</option>
+                        <option value="Somewhat Active">Somewhat Active</option>
+                        <option value="Very Active">Very Active</option>
+                        <option value="Zoomies All The Time">Zoomies All The Time</option>
+                    </select>
+                    <span asp-validation-for="EnergyLevel" class="text-danger"></span>
+                </div>
+                <div class="mb-3 form-group col-md-2">
+                    <label asp-for="FeedingSchedule" class="control-label">Feeding Schedule</label>
+                    <select asp-for="FeedingSchedule" class="form-select">
+                        <option value="Twice a day">Twice A Day</option>
+                        <option value="Three Times a day">Three Times A Day</option>
+                        <option value="Anytime">Anytime</option>
+                        <option value="Leave Food Out All Day">Leave Food Out All Day</option>
+                    </select>
+                    <span asp-validation-for="FeedingSchedule" class="text-danger"></span>
+                </div>
+
+                <div class="mb-3 form-group col-md-2">
+                    <label asp-for="LeftAlone" class="control-label">Left Alone</label>
+                    <select asp-for="LeftAlone" class="form-select">
+                        <option value="less 4 hours">less 4 hrs</option>
+                        <option value="less 8 hours">less 8 hrs</option>
+                        <option value="less 10 hours">less 10 hrs</option>
+                    </select>
+                    <span asp-validation-for="LeftAlone" class="text-danger"></span>
+                </div>
+
+                <div class="mb-3 form-group col-md-2">
+                    <label asp-for="VetInformation" class="control-label">Potty Schedule</label>
+                    <select asp-for="VetInformation" class="form-select">
+                        <option value="At least Twice A Day">At least Twice A Day</option>
+                        <option value="Three Times A Day">Three Times A Day</option>
+                        <option value="Four Times A Day Or More">Four Times A Day Or More</option>
+                    </select>
+                    <span asp-validation-for="VetInformation" class="text-danger"></span>
+                </div>
+
+            </div>
+
+
+            <div class="mb-3 form-group col-md-5">
+                <label asp-for="MedicalInformation" class="control-label">Medical Information</label>
+                <textarea asp-for="Care" class="form-control" rows="2"></textarea>
+                <span asp-validation-for="MedicalInformation" class="text-danger"></span>
+            </div>
+            <div class="mb-3 form-group col-md-5">
+                <label asp-for="AdditionalInfo" class="control-label">Additional Info</label>
+                <textarea asp-for="Care" class="form-control" rows="2"></textarea>
+                <span asp-validation-for="AdditionalInfo" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Update" class="btn btn-primary" />
+                <a asp-action="OwnerDashboard" asp-controller="Owner" class="btn btn-danger">Back</a>
+            </div>
+
+        </div>
+
+
+    </form>
 </div>
+
 

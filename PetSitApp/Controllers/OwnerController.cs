@@ -187,6 +187,10 @@ namespace PetSitApp.Controllers
             }
             ModelState.Remove("User");
 
+            // Detach the original entity
+            var originalEntity = await _db.Owners.FindAsync(id);
+            _db.Entry(originalEntity).State = EntityState.Detached;
+
             if (ProfilePicture != null && ProfilePicture.Length > 0)
             {
                 using (var memStream = new MemoryStream())

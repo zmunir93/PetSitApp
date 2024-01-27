@@ -25,7 +25,7 @@ public partial class Owner
 
     public string? Zip { get; set; }
 
-    public byte[] ProfilePicture { get; set; } = null!;
+    public byte[]? ProfilePicture { get; set; }
 
     public DateTime? DateOfBirth { get; set; }
 
