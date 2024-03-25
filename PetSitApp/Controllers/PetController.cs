@@ -59,8 +59,6 @@ namespace PetSitApp.Controllers
                     return RedirectToAction("Error");
                 }
 
-                
-
                 model.OwnerId = owner.Id;
                 _db.Pets.Add(model);
                 await _db.SaveChangesAsync();
@@ -82,7 +80,6 @@ namespace PetSitApp.Controllers
                             _db.PetPictures.Add(petPicture);
 
                         }
-
 
                     }
                 }

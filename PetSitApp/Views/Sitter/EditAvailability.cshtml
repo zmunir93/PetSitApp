@@ -52,15 +52,11 @@
 
         @if (Model.SelectedDate != null || Model.SelectedDate.Count > 0)
         {
-
             DateTime today = DateTime.Today;
             bool futureDateFound = false;
-
-                
-                    
+  
                 @foreach (var daysUnObj in Model.SelectedDate)
                 {
-                    
                     @if (daysUnObj.Date > today)
                     {
                     <ul class="list-group">
@@ -72,8 +68,6 @@
                     futureDateFound = true;
                     }
                 }
-                    
-
                 if (!futureDateFound)
                 {
                     <p class="my-3">No specific future dates selected for unavailability. Create a new one</p>

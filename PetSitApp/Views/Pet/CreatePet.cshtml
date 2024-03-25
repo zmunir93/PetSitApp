@@ -4,7 +4,6 @@
     <div class="progress-bar bg-success" role="progressbar" style="width: 75%;" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100"></div>
 </div>
 
-
 <div>
     <div>
         <form asp-action="CreatePet" enctype="multipart/form-data">
@@ -15,7 +14,6 @@
                 </div>
 
                 <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-
 
                 <div class="mb-3 col-4">
                     <label class="form-label" asp-for="PetPictures">Pet Pictures</label>
@@ -104,11 +102,8 @@
                         <textarea asp-for="Care" class="form-control" rows="2"></textarea>
                         <span asp-validation-for="Care" class="text-danger"></span>
                     </div>
-                </div>
-
-                
-                
-                
+                </div>    
+                                
                 <div class="row">
                     <div class="mb-3 form-group col-md-2">
                         <label asp-for="EnergyLevel" class="control-label">Energy Level</label>
@@ -174,8 +169,4 @@
         </form>
     </div>
 </div>
-
-@*<div>
-    <a asp-action="OwnerDashboard" asp-controller="Owner" class="btn btn-danger">Back to Dashboard</a>
-</div>*@
 

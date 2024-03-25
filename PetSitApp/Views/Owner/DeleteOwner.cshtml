@@ -6,7 +6,6 @@
         <div class="row pb-2">
             <h2 class="text-primary">Delete User</h2>
         </div>
-        @*<div asp-validation-summary="All"></div>*@
         <div class="mb-3">
             <label asp-for="FirstName"></label>
             <input asp-for="FirstName" disabled class="form-control" />
@@ -15,10 +14,6 @@
             <label asp-for="LastName"></label>
             <input asp-for="LastName" disabled class="form-control" />
         </div>
-        @*<div class="mb-3">
-            <label asp-for="Age"></label>
-            <input asp-for="Age" disabled class="form-control" />
-        </div>*@
         <div class="mb-3">
             <label asp-for="ProfilePicture"></label>
             <input asp-for="ProfilePicture" disabled class="form-control" />
@@ -29,10 +24,3 @@
         Back
     </a>
 </form>
-
-@*@section Scripts
-{
-    @{
-        <partial name="_ValidationScriptsPartial" />
-    }
-}*@
