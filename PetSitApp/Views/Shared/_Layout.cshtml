@@ -73,13 +73,37 @@
                         <form class="d-flex" asp-controller="User" asp-action="Login" method="post">
                             <button class="btn btn-primary my-2 my-sm-0" type="submit">Login</button>
                         </form>
+                        @*<button class="nav-link" asp-controller="User" asp-action="Login">Login</button>*@
                     }
-
+                    @*<form class="d-flex">
+                        <input class="form-control me-sm-2" type="search" placeholder="Search">
+                        <button class="btn btn-secondary my-2 my-sm-0" type="submit">Search</button>
+                    </form>*@
+                    @*<div class="modal">
+                        <div class="modal-dialog" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title">Modal title</h5>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true"></span>
+                                    </button>
+                                </div>
+                                <div class="modal-body">
+                                    <p>Modal body text goes here.</p>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-primary">Save changes</button>
+                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>*@
                 </div>
             </div>
         </nav>
         <partial name="_SearchModal" />
         
+
     </header>
 
     <div class="container">
@@ -95,15 +119,23 @@
         </div>
     </footer>
     
+      
+
     <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
 
+
+    
     <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 
+
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.min.js" integrity="sha384-fbbOQedDUMZZ5KreZpsbe1LCZPVmfTnH7ois6mU1QK+m14rQ1l2bGBq41eYeM/fS" crossorigin="anonymous"></script>
+
 
     <script src="~/js/site.js" asp-append-version="true"></script>
     
     @await RenderSectionAsync("Scripts", required: false)
 
+    
+    
 </body>
 </html>

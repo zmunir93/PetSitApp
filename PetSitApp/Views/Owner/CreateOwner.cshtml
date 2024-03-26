@@ -34,6 +34,7 @@
                 <div class="mb-3 form-group">
                     <label asp-for="Bio">Bio</label>
                     <textarea asp-for="Bio" class="form-control" rows="4"></textarea>
+                    @*<input type="text" asp-for="Bio" class="form-control" class="form-control" rows="4"/>*@
                     <span asp-validation-for="Bio" class="text-danger"></span>
                 </div>
                 <div class="mb-3 col-md-5">
@@ -68,6 +69,9 @@
 
 
             <button type="submit" class="btn btn-primary">Next</button>
+            @*<a asp-controller="Owner" asp-action="Dashboard" class="btn btn-secondary" style="width:150px">
+            Back
+            </a>*@
         </form>
     </div>
 

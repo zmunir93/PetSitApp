@@ -3,6 +3,9 @@
 
 <form class="checkout-info-container" align="center" method="post" action="@Url.Action("Checkout", "Checkout")">
     @{
+    
+        
+
         var serviceTypes = Model.Sitter.Service.ServiceTypes;
         int totalCost = 0;
 
@@ -15,6 +18,7 @@
 
         <h3 class="m-2">@Model.Sitter.FirstName @Model.Sitter.LastName</h3>
         
+
         if (serviceTypes != null && serviceTypes.Any())
         {
             foreach (var serviceType in serviceTypes)
@@ -41,6 +45,7 @@
 
 
         <p><b>Start Date</b>: @(Model.StartDate?.ToString("MM/dd/yyyy") ?? "N/A") - <b>End Date</b>: @(Model.EndDate?.ToString("MM/dd/yyyy") ?? "N/A")</p>
+        //<p>End Date: @(Model.EndDate?.ToString("MM/dd/yyyy") ?? "N/A")</p>
         <p><b>Total Days</b>: @totalDays</p>
         <h4>Total: $ @totalCost</h4>
         <input type="hidden" name="startDate" value="@Model.StartDate" />

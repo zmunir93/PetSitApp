@@ -27,6 +27,8 @@ namespace PetSitApp.Controllers
             _mapper = mapper;
         }
 
+       
+
         public static double CalculateDistance(double lat1, double long1, double lat2, double long2)
         {
             const double EarthRadiusMiles = 3958.8; // Earth's radius in miles
@@ -53,6 +55,7 @@ namespace PetSitApp.Controllers
             return Math.PI * angle / 180.0;
         }
 
+        
 
         // GET //////////////////////////////////////
         [Authorize(Roles = "Owner")]
@@ -134,21 +137,66 @@ namespace PetSitApp.Controllers
                 TempData["error"] = "Invalid username or password";
                 return View();
             }
-            
+            //// Generate JWT token
+            //var tokenHandler = new JwtSecurityTokenHandler();
+            //var key = Encoding.ASCII.GetBytes(_configuration["Jwt:Key"]);
+            //var tokenDescriptor = new SecurityTokenDescriptor
+            //{
+            //    Subject = new ClaimsIdentity(new[] { new Claim(ClaimTypes.Name, userFromDb.Username) }),
+            //    Expires = DateTime.UtcNow.AddDays(1),
+            //    SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
+            //};
+            //var token = tokenHandler.CreateToken(tokenDescriptor);
+            //var tokenString = tokenHandler.WriteToken(token);
+
+            //Response.Cookies.Append("jwt", tokenString, new CookieOptions { HttpOnly = true });
+
+            //return RedirectToAction("Index");
+
+            //// Cookie method
+            //var options = new CookieOptions
+            //{
+            //    Expires = rememberMe ? DateTime.Now.AddDays(30) : DateTime.Now.AddDays(1),
+            //    HttpOnly = true,
+            //    Secure = true // Only set this to true if using HTTPS
+            //};
+            //string authenticationToken = Guid.NewGuid().ToString();
+            //Response.Cookies.Append("PetSitAuthToken", authenticationToken, options);
+            //return RedirectToAction("Index");
+
+
             var claims = new List<Claim>
-            {
-                new Claim(ClaimTypes.Name, userFromDb.Username),
-                new Claim(ClaimTypes.NameIdentifier, userFromDb.Id.ToString()),
-                new Claim(ClaimTypes.Role, "Owner")
-            };
+        {
+            new Claim(ClaimTypes.Name, userFromDb.Username),
+            new Claim(ClaimTypes.NameIdentifier, userFromDb.Id.ToString()),
+            new Claim(ClaimTypes.Role, "Owner")
+        };
 
             var claimsIdentity = new ClaimsIdentity(
                 claims, CookieAuthenticationDefaults.AuthenticationScheme);
 
             var authProperties = new AuthenticationProperties
             {
-                IsPersistent = true,                
+                //AllowRefresh = <bool>,
+                // Refreshing the authentication session should be allowed.
+
+                //ExpiresUtc = DateTimeOffset.UtcNow.AddMinutes(10),
+                // The time at which the authentication ticket expires. A 
+                // value set here overrides the ExpireTimeSpan option of 
+                // CookieAuthenticationOptions set with AddCookie.
+
+                IsPersistent = true,
+                // Whether the authentication session is persisted across 
+                // multiple requests. When used with cookies, controls
+                // whether the cookie's lifetime is absolute (matching the
+                // lifetime of the authentication ticket) or session-based.
+
+                //IssuedUtc = <DateTimeOffset>,
+                // The time at which the authentication ticket was issued.
             };
+
+            //HttpContext.Session.SetString("UserId", userFromDb.Id.ToString());
+            //return RedirectToAction("Index");
 
             await HttpContext.SignInAsync(
             CookieAuthenticationDefaults.AuthenticationScheme,
@@ -174,6 +222,33 @@ namespace PetSitApp.Controllers
                 TempData["error"] = "Invalid username or password";
                 return View();
             }
+            //// Generate JWT token
+            //var tokenHandler = new JwtSecurityTokenHandler();
+            //var key = Encoding.ASCII.GetBytes(_configuration["Jwt:Key"]);
+            //var tokenDescriptor = new SecurityTokenDescriptor
+            //{
+            //    Subject = new ClaimsIdentity(new[] { new Claim(ClaimTypes.Name, userFromDb.Username) }),
+            //    Expires = DateTime.UtcNow.AddDays(1),
+            //    SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
+            //};
+            //var token = tokenHandler.CreateToken(tokenDescriptor);
+            //var tokenString = tokenHandler.WriteToken(token);
+
+            //Response.Cookies.Append("jwt", tokenString, new CookieOptions { HttpOnly = true });
+
+            //return RedirectToAction("Index");
+
+            //// Cookie method
+            //var options = new CookieOptions
+            //{
+            //    Expires = rememberMe ? DateTime.Now.AddDays(30) : DateTime.Now.AddDays(1),
+            //    HttpOnly = true,
+            //    Secure = true // Only set this to true if using HTTPS
+            //};
+            //string authenticationToken = Guid.NewGuid().ToString();
+            //Response.Cookies.Append("PetSitAuthToken", authenticationToken, options);
+            //return RedirectToAction("Index");
+
 
             var claims = new List<Claim>
         {
@@ -186,11 +261,27 @@ namespace PetSitApp.Controllers
                 claims, CookieAuthenticationDefaults.AuthenticationScheme);
 
             var authProperties = new AuthenticationProperties
-            {                
+            {
+                //AllowRefresh = <bool>,
+                // Refreshing the authentication session should be allowed.
+
+                //ExpiresUtc = DateTimeOffset.UtcNow.AddMinutes(10),
+                // The time at which the authentication ticket expires. A 
+                // value set here overrides the ExpireTimeSpan option of 
+                // CookieAuthenticationOptions set with AddCookie.
+
                 IsPersistent = true,
+                // Whether the authentication session is persisted across 
+                // multiple requests. When used with cookies, controls
+                // whether the cookie's lifetime is absolute (matching the
+                // lifetime of the authentication ticket) or session-based.
+
+                //IssuedUtc = <DateTimeOffset>,
+                // The time at which the authentication ticket was issued.
             };
 
-            
+            //HttpContext.Session.SetString("UserId", userFromDb.Id.ToString());
+            //return RedirectToAction("Index");
 
             await HttpContext.SignInAsync(
             CookieAuthenticationDefaults.AuthenticationScheme,
@@ -206,11 +297,14 @@ namespace PetSitApp.Controllers
             if (!ModelState.IsValid)
             {
                 return View();
+
             }
 
             var existingUser = await _db.Users
                 .Include(u => u.Permissions)
                 .FirstOrDefaultAsync(u => u.Username.ToLower().Equals(model.Username.ToLower()));
+
+
 
             if (existingUser != null && existingUser.Permissions.Any(p => p.Role == "Sitter"))
             {
@@ -415,8 +509,10 @@ namespace PetSitApp.Controllers
                 zipLat = zipDynamicResult.results[0].geometry.location.lat;
                 zipLng = zipDynamicResult.results[0].geometry.location.lng;
 
+                
             }
-            
+
+
             var sittersWithAvailability = new List<Sitter>();
 
             foreach (var sitter in query.Include(s => s.WeekAvailability).Include(s => s.DaysUnavailables)) //fetching sitters
@@ -470,8 +566,10 @@ namespace PetSitApp.Controllers
                     }
                 }
             }
+
             
             query = sittersWithAvailability.AsQueryable();
+
 
             var sitterDto = _mapper.Map<List<SitterDto>>(query.ToList());
 
@@ -488,6 +586,7 @@ namespace PetSitApp.Controllers
                 StartDate = startDate,
                 EndDate = endDate
             };
+
 
             return View(viewModel);
 

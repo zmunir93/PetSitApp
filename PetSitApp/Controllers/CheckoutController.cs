@@ -118,6 +118,14 @@ namespace PetSitApp.Controllers
 
             };
 
+            
+
+
+            
+
+
+
+
             options.LineItems.Add(sessionListItem);
 
             var service = new SessionService();
@@ -134,6 +142,8 @@ namespace PetSitApp.Controllers
             Response.Headers.Add("Location", session.Url);
             return new StatusCodeResult(303);
 
+
+            
         }
     }
 }

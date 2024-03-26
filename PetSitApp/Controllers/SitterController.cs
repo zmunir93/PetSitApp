@@ -137,6 +137,8 @@ namespace PetSitApp.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> EditSitter(int id, Sitter model, IFormFile ProfilePicture)
         {
+
+
             if (id != model.Id)
             {
                 return NotFound();
@@ -169,6 +171,10 @@ namespace PetSitApp.Controllers
                     double lat = firstResult.geometry.location.lat;
                     double lng = firstResult.geometry.location.lng;
 
+
+
+                    //var geoResult = JsonSerializer.Deserialize<GeocodeResponse>(jsonResult);
+                    //var location = geoResult.Results.ToArray()[0].Geometry.Location;
                     existingSitter.Longitude = lng;
                     existingSitter.Latitude = lat;
                 }
@@ -206,6 +212,16 @@ namespace PetSitApp.Controllers
         public async Task<IActionResult> CreateSitter(Sitter model, IFormFile ProfilePicture)
         {
             ModelState.Remove("User");
+
+            //foreach (var modelStateKey in ModelState.Keys)
+            //{
+            //    var modelStateVal = ModelState[modelStateKey];
+            //    foreach (var error in modelStateVal.Errors)
+            //    {
+            //        // Log or print the error to get an understanding of what's causing the validation failure
+            //        Console.WriteLine($"Key: {modelStateKey}, Error: {error.ErrorMessage}");
+            //    }
+            //}
 
             if (ModelState.IsValid)
             {
@@ -245,6 +261,7 @@ namespace PetSitApp.Controllers
                     model.Longitude = lng;
                     model.Latitude = lat;
                 }
+
 
                 _db.Sitters.Add(model);
                 await _db.SaveChangesAsync();
