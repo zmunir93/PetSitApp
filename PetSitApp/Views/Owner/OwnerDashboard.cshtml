@@ -3,7 +3,7 @@
     ViewData["Title"] = "Dashboard";
 }
 
-<div class="border rounded p-4 row" style="margin-top: 5vh; min-height: 87vh;" >
+<div class="border rounded p-4 row" style="margin-top: 5vh;">
     @if (Model == null || string.IsNullOrEmpty(Model.Owner.FirstName))
     {
         <a asp-controller="Owner" asp-action="CreateOwner" class="btn btn-secondary" style="width:150px">
@@ -12,7 +12,7 @@
     }
     else
     {
-        <div align="center" class="border rounded col-3 p-3" style="max-height: 50vh;">
+        <div align="center" class="border rounded col-3 p-3">
             <img class="mb-3" src="@Url.Action("GetOwnerImage", "Owner")" alt="Your profile picture" width="200" height="200">
 
             <h4>@Model.Owner.FirstName @Model.Owner.LastName</h4>
@@ -25,7 +25,6 @@
         </div>
         
     }
-    
 
     <div class="@*border rounded*@  p-3 ms-3" style="max-width: 73%;">
 
@@ -33,7 +32,7 @@
         {
             @foreach (var pet in Model.Pets)
             {
-                var age = DateTime.Now.Year - pet.DateOfBirth.Value.Year;
+
                 <div class="row">
                     <h3>Pet</h3>
                     <div class="col-3">
@@ -43,7 +42,7 @@
 
                     <div class="col-3">
                         <h1>@pet.Name</h1>
-                        <h4>@age years old</h4>
+                        <h4>@pet.Age year old</h4>
                         <p>@pet.About</p>
                         <a asp-controller="Pet" asp-action="EditPet" asp-route-id="@pet.Id" class="btn btn-primary mx-2">Edit <i class="bi bi-pencil-square"></i></a>
                         <a asp-controller="Pet" asp-action="DeletePet" asp-route-id="@pet.Id" class="btn btn-danger mx-2">Delete <i class="bi bi-trash"></i></a>

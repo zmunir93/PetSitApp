@@ -390,13 +390,23 @@ namespace PetSitApp.Controllers
             double zipLat = 0.0;
             double zipLng = 0.0;
 
-            var GeoApiKey = _configuration["GeocodingAPI:ApiKey"];
-            var MapsApiKey = _configuration["GoogleMapsAPI:ApiKey"];
-
+            var GeoApiKey = _configuration["GoogleGeocodingAPI:ApiKey"];
             var zipApiUrl = $"https://maps.googleapis.com/maps/api/geocode/json?address={zipCode}&key={GeoApiKey}";
-
-            //var zipApiUrl = $"http://api.openweathermap.org/geo/1.0/zip?zip={zipCode}&appid={GeoApiKey}";
             var zipResponse = await _client.GetAsync(zipApiUrl);
+
+
+
+            var MapsApiKey = _configuration["GoogleMapsAPI:ApiKey"];
+            //var baseAddress = new Uri("https://localhost:7112/"); // Replace "https://your-base-url" with the actual base URL of your application
+
+            //var mapsApiUrl = $"/api/Maps/getMapsData?apiKey={Uri.EscapeDataString(MapsApiKey)}";
+            //var httpClient = new HttpClient { BaseAddress = baseAddress };
+
+            //var mapsApiResponse = await httpClient.GetStringAsync(mapsApiUrl);
+            //var mapsData = Newtonsoft.Json.JsonConvert.DeserializeObject<dynamic>(mapsApiResponse);
+
+
+
 
             if (zipResponse.IsSuccessStatusCode)
             {
