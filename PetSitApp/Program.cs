@@ -87,7 +87,7 @@ app.UseStaticFiles();
 
 app.UseRouting();
 
-app.UseSession();
+
 
 StripeConfiguration.ApiKey = builder.Configuration["StripeAPI:SecretApiKey"];
 
@@ -99,7 +99,10 @@ app.MapControllerRoute(
     pattern: "{controller=Home}/{action=Index}/{id?}");
 app.UseAuthentication();
 app.UseAuthorization();
+app.UseSession();
 
 app.MapRazorPages();
 app.MapDefaultControllerRoute();
 app.Run();
+
+
