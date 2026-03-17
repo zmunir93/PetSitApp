@@ -38,8 +38,12 @@ public partial class PetSitAppContext : DbContext
     public virtual DbSet<WeekAvailability> WeekAvailabilities { get; set; }
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-#warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see http://go.microsoft.com/fwlink/?LinkId=723263.
-        => optionsBuilder.UseSqlServer("Server=.\\SQLEXPRESS;Database=PetSitApp;Trusted_Connection=True;Encrypt=False");
+    {
+        if (!optionsBuilder.IsConfigured)
+        {
+            // conneection string is configured via Program.cs, so this is left empty to avoid hardcoding the connection string in the context class
+        }
+    }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {

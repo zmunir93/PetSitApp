@@ -1,2 +1,16 @@
-﻿appsettings.json
+﻿# User secrets and config files with sensitive data
+appsettings.json
+appsettings.Development.json
 launchSettings.json
+
+# Build outputs
+bin/
+obj/
+
+# Visual Studio files
+.vs/
+*.user
+
+# OS files
+.DS_Store
+Thumbs.db
