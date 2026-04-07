@@ -92,7 +92,7 @@ namespace PetSitApp.Controllers
                 
             }
 
-            var domain = "https://localhost:7112/";
+            var domain = $"{Request.Scheme}://{Request.Host}/";
 
             var options = new SessionCreateOptions
             {
