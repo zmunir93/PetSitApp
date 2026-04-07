@@ -28,9 +28,15 @@ html {
 }
 
 body {
-  /*margin-bottom: 60px;*/
-  min-height: 100%;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    margin-bottom: 0 !important;
 }
+
+    body > div.container {
+        flex: 1;
+    }
 
 footer {
     bottom: 0;
@@ -208,3 +214,13 @@ input:checked + .slider:before {
     border: 1px solid #4ab28959;
     /*border-radius: 13px;*/
 }
+.btn-primary {
+    background-color: #78c2ad !important;
+    border-color: #78c2ad !important;
+    color: #fff !important;
+}
+
+    .btn-primary:hover {
+        background-color: #63a699 !important;
+        border-color: #63a699 !important;
+    }
